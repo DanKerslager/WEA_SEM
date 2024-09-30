@@ -31,3 +31,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = logger;
+
+// rolování souborů - když přeteče filesize
+// logger pro errory
