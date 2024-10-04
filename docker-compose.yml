@@ -12,6 +12,8 @@ services:
       - ./backend:/app  # Mapování backend složky
     networks:
       - cdb-network
+    depends_on:
+      - mongo-db
 
   sk03-frontend:
     container_name: sk03-frontend
@@ -23,6 +25,17 @@ services:
     networks:
       - cdb-network
 
+  mongo-db:
+    container_name: sk03-mongo
+    image: mongo:latest  # Použijeme oficiální MongoDB image
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin  # Root uživatel
+      MONGO_INITDB_ROOT_PASSWORD: password  # Root heslo
+    ports:
+      - "27017:27017"  # Port MongoDB (default)
+    volumes:
+      - ./mongo-data:/data/db  # Místní úložiště dat, aby MongoDB data přežila restart kontejneru
 
 networks:
   cdb-network:
