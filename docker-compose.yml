@@ -1,10 +1,31 @@
 version: '3'
 services:
-  web:
-    build: .
+  sk03-web:
+    container_name: sk03-web
+    build:
+      context: ./backend  # Kontext složky backend
+      dockerfile: Dockerfile  # Název Dockerfile (velké "D")
     ports:
-      - "3000:3000"
+      - "8002:3000"
     volumes:
-      - .:/app
-    environment:
-      - NODE_ENV=development
+      - /home/cerny/logs/sk03/logs  # Pro logy
+      - ./backend:/app  # Mapování backend složky
+    networks:
+      - cdb-network
+
+  sk03-frontend:
+    container_name: sk03-frontend
+    build:
+      context: ./frontend   # Kontext složky, kde se nachází Dockerfile pro frontend
+      dockerfile: Dockerfile  # Dockerfile pro React aplikaci ve složce frontend
+    ports:
+      - "3002:80"  # Naslouchá na portu 3002, přesměruje na port 80 v kontejneru (Nginx)
+    networks:
+      - cdb-network
+
+
+networks:
+  cdb-network:
+    name: cdb-network
+    driver: bridge
+    external: true
