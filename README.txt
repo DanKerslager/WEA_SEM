@@ -1,7 +1,6 @@
 start docker
 
-image build:
-docker build -t wea-app .
+pokud blbne network:
+docker network create cdb-network
 
-docker run: (nebo přes docker)
-docker run -p 3000:3000 wea-app
+docker-compose up --build

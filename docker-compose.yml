@@ -1,10 +1,42 @@
 version: '3'
 services:
-  web:
-    build: .
+  sk03-web:
+    container_name: sk03-web
+    build:
+      context: ./backend  # Kontext složky backend
+      dockerfile: Dockerfile  # Název Dockerfile (velké "D")
     ports:
-      - "3000:3000"
+      - "8002:3000"
     volumes:
-      - .:/app
+      - /home/cerny/logs/sk03/backend/logs  # Pro logy
+      - ./backend:/app  # Mapování backend složky
+    networks:
+      - cdb-network
+    depends_on:
+      - mongo-db
+
+  sk03-frontend:
+    container_name: sk03-frontend
+    build:
+      context: ./frontend   # Kontext složky, kde se nachází Dockerfile pro frontend
+      dockerfile: Dockerfile  # Dockerfile pro React aplikaci ve složce frontend
+    ports:
+      - "3002:80"  # Naslouchá na portu 3002, přesměruje na port 80 v kontejneru (Nginx)
+
+  mongo-db:
+    container_name: sk03-mongo
+    image: mongo:latest  # Použijeme oficiální MongoDB image
+    restart: always
     environment:
-      - NODE_ENV=development
+      MONGO_INITDB_ROOT_USERNAME: admin  # Root uživatel
+      MONGO_INITDB_ROOT_PASSWORD: password  # Root heslo
+    ports:
+      - "27017:27017"  # Port MongoDB (default)
+    volumes:
+      - ./mongo-data:/data/db  # Místní úložiště dat, aby MongoDB data přežila restart kontejneru
+
+networks:
+  cdb-network:
+    name: cdb-network
+    driver: bridge
+    external: true
