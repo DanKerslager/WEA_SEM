@@ -22,8 +22,6 @@ services:
       dockerfile: Dockerfile  # Dockerfile pro React aplikaci ve složce frontend
     ports:
       - "3002:80"  # Naslouchá na portu 3002, přesměruje na port 80 v kontejneru (Nginx)
-    networks:
-      - cdb-network
 
   mongo-db:
     container_name: sk03-mongo
