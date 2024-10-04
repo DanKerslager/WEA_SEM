@@ -8,7 +8,7 @@ services:
     ports:
       - "8002:3000"
     volumes:
-      - /home/cerny/logs/sk03/logs  # Pro logy
+      - /home/cerny/logs/sk03/backend/logs  # Pro logy
       - ./backend:/app  # Mapování backend složky
     networks:
       - cdb-network
