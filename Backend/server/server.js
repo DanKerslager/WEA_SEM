@@ -1,0 +1,26 @@
+const dotenv = require("dotenv").config({path: __dirname+"\\config.env"})
+const express = require("express");
+const mongoose = require("mongoose")
+const cors = require("cors")
+
+// Model pro vytváření dat knížek
+const BookModel = require("./models/Books")
+
+const app = express()
+// Cors pro propojení mezi aplikací a serverem
+app.use(cors())
+app.use(express.json())
+console.log(process.env.hello)
+// Samotné propojení
+mongoose.connect(process.env.CONNECTION_STRING);
+
+// API na získání knížek
+app.get("/getBooks", (req, res) => {
+  BookModel.find()
+  .then(books => res.json(books))
+  .catch(err => res.json(err))
+})
+
+app.listen(3001, () =>{
+  console.log("Server is running")
+})
