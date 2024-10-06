@@ -10,7 +10,6 @@ const app = express()
 // Cors pro propojení mezi aplikací a serverem
 app.use(cors())
 app.use(express.json())
-console.log(process.env.hello)
 // Samotné propojení
 mongoose.connect(process.env.CONNECTION_STRING);
 
