@@ -1,5 +1,5 @@
 # Použití oficiálního Node.js obrazu jako základ
-FROM node:14
+FROM node:21
 
 # Nastavení pracovního adresáře uvnitř kontejneru
 WORKDIR /app
