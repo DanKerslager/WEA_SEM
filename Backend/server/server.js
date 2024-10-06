@@ -11,7 +11,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 // Samotné propojení
-mongoose.connect(process.env.CONNECTION_STRING);
+mongoose.connect("mongodb://sk03-mongo:27017/bookCatalog");
 
 // API na získání knížek
 app.get("/getBooks", (req, res) => {
