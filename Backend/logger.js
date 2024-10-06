@@ -3,13 +3,16 @@ const path = require('path');
 const fs = require('fs');
 require('winston-daily-rotate-file');
 
-// Create log directory if it doesn't exist
+
+// Vytvoření složky pro logy, pokud ještě neexistuje
 const logDir = 'logs';
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
 }
 
-// Create the main logger for general logs
+
+// Vytvoření a konfigurace loggeru
+
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
@@ -52,10 +55,12 @@ const errorLogger = winston.createLogger({
 });
 
 // Optionally log to the console during development for both loggers
+
 if (process.env.NODE_ENV !== 'production') {
   logger.add(new winston.transports.Console({
     format: winston.format.simple(),
   }));
+
   errorLogger.add(new winston.transports.Console({
     format: winston.format.simple(),
   }));
