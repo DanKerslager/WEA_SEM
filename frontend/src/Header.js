@@ -4,7 +4,7 @@ import React from 'react';
 const Header = () => {
   return (
     <header>
-      <h1>Moje React Aplikace</h1>
+      <h1>BookStock Catalog</h1>
     </header>
   );
 };

@@ -4,7 +4,7 @@ import Main from './Main';
 import Footer from './Footer';
 import './App.css';
 
-const App = () => {
+function App() {
   return (
     <div>
       <Header />
@@ -12,6 +12,6 @@ const App = () => {
       <Footer />
     </div>
   );
-};
+}
 
 export default App;
