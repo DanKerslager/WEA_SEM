@@ -1,6 +1,7 @@
 const express = require('express');
-const logger = require('./logger');  // Import loggeru
+const { logger, errorLogger } = require('./logger');
 const path = require('path');        // Modul pro práci s cestami
+require('winston-daily-rotate-file');
 
 const app = express();
 
