@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('./logger');  // Import loggeru
+const errorLogger = require('./logger');  // Import loggeru
 const path = require('path');        // Modul pro práci s cestami
 
 const app = express();
