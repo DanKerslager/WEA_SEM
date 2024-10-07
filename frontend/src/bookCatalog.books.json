@@ -1,0 +1,100 @@
+[{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482ed"
+  },
+  "title": "To Kill a Mockingbird",
+  "author": "Harper Lee",
+  "genre": "Fiction",
+  "year": 1960,
+  "pages": 281
+},
+{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482ee"
+  },
+  "title": "1984",
+  "author": "George Orwell",
+  "genre": "Dystopian",
+  "year": 1949,
+  "pages": 328
+},
+{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482ef"
+  },
+  "title": "The Great Gatsby",
+  "author": "F. Scott Fitzgerald",
+  "genre": "Classic",
+  "year": 1925,
+  "pages": 180
+},
+{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482f0"
+  },
+  "title": "Moby-Dick",
+  "author": "Herman Melville",
+  "genre": "Adventure",
+  "year": 1851,
+  "pages": 585
+},
+{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482f1"
+  },
+  "title": "Pride and Prejudice",
+  "author": "Jane Austen",
+  "genre": "Romance",
+  "year": 1813,
+  "pages": 279
+},
+{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482f2"
+  },
+  "title": "The Catcher in the Rye",
+  "author": "J.D. Salinger",
+  "genre": "Fiction",
+  "year": 1951,
+  "pages": 214
+},
+{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482f3"
+  },
+  "title": "The Hobbit",
+  "author": "J.R.R. Tolkien",
+  "genre": "Fantasy",
+  "year": 1937,
+  "pages": 310
+},
+{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482f4"
+  },
+  "title": "War and Peace",
+  "author": "Leo Tolstoy",
+  "genre": "Historical",
+  "year": 1869,
+  "pages": 1225
+},
+{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482f5"
+  },
+  "title": "Crime and Punishment",
+  "author": "Fyodor Dostoevsky",
+  "genre": "Philosophical Fiction",
+  "year": 1866,
+  "pages": 671
+},
+{
+  "_id": {
+    "$oid": "67025d3d0219a842b8a482f6"
+  },
+  "title": "Brave New World",
+  "author": "Aldous Huxley",
+  "genre": "Science Fiction",
+  "year": 1932,
+  "pages": 268
+}]
