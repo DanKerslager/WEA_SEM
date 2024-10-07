@@ -1,4 +1,7 @@
-import logo from './logo.svg';
+import React from 'react';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
 import './App.css';
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -12,35 +15,10 @@ function App() {
 
   
   return (
-    <div >
-      <h1>Hello, world!</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Genre</th>
-            <th>Release</th>
-            <th>Pages</th>
-          </tr>
-        </thead>
-        <tbody>
-        {
-          books.map(book => {
-            return (
-              <tr>
-              <th>{book.title}</th>
-              <th>{book.author}</th>
-              <th>{book.genre}</th>
-              <th>{book.year}</th>
-              <th>{book.pages}</th>
-            </tr>
-            )
-            
-          })
-        }
-        </tbody>
-      </table>
+    <div>
+      <Header />
+      <Main />
+      <Footer />
     </div>
   );
 }
