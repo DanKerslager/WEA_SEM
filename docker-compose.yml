@@ -11,6 +11,7 @@ services:
       - /home/cerny/logs/sk03/backend/logs  # Pro logy
     networks:
       - cdb-network
+      - internalnetwork
     depends_on:
       - mongo-db
 
@@ -33,6 +34,8 @@ services:
       - "27017:27017"  # Port MongoDB (default)
     volumes:
       - ./mongo-data:/data/db  # Místní úložiště dat, aby MongoDB data přežila restart kontejneru
+    networks:
+      - internalnetwork
   
   mongo-express:
     container_name: sk03-mongo-express
@@ -47,10 +50,14 @@ services:
     depends_on:
       - mongo-db
     networks:
-      - cdb-network
+      - internalnetwork
 
 networks:
   cdb-network:
     name: cdb-network
     driver: bridge
     external: true
+  internalnetwork:
+    name: internalnetwork
+    driver: bridge
+    external: false
