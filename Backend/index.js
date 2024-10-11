@@ -4,6 +4,8 @@ const path = require('path');        // Modul pro práci s cestami
 require('winston-daily-rotate-file');
 
 const app = express();
+const PORT = process.env.PORT || 8002;
+
 
 // Nastavení složky public jako složky pro statické soubory (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -15,7 +17,6 @@ app.get('/', (req, res) => {
 });
 
 // Spuštění serveru na portu 3000 a logování
-const PORT = 3000;
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
   console.log(`Server is running on port ${PORT}`);

@@ -5,6 +5,8 @@ const cors = require("cors")
 
 // Model pro vytváření dat knížek
 const BookModel = require("./models/Books")
+const PORT = process.env.PORT || 8002;
+
 
 const app = express()
 // Cors pro propojení mezi aplikací a serverem
@@ -20,6 +22,6 @@ app.get("/getBooks", (req, res) => {
   .catch(err => res.json(err))
 })
 
-app.listen(3001, () =>{
+app.listen(PORT, () =>{
   console.log("Server is running")
 })

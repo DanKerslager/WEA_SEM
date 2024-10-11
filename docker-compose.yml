@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile  # Název Dockerfile (velké "D")
     ports:
       - "8002:3000"
+    environment:
+      - PORT=8002
     volumes:
       - /home/cerny/logs/sk03/backend/logs  # Pro logy
     networks:
