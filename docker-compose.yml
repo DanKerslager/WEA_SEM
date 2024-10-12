@@ -6,11 +6,11 @@ services:
       context: ./backend  # Kontext složky backend
       dockerfile: Dockerfile  # Název Dockerfile (velké "D")
     ports:
-      - "8002:3000"
+      - "8002:8002"
     environment:
       - PORT=8002
     volumes:
-      - /home/cerny/logs/sk03/backend/logs  # Pro logy
+      - "/home/cerny/logs/sk03:/app/logs"  # Pro logy
     networks:
       - cdb-network
       - internalnetwork
