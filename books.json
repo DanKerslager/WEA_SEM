@@ -1,0 +1,72 @@
+[
+  {
+      "isbn13": "9780099449867",
+      "isbn10": "0099449862",
+      "title": "Elephant",
+      "categories": "Short stories, American",
+      "subtitle": "And Other Stories",
+      "authors": "Douglas Stone;Bruce Patton;Sheila Heen",
+      "thumbnail": "http://books.google.com/books/content?id=QfNgQfTKcg0C&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+      "description": "The Harpers Essay is reprinted in this volume alongside personal essays and painstaking, often funny reportage. Although his subjects range widely, each piece wrestles with the erosion of civic life and private dignity, and the hidden persistence of loneliness in postmodern America.",
+      "published_year": 2004,
+      "average_rating": 3.6,
+      "num_pages": 306,
+      "ratings_count": 327
+  },
+  {
+      "isbn13": "9780099249867",
+      "isbn10": "0099449262",
+      "title": "Elephanttt",
+      "categories": "Short stories, American",
+      "subtitle": "And Other Stories",
+      "authors": "Douglas Stone;Bruce Patton;Sheila Heen",
+      "thumbnail": "http://books.google.com/books/content?id=QfNgQfTKcg0C&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+      "description": "The Harpers Essay is reprinted in this volume alongside personal essays and painstaking, often funny reportage. Although his subjects range widely, each piece wrestles with the erosion of civic life and private dignity, and the hidden persistence of loneliness in postmodern America.",
+      "published_year": 2004,
+      "average_rating": 3.6,
+      "num_pages": 306,
+      "ratings_count": 327
+  },
+  {
+    "isbn13": 9781556434242,
+    "isbn10": 1556434243,
+    "title": "A Saucer of Loneliness",
+    "categories": "",
+    "subtitle": "Theodore Sturgeon",
+    "authors": "Fiction",
+    "thumbnail": "http://books.google.com/books/content?id=amWBa48lb6AC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "description": "Kurt Vonnegut cites Theodore Sturgeon as the inspiration for his character Kilgore Trout. This volume includes 12 stories from 1953, considered Sturgeon's golden era. Among them are such favorites as the title story, \"The Silken-Swift,\" \"A Way of Thinking,\" \"The Dark Room,\" \"The Clinic,\" and \"The World Well Lost,\" a story known for being very ahead of its time in advocating gay rights.",
+    "published_year": 2002,
+    "average_rating": 4.41,
+    "num_pages": 400,
+    "ratings_count": 137
+  },
+  {
+    "isbn13": 9781556434303,
+    "isbn10": 1556434308,
+    "title": "Healing with Whole Foods",
+    "categories": "Asian Traditions and Modern Nutrition",
+    "subtitle": "Paul Pitchford",
+    "authors": "Health & Fitness",
+    "thumbnail": "http://books.google.com/books/content?id=GddLDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "description": "A guide to health, diet, alternative medicine, and natural food presentation teaches readers how to apply Chinese medicine and the five-element theory to a contemporary diet and treat illness and nervous disorders through food choices.",
+    "published_year": 2002,
+    "average_rating": 4.4,
+    "num_pages": 784,
+    "ratings_count": 2870
+  },
+  {
+    "isbn13": 9781556434952,
+    "isbn10": 1556434952,
+    "title": "Empire 2.0",
+    "categories": "A Modest Proposal for a United States of the West",
+    "subtitle": "R�gis Debray",
+    "authors": "Political Science",
+    "thumbnail": "http://books.google.com/books/content?id=9Lzerx2k-G4C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "description": "As citizens of newly-admitted states in the larger US of W, hitherto politically impotent Europeans will be able to vote in the only elections that really matter.\"--Jacket.",
+    "published_year": 2004,
+    "average_rating": 4.75,
+    "num_pages": 144,
+    "ratings_count": 4
+  }
+]
