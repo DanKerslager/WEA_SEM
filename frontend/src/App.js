@@ -8,7 +8,7 @@ import axios from "axios"
 function App() {
   const [books, setBooks] = useState([])
   useEffect(() =>{
-    axios.get("http://localhost:3001/getBooks")
+    axios.get("http://localhost:8002/getBooks")
     .then(books => setBooks(books.data))
     .catch(err => console.log(err))
   }, [])
