@@ -30,7 +30,7 @@ function App() {
       link = link + "title=" + encodedTitle + "&"
     }
     link = link + "page=" + page + "&limit=" + limit + "&"
-    console.log(link);
+    //console.log(link);
     return link; 
   }
   const loadBooksData = async (link) =>{

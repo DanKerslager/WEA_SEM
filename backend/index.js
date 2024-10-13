@@ -82,7 +82,6 @@ app.get("/getBooks", async (req, res) => {
     //vypočítání stránkování
     const skip = (page - 1) * limit;
     //filtrace
-    console.log(filter)
     let bookArray = await BookModel.find(filter).skip(skip).limit(limit)
 
     const totalBooks = await BookModel.countDocuments();

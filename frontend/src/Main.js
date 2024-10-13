@@ -33,7 +33,6 @@ const Main = ({ books, setBooks, setPage, page, totalPages, setAuthor, setCatego
             <input type="text" id="authorBar" value={author} onChange={handleAuthorChange}/>
             <label for="categoriesBar">Categories: </label>
             <input type="text" id="categoriesBar" value={categories} onChange={handleCategoriesChange}/>
-            <button type="button" id="searchButton">Search</button>
           </form>
         </div>
         <div>
