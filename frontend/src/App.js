@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 function App() {
   const [books, setBooks] = useState([]);
-  const [page, setPage] = useState(2); // Current page
+  const [page, setPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
   const [author, setAuthor] = useState(''); // Author filter
   const [genre, setGenre] = useState(''); // Genre filter
@@ -17,14 +17,17 @@ function App() {
   const [error, setError] = useState(null);
   const filter = async () => {
     let link = "http://localhost:8002/getBooks?"
+    const encodedAuthor = encodeURIComponent(author);
+    const encodedGenre = encodeURIComponent(genre);
+    const encodedTitle = encodeURIComponent(title);
     if (author != '') {
-      link = link + "author=" + author + "&"
+      link = link + "author=" + encodedAuthor + "&"
     }
     if (genre != '') {
-      link = link + "genre=" + genre + "&"
+      link = link + "genre=" + encodedGenre + "&"
     }
     if (title != '') {
-      link = link + "title=" + title + "&"
+      link = link + "title=" + encodedTitle + "&"
     }
     link = link + "page=" + page + "&limit=" + limit + "&"
     console.log(link);
