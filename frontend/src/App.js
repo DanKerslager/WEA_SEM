@@ -10,7 +10,7 @@ function App() {
   const [page, setPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
   const [authors, setAuthors] = useState(''); // Author filter
-  const [categories, setCategories] = useState(''); // Genre filter
+  const [categories, setCategories] = useState(''); // Categories filter
   const [title, setTitle] = useState(''); // Title filter
   const [loading, setLoading] = useState(false);
   const limit = 10; // Number of books per page
@@ -24,7 +24,7 @@ function App() {
       link = link + "author=" + encodedAuthors + "&"
     }
     if (categories != '') {
-      link = link + "genre=" + encodedCategories + "&"
+      link = link + "categories=" + encodedCategories + "&"
     }
     if (title != '') {
       link = link + "title=" + encodedTitle + "&"
@@ -52,7 +52,7 @@ function App() {
   return (
     <div>
       <Header />
-      <Main books={books} setPage={setPage} page={page} totalPages={totalPages} setAuthor={setAuthors} setGenre={setCategories} setTitle={setTitle}/>
+      <Main books={books} setPage={setPage} page={page} totalPages={totalPages} setAuthor={setAuthors} setCategories={setCategories} setTitle={setTitle}/>
       <Footer />
     </div>
   );
