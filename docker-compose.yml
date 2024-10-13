@@ -32,10 +32,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin  # Root uživatel
       MONGO_INITDB_ROOT_PASSWORD: password  # Root heslo
+      MONGO_INITDB_DATABASE: bookCatalog
     ports:
       - "50002:27017"  # Port MongoDB (default)
-    volumes:
-      - ./mongo-data:/data/db  # Místní úložiště dat, aby MongoDB data přežila restart kontejneru
     networks:
       - internalnetwork
   
