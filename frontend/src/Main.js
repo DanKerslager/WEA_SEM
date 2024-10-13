@@ -41,7 +41,7 @@ const Main = ({ books, setBooks, setPage, page, totalPages, setAuthor, setGenre 
         </main>
       ))}
       {/* Pagination controls */}
-      <div>
+      <div id="pagination">
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}

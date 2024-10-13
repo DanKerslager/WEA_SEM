@@ -7,9 +7,9 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 function App() {
   const [books, setBooks] = useState([]);
-  const [page, setPage] = useState(1); // Current page
+  const [page, setPage] = useState(2); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
-  const [author, setAuthor] = useState('Bruce Patton'); // Author filter
+  const [author, setAuthor] = useState(''); // Author filter
   const [genre, setGenre] = useState(''); // Genre filter
   const [loading, setLoading] = useState(false);
   const limit = 10; // Number of books per page
@@ -22,6 +22,7 @@ function App() {
     if (genre != '') {
       link = link + "genre=${genre}&"
     }
+    link = link + "page=" + page + "&limit=" + limit + "&"
     console.log(link);
     return link; 
   }
@@ -38,7 +39,7 @@ function App() {
   useEffect(() =>{
     let link=filter();
     loadBooksData(link);
-  },[]);
+  },[genre, page, author]);
   
   
   return (
