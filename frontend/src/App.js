@@ -18,7 +18,7 @@ function App() {
     })
   }
   useEffect(() =>{
-    loadBooksData(error);
+    loadBooksData();
   }, [])
   
   return (
