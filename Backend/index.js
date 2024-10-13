@@ -43,6 +43,9 @@ app.post('/data', async (req, res) => {
   }
 
   try {
+      // Odstranění všech existujících knih
+      await BookModel.deleteMany({});
+      
       // Use Mongoose's insertMany method to insert multiple records at once
       const savedBooks = await BookModel.insertMany(books);
       
