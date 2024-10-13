@@ -4,7 +4,7 @@
   "description": "Semestral app for WEA at TUL",
   "main": "index.js",
   "scripts": {
-    "start": " node ./server/server.js && node index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
