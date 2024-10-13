@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Exponování portu 3000 (kde aplikace poběží)
-EXPOSE 3000
+EXPOSE 8002
 
 # Definování výchozího příkazu pro spuštění aplikace
 CMD ["npm", "start"]

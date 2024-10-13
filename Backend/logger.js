@@ -1,69 +1,46 @@
+// app/backend/logger.js
+
 const winston = require('winston');
 const path = require('path');
 const fs = require('fs');
-require('winston-daily-rotate-file');
+const DailyRotateFile = require('winston-daily-rotate-file');
 
-
-// Vytvoření složky pro logy, pokud ještě neexistuje
-const logDir = 'logs';
-if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir);
+// Create the logs directory if it doesn't exist
+const logsDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir);
 }
 
-
-// Vytvoření a konfigurace loggeru
-
+// Create a logger instance
 const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.combine(
-    winston.format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss',
-    }),
-    winston.format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
-  ),
-  transports: [
-    // Daily rotating transport for general logs
-    new winston.transports.DailyRotateFile({
-      filename: path.join(logDir, 'app-%DATE%.log'),
-      datePattern: 'YYYY-MM-DD',
-      maxSize: '20m',
-      maxFiles: '14d',
-      level: 'info', // Only info-level logs and higher will be logged here
-    }),
-  ],
+    level: 'info', // Set the default log level
+    format: winston.format.combine(
+        winston.format.timestamp(), // Add timestamp to logs
+        winston.format.json() // Log in JSON format
+    ),
+    transports: [
+        // Daily rotate file for error logs
+        new DailyRotateFile({
+            filename: path.join(logsDir, 'error-%DATE%.log'), // Error logs
+            datePattern: 'YYYY-MM-DD', // Date format
+            zippedArchive: true, // Compress old logs
+            maxSize: '20m', // Maximum size of each log file
+            maxFiles: '14d', // Keep logs for 14 days
+            level: 'error', // Only log error level messages
+        }),
+        // Daily rotate file for combined logs
+        new DailyRotateFile({
+            filename: path.join(logsDir, 'combined-%DATE%.log'), // Combined logs
+            datePattern: 'YYYY-MM-DD', // Date format
+            zippedArchive: true, // Compress old logs
+            maxSize: '20m', // Maximum size of each log file
+            maxFiles: '14d', // Keep logs for 14 days
+        }),
+    ],
 });
 
-// Create a separate logger for error logs
-const errorLogger = winston.createLogger({
-  level: 'error',
-  format: winston.format.combine(
-    winston.format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss',
-    }),
-    winston.format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
-  ),
-  transports: [
-    // Daily rotating transport for error logs
-    new winston.transports.DailyRotateFile({
-      filename: path.join(logDir, 'error-%DATE%.log'),
-      datePattern: 'YYYY-MM-DD',
-      maxSize: '20m',
-      maxFiles: '30d',
-      level: 'error', // Only error-level logs will be logged here
-    }),
-  ],
-});
+// If you want to log to console as well, uncomment the following line
+// logger.add(new winston.transports.Console({ format: winston.format.simple() }));
 
-// Optionally log to the console during development for both loggers
-
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.simple(),
-  }));
-
-  errorLogger.add(new winston.transports.Console({
-    format: winston.format.simple(),
-  }));
-}
-
-module.exports = { logger, errorLogger };
+// Export the logger instance
+module.exports = logger;
