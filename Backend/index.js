@@ -33,35 +33,27 @@ mongoose.connect(mongoURI)
 const PORT = process.env.PORT || 8002;
 console.log("running index");
 
-// API endpoint pro příjem POST dat a jejich uložení do MongoDB
-app.post("/data", async (req, res) => {
+// API endpoint for receiving POST data
+app.post('/data', async (req, res) => {
+  const books = req.body; // Expecting an array of books
+
+  // Check if the input is an array
+  if (!Array.isArray(books)) {
+      return res.status(400).json({ error: 'Input must be an array of books' });
+  }
+
   try {
-    // Vytvoření nového objektu podle modelu BookModel
-    const newBook = new BookModel({
-      isbn13: req.body.isbn13,
-      isbn10: req.body.isbn10,
-      title: req.body.title,
-      categories: req.body.categories,
-      subtitles: req.body.subtitles,
-      authors: req.body.authors,
-      thumbnail: req.body.thumbnail,
-      description: req.body.description,
-      published_year: req.body.published_year,
-      average_rating: req.body.average_rating,
-      num_pages: req.body.num_pages,
-      ratings_count: req.body.ratings_count
-    });
-
-    // Uložení knihy do databáze
-    const savedBook = await newBook.save();
-
-    // Odpověď zpět s uloženými daty
-    res.json({ status: "Book saved", book: savedBook });
-  } catch (error) {
-    console.error("Error saving book:", error);
-    res.status(500).json({ error: "Error saving book" });
+      // Use Mongoose's insertMany method to insert multiple records at once
+      const savedBooks = await BookModel.insertMany(books);
+      
+      // Respond with the saved data
+      res.status(201).json({ status: 'Books added successfully', books: savedBooks });
+  } catch (err) {
+      console.error('Error saving books:', err);
+      res.status(500).json({ error: 'Failed to save books', details: err.message });
   }
 });
+
 
 // API na získání knížek
 app.get("/getBooks", (req, res) => {
