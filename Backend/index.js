@@ -59,12 +59,46 @@ app.post('/data', async (req, res) => {
 
 
 // API na získání knížek
+
 app.get("/getBooks", (req, res) => {
   BookModel.find()
   .then(books => res.json(books))
   .catch(err => res.json(err))
 })
+/* 
+app.get("/getBooks", async (req, res) => {
+  try {
+    // proměnné pro stránkování
+    let page = parseInt(req.query.page) || 1
+    let limit = parseInt(req.query.limit) || 10
+    // proměnné pro filtraci
+    let author = req.query.author
+    let genre = req.query.genre
+    //Vytvoř filter objekt, query parametrů poslané přes URL
+    let filter = {};
+    if (author) {
+      filter.author = author; // Filtrace autora
+    }
+    if (genre) {
+      filter.genre = genre; // Filtrace žánru
+    }
+    //vypočítání stránkování
+    const skip = (page - 1) * limit;
+    //filtrace
+    let books = await BookModel.find(filter).skip(skip).limit(limit)
 
+    const totalBooks = await BookModel.countDocuments();
+    res.status(200).json({
+      totalBooks,
+      totalPages: Math.ceil(totalBooks / limit),
+      books,
+    })
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+})
+*/
 // Základní routa - logování při přístupu na hlavní stránku
 app.get('/', (req, res) => {
   console.log("endpoint was hit");

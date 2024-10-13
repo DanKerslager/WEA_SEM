@@ -59,5 +59,5 @@ const BookSchema = new mongoose.Schema({
 });
 
 // Vytvoření modelu
-//const BookModel = mongoose.model("books", BookSchema);
-//module.exports = BookModel;
+const BookModel = mongoose.model("books", BookSchema);
+module.exports = BookModel;

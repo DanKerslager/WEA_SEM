@@ -1,4 +1,4 @@
-const dotenv = require("dotenv").config({ path: __dirname + "\\config.env" })
+
 const express = require("express");
 const mongoose = require("mongoose")
 const cors = require("cors")
@@ -43,7 +43,7 @@ app.get("/books", async (req, res) => {
       totalBooks,
       totalPages: Math.ceil(totalBooks / limit),
       books,
-
+      
     })
   }
   catch (error) {
