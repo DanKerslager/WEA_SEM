@@ -1,26 +1,30 @@
 import React from 'react';
-import books from './bookCatalog.books.json';
+//import books from './bookCatalog.books.json';
+import { useEffect, useState } from "react"
+import axios from "axios"
 
-const loadBooks = () => {
+const Main = ({books, setBooks}) => {
   return (
     <div>
       {books.map(book => (
-        <main key={book.id}>
+        <main key={book._id}>
             <div id="bookInfo1">
                 <h2>{book.title}</h2>
-                <p>Author: {book.author}</p>
-                <p>Genre: {book.genre}</p>
-                <p>Year: {book.year}</p>
-                <p>Pages: {book.pages}</p>
+                <p>Authors: {book.authors}</p>
+                <p>Categories: {book.categories}</p>
+                <p>Subtitle: {book.subtitle}</p>
+                <p>Description: {book.description}</p>
+                <p>Published year: {book.published_year}</p>
+                <p>Pages: {book.num_pages}</p>
             </div>
             <div id="bookInfo2">
-                <p>ISBN 10: 0-7111-7485-7</p>
-                <p>ISBN 13: 978-3-0017-8250-2</p>
-                <p>BookStock rate: 5/5</p>
-                <p>Ratings: 420</p>
+                <p>ISBN 10: {book.isbn10}</p>
+                <p>ISBN 13: {book.isbn13}</p>
+                <p>BookStock rate: {book.average_rating}</p>
+                <p>Ratings: {book.ratings_count}</p>
             </div>
             <div id="bookCover">
-                <img src={require("./placeholder.png")}/>
+                <img src={book.thumbnail}/>
             </div>
         </main>
       ))}
@@ -28,4 +32,4 @@ const loadBooks = () => {
   );
 };
 
-export default loadBooks;
+export default Main;
