@@ -35,7 +35,7 @@ Tento projekt je jednoduchá aplikace pro správu knihového katalogu. Umožňuj
 3. V kořenovém adresáři projektu spusťte následující příkaz pro sestavení a spuštění kontejnerů:
 
    ```bash
-   docker-compose up --build
+   docker-compose --env-file config.env up --build
 
 ## Port pro příjem dat knih
 
