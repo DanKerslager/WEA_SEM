@@ -13,13 +13,7 @@ app.use(cors())
 app.use(express.json())
 
 // MongoDB connection URI
-const mongoUser = "admin" // User from environment variables
-const mongoPassword = "password" // Password from environment variables
-const mongoHost = 'sk03-mongo'; // Use the service name if using Docker Compose
-const mongoPort = 27017; // Default MongoDB port
-const mongoDatabase = 'bookCatalog'; // Your database name
-
-const mongoURI = `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}/${mongoDatabase}?authSource=admin`;
+const mongoURI = `mongodb://${process.env.DB_User}:${process.env.DB_Password}@${process.env.DB_Host}:${process.env.DB_Port}/${'bookCatalog'}?authSource=admin`;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI)
