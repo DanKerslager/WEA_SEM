@@ -1,7 +1,7 @@
 import React from 'react';
 //import books from './bookCatalog.books.json';
 
-const Main = ({ books, setBooks, setPage, page, totalPages, setAuthor, setGenre, genre,author, title, setTitle}) => {
+const Main = ({ books, setBooks, setPage, page, totalPages, setAuthor, setCategories, categories,author, title, setTitle}) => {
   const handlePageChange = (newPage) => {
     setPage(newPage); // Update the current page
   };
@@ -17,8 +17,8 @@ const Main = ({ books, setBooks, setPage, page, totalPages, setAuthor, setGenre,
     setPage(1); // Reset to page 1 when a filter changes
   };
 
-  const handleGenreChange = (e) => {
-    setGenre(e.target.value); // Update genre filter
+  const handleCategoriesChange = (e) => {
+    setCategories(e.target.value); // Update categories filter
     setPage(1); // Reset to page 1 when a filter changes
   };
 
@@ -33,8 +33,8 @@ const Main = ({ books, setBooks, setPage, page, totalPages, setAuthor, setGenre,
             <input type="text" id="titleBar" value={title} onChange={handleTitleChange}/>
             <label for="authorBar">Author: </label>
             <input type="text" id="authorBar" value={author} onChange={handleAuthorChange}/>
-            <label for="genreBar">Genre: </label>
-            <input type="text" id="genreBar" value={genre} onChange={handleGenreChange}/>
+            <label for="categoriesBar">Categories: </label>
+            <input type="text" id="categoriesBar" value={categories} onChange={handleCategoriesChange}/>
             <button type="button" id="searchButton">Search</button>
           </form>
         </div>

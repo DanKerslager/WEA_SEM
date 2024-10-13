@@ -26,6 +26,7 @@ app.get("/books", async (req, res) => {
     let author = req.query.author
     let genre = req.query.genre
     let title = req.query.title
+    console.log(title)
     //Vytvoř filter objekt, query parametrů poslané přes URL
     let filter = {};
     if (author) {

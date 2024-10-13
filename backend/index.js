@@ -66,18 +66,23 @@ app.get("/getBooks", async (req, res) => {
     let limit = parseInt(req.query.limit) || 10
     // proměnné pro filtraci
     let author = req.query.author
-    let genre = req.query.genre
+    let categories = req.query.categories
+    let title = req.query.title
     //Vytvoř filter objekt, query parametrů poslané přes URL
     let filter = {};
     if (author) {
-      filter.author = author; // Filtrace autora
+      filter.authors = author; // Filtrace autora
     }
-    if (genre) {
-      filter.genre = genre; // Filtrace žánru
+    if (categories) {
+      filter.categories = categories; // Filtrace žánru
+    }
+    if (title) {
+      filter.title = title; // Filtrace názvu
     }
     //vypočítání stránkování
     const skip = (page - 1) * limit;
     //filtrace
+    console.log(filter)
     let bookArray = await BookModel.find(filter).skip(skip).limit(limit)
 
     const totalBooks = await BookModel.countDocuments();
