@@ -9,22 +9,22 @@ function App() {
   const [books, setBooks] = useState([]);
   const [page, setPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
-  const [author, setAuthor] = useState(''); // Author filter
-  const [genre, setGenre] = useState(''); // Genre filter
+  const [authors, setAuthors] = useState(''); // Author filter
+  const [categories, setCategories] = useState(''); // Genre filter
   const [title, setTitle] = useState(''); // Title filter
   const [loading, setLoading] = useState(false);
   const limit = 10; // Number of books per page
   const [error, setError] = useState(null);
   const filter = async () => {
     let link = "http://localhost:8002/getBooks?"
-    const encodedAuthor = encodeURIComponent(author);
-    const encodedGenre = encodeURIComponent(genre);
+    const encodedAuthors = encodeURIComponent(authors);
+    const encodedCategories = encodeURIComponent(categories);
     const encodedTitle = encodeURIComponent(title);
-    if (author != '') {
-      link = link + "author=" + encodedAuthor + "&"
+    if (authors != '') {
+      link = link + "author=" + encodedAuthors + "&"
     }
-    if (genre != '') {
-      link = link + "genre=" + encodedGenre + "&"
+    if (categories != '') {
+      link = link + "genre=" + encodedCategories + "&"
     }
     if (title != '') {
       link = link + "title=" + encodedTitle + "&"
@@ -46,13 +46,13 @@ function App() {
   useEffect(() =>{
     let link=filter();
     loadBooksData(link);
-  },[genre, page, author, title]);
+  },[categories, page, authors, title]);
   
   
   return (
     <div>
       <Header />
-      <Main books={books} setPage={setPage} page={page} totalPages={totalPages} setAuthor={setAuthor} setGenre={setGenre} setTitle={setTitle}/>
+      <Main books={books} setPage={setPage} page={page} totalPages={totalPages} setAuthor={setAuthors} setGenre={setCategories} setTitle={setTitle}/>
       <Footer />
     </div>
   );
