@@ -41,6 +41,10 @@ Tento projekt je jednoduchá aplikace pro správu knihového katalogu. Umožňuj
 
    Adresa portu: http://localhost:8002/data
    
-   Ukázkový request (upraven pro windows): curl -X POST http://localhost:8002/data -H "Content-Type: application/json" -d "[{\"isbn13\": \"9780131103627\", \"isbn10\": \"0131103628\", \"title\": \"The C Programming Language\"}]"
-
-   Ukázkový request ze složky (bash musí být ve složce s books.json): curl -X POST http://localhost:8002/data -H "Content-Type: application/json" --data-binary @books.json
+   Ukázkový request (upraven pro windows): 
+   ```bash
+   curl -X POST http://localhost:8002/data -H "Content-Type: application/json" -d "[{\"isbn13\": \"9780131103627\", \"isbn10\": \"0131103628\", \"title\": \"The C Programming Language\"}]"
+   
+   Ukázkový request ze složky (bash musí být ve složce s books.json):    
+   ```bash
+   curl -X POST http://localhost:8002/data -H "Content-Type: application/json" --data-binary @books.json
