@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const BookSchema = new mongoose.Schema( {
+const BookMockSchema = new mongoose.Schema( {
     isbn13: String,
     isbn10: String,
     title: String,
@@ -14,6 +14,3 @@ const BookSchema = new mongoose.Schema( {
     num_pages: Number,
     ratings_count: Number
 })
-
-
-    
