@@ -22,8 +22,6 @@ const Main = ({ books, setBooks, setPage, page, totalPages, setAuthor, setGenre,
     setPage(1); // Reset to page 1 when a filter changes
   };
 
-  
-  
   return (
     <div>
       <div id="content">
@@ -35,7 +33,6 @@ const Main = ({ books, setBooks, setPage, page, totalPages, setAuthor, setGenre,
             <input type="text" id="authorBar" value={author} onChange={handleAuthorChange}/>
             <label for="genreBar">Genre: </label>
             <input type="text" id="genreBar" value={genre} onChange={handleGenreChange}/>
-            <button type="button" id="searchButton">Search</button>
           </form>
         </div>
         <div>
