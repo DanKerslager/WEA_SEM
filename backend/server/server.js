@@ -25,6 +25,7 @@ app.get("/books", async (req, res) => {
     // proměnné pro filtraci
     let author = req.query.author
     let genre = req.query.genre
+    let title = req.query.title
     //Vytvoř filter objekt, query parametrů poslané přes URL
     let filter = {};
     if (author) {
@@ -32,6 +33,9 @@ app.get("/books", async (req, res) => {
     }
     if (genre) {
       filter.genre = genre; // Filtrace žánru
+    }
+    if (title) {
+      filter.title = title; // Filtrace názvu
     }
     //vypočítání stránkování
     const skip = (page - 1) * limit;

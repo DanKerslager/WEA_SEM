@@ -11,16 +11,20 @@ function App() {
   const [totalPages, setTotalPages] = useState(1); // Total pages
   const [author, setAuthor] = useState(''); // Author filter
   const [genre, setGenre] = useState(''); // Genre filter
+  const [title, setTitle] = useState(''); // Title filter
   const [loading, setLoading] = useState(false);
   const limit = 10; // Number of books per page
   const [error, setError] = useState(null);
   const filter = async () => {
     let link = "http://localhost:8002/getBooks?"
     if (author != '') {
-      link = link + "author=${author}&"
+      link = link + "author=" + author + "&"
     }
     if (genre != '') {
-      link = link + "genre=${genre}&"
+      link = link + "genre=" + genre + "&"
+    }
+    if (title != '') {
+      link = link + "title=" + title + "&"
     }
     link = link + "page=" + page + "&limit=" + limit + "&"
     console.log(link);
@@ -39,13 +43,13 @@ function App() {
   useEffect(() =>{
     let link=filter();
     loadBooksData(link);
-  },[genre, page, author]);
+  },[genre, page, author, title]);
   
   
   return (
     <div>
       <Header />
-      <Main books={books} setPage={setPage} page={page} totalPages={totalPages} setAuthor={setAuthor} setGenre={setGenre}/>
+      <Main books={books} setPage={setPage} page={page} totalPages={totalPages} setAuthor={setAuthor} setGenre={setGenre} setTitle={setTitle}/>
       <Footer />
     </div>
   );
