@@ -71,13 +71,13 @@ app.get("/getBooks", async (req, res) => {
     //Vytvoř filter objekt, query parametrů poslané přes URL
     let filter = {};
     if (author) {
-      filter.authors = author; // Filtrace autora
+      filter.authors = { $regex: author, $options: "i" }; // Filtrace autora (case-insensitive)
     }
     if (categories) {
-      filter.categories = categories; // Filtrace žánru
+      filter.categories = { $regex: categories, $options: "i" }; // Filtrace žánru (case-insensitive)
     }
     if (title) {
-      filter.title = title; // Filtrace názvu
+      filter.title = { $regex: title, $options: "i" }; // Filtrace názvu (case-insensitive)
     }
     //vypočítání stránkování
     const skip = (page - 1) * limit;
