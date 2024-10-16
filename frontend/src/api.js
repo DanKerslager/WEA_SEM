@@ -18,6 +18,6 @@ export const fetchBooks = async (filterParams) => {
     const response = await axios.get(link);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to load books data.");
+    throw new Error("Failed to load books data.", error);
   }
 };
