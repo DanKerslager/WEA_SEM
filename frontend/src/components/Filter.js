@@ -1,5 +1,4 @@
 // components/Filter.js
-import React from 'react';
 
 const Filter = ({ title, authors, categories, onTitleChange, onAuthorChange, onCategoriesChange }) => {
   return (

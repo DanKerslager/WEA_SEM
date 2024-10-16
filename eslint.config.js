@@ -1,17 +1,20 @@
 /** @type {import("eslint").Linter.FlatConfig[]} */
 const config = [
     {
-      ignores: ["node_modules/", "dist/", "build/", "logs/"], // Ignorované složky
+      ignores: ["node_modules/", "dist/", "build/", "logs/"], // Ignored folders
       languageOptions: {
         globals: {
           window: "readonly",
           document: "readonly",
           console: "readonly",
-          React: "readonly", // Přidáno pro React
+          React: "readonly", // Added for React
         },
         parserOptions: {
           ecmaVersion: 2021,
           sourceType: "module",
+          ecmaFeatures: {
+            jsx: true, // Enable JSX parsing
+          },
         },
       },
       rules: {
@@ -22,14 +25,15 @@ const config = [
     },
     {
       languageOptions: {
-        plugins: {
-          react: true,
-        },
+        // You might want to define specific settings for React files here if needed
       },
       rules: {
         "react/react-in-jsx-scope": "off", // Not needed with Next.js or similar
       },
       files: ["**/*.jsx", "**/*.tsx"], // Specific to React files
+    },
+    {
+      ignores: ["**/*.html"], // Ignore HTML files unless you want to lint them
     },
   ];
   
