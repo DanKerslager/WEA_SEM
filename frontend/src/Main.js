@@ -1,71 +1,62 @@
-import React from 'react';
-//import books from './bookCatalog.books.json';
+import React, { useEffect, useState } from 'react';
+import Filter from './components/Filter';
+import BookList from './components/BookList';
+import { fetchBooks } from './api';
 
-const Main = ({ books, setBooks, setPage, page, totalPages, setAuthor, setCategories, categories,author, title, setTitle}) => {
-  const handlePageChange = (newPage) => {
-    setPage(newPage); // Update the current page
+const Main = () => {
+  const [books, setBooks] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [authors, setAuthors] = useState('');
+  const [categories, setCategories] = useState('');
+  const [title, setTitle] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const limit = 10;
+
+  const loadBooksData = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await fetchBooks({ authors, categories, title, page, limit });
+      setBooks(data.bookArray);
+      setTotalPages(data.totalPages);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value); // Update author filter
-    setPage(1); // Reset to page 1 when a filter changes
-  };
-
-
-  const handleAuthorChange = (e) => {
-    setAuthor(e.target.value); // Update author filter
-    setPage(1); // Reset to page 1 when a filter changes
-  };
-
-  const handleCategoriesChange = (e) => {
-    setCategories(e.target.value); // Update categories filter
-    setPage(1); // Reset to page 1 when a filter changes
-  };
+  useEffect(() => {
+    loadBooksData();
+  }, [authors, categories, title, page]);
 
   return (
     <div>
       <div id="content">
-        <div id="searchBar">
-          <form>
-            <label for="titleBar">Title: </label>
-            <input type="text" id="titleBar" value={title} onChange={handleTitleChange}/>
-            <label for="authorBar">Author: </label>
-            <input type="text" id="authorBar" value={author} onChange={handleAuthorChange}/>
-            <label for="categoriesBar">Categories: </label>
-            <input type="text" id="categoriesBar" value={categories} onChange={handleCategoriesChange}/>
-          </form>
+        <div id="filters">
+          <Filter
+            title={title}
+            authors={authors}
+            categories={categories}
+            onTitleChange={(e) => { setTitle(e.target.value); setPage(1); }}
+            onAuthorChange={(e) => { setAuthors(e.target.value); setPage(1); }}
+            onCategoriesChange={(e) => { setCategories(e.target.value); setPage(1); }}
+          />
         </div>
-        <div>
-          {books.map(book => (
-            <main key={book._id}>
-              <div id="bookInfo1">
-                <h2>{book.title}</h2>
-                <p>Authors: {book.authors}</p>
-                <p>Categories: {book.categories}</p>
-                <p>Subtitle: {book.subtitle}</p>
-                <p>Published year: {book.published_year}</p>
-                <p>Pages: {book.num_pages}</p>
-              </div>
-              <div id="bookInfo2">
-                <p>ISBN 10: {book.isbn10}</p>
-                <p>ISBN 13: {book.isbn13}</p>
-                <p>BookStock rate: {book.average_rating}</p>
-                <p>Ratings: {book.ratings_count}</p>
-                <p>Description: {book.description}</p>
-              </div>
-              <div id="bookCover">
-                <img src={book.thumbnail} />
-              </div>
-            </main>
-          ))}
+
+        <div id="books">
+          <BookList books={books} loading={loading} error={error} />
         </div>
       </div>
-      {/* Pagination controls */}
+
       <div id="pagination">
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}
-            onClick={() => handlePageChange(index + 1)}
+            onClick={() => setPage(index + 1)}
             disabled={page === index + 1}
           >
             {index + 1}
