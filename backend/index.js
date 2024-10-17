@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require('path');
 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 // Import routes
 const getBooksRoute = require('./routes/getBooks');
 const dataImportRoute = require('./routes/dataImport');
@@ -36,6 +39,10 @@ const PORT = process.env.PORT || 8002;
 // Use routes
 app.use('/getBooks', getBooksRoute);  // The /getBooks route, used by frontend to retrieve books
 app.use('/data', dataImportRoute);    // The /data route, that imports the books into the database
+
+// Swagger UI setup and route
+const swaggerDocs = require('./swaggerOptions'); // Import the swagger options
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Basic route to the main page
 app.get('/', (req, res) => {
