@@ -72,12 +72,14 @@
 
 const express = require('express');
 const BookModel = require('../models/Books'); // Import the Book model
+const logger = require('../logger');
 
 // Create a new router object
 const router = express.Router();
 
 // API endpoint for getting books with pagination and filtering
 router.get('/', async (req, res) => {
+  logger.info('/getBooks endpoint was hit' + JSON.stringify(req.query));
   try {
     // Paging variables
     let page = parseInt(req.query.page) || 1;
@@ -113,6 +115,7 @@ router.get('/', async (req, res) => {
       bookArray,
     });
   } catch (error) {
+    logger.error('Error in /getBooks endpoint:', error.message);
     res.status(500).json({ message: error.message });
   }
 });

@@ -1,17 +1,11 @@
 // /backend/index.js
-
 const express = require('express');
 const logger = require('./logger');
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require('path');
 
-const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-
-// Import routes
-const getBooksRoute = require('./routes/getBooks');
-const dataImportRoute = require('./routes/dataImport');
 
 // Model for book database
 const BookModel = require("./models/Books");
@@ -35,6 +29,10 @@ mongoose.connect(mongoURI)
 
 // Port for the backend to listen to from the environment variable
 const PORT = process.env.PORT || 8002;
+
+// Import routes
+const getBooksRoute = require('./routes/getBooks');
+const dataImportRoute = require('./routes/dataImport');
 
 // Use routes
 app.use('/getBooks', getBooksRoute);  // The /getBooks route, used by frontend to retrieve books

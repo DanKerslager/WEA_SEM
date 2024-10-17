@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /api/books:
+ * /data:
  *   post:
  *     summary: Import an array of books
  *     tags: [Books]
@@ -80,6 +80,8 @@
 
 const express = require('express');
 const BookModel = require('../models/Books'); // Import the Book model
+const logger = require('../logger');
+
 
 // Create a new router object
 const router = express.Router();
@@ -87,9 +89,11 @@ const router = express.Router();
 // API endpoint for receiving POST data
 router.post('/', async (req, res) => {
   const books = req.body; // Expecting an array of books
+  logger.info('Received POST data:', books);
 
   // Check if the input is an array
   if (!Array.isArray(books)) {
+    logger.error('Invalid input: not an array');
     return res.status(400).json({ error: 'Input must be an array of books' });
   }
 
@@ -103,7 +107,7 @@ router.post('/', async (req, res) => {
     // Respond with the saved data
     res.status(201).json({ status: 'Books added successfully', books: savedBooks });
   } catch (err) {
-    console.error('Error saving books:', err);
+    logger.error('Error saving books:', err);
     res.status(500).json({ error: 'Failed to save books', details: err.message });
   }
 });
