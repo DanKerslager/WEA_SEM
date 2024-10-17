@@ -10,8 +10,8 @@ const swaggerOptions = {
       version: "1.0.0",
       description: "Semestral app API documentation",
       contact: {
-        name: "Your Name",
-        email: "your.email@example.com",
+        name: "Dan Keršláger",
+        email: "dan.kerslager@tul.cz",
       },
     },
     servers: [
