@@ -1,3 +1,81 @@
+/**
+ * @swagger
+ * /api/books:
+ *   post:
+ *     summary: Import an array of books
+ *     tags: [Books]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               type: object
+ *               properties:
+ *                 title:
+ *                   type: string
+ *                   description: The title of the book
+ *                 author:
+ *                   type: string
+ *                   description: The author of the book
+ *                 publishedDate:
+ *                   type: string
+ *                   format: date
+ *                   description: The publication date of the book
+ *                 isbn:
+ *                   type: string
+ *                   description: The ISBN number of the book
+ *     responses:
+ *       201:
+ *         description: Books added successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "Books added successfully"
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       title:
+ *                         type: string
+ *                       author:
+ *                         type: string
+ *                       publishedDate:
+ *                         type: string
+ *                         format: date
+ *                       isbn:
+ *                         type: string
+ *       400:
+ *         description: Invalid input (not an array)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Input must be an array of books"
+ *       500:
+ *         description: Failed to save books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Failed to save books"
+ *                 details:
+ *                   type: string
+ *                   example: "Database error details here"
+ */
+
 // /routes/dataImport.js
 
 const express = require('express');

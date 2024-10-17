@@ -3,6 +3,7 @@
  * /getBooks:
  *   get:
  *     summary: Retrieve a list of books
+ *     tags: [Books]
  *     description: Fetch a list of books with optional pagination and filtering by author, categories, and title.
  *     parameters:
  *       - in: query
