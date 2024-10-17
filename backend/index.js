@@ -1,14 +1,10 @@
 // /backend/index.js
 const express = require('express');
-const logger = require('./logger');
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require('path');
-
 const swaggerUi = require('swagger-ui-express');
-
-// Model for book database
-const BookModel = require("./models/Books");
+const logger = require('./logger');
 
 // Create an instance of express and add dependencies
 const app = express();
@@ -40,6 +36,7 @@ app.use('/data', dataImportRoute);    // The /data route, that imports the books
 
 // Swagger UI setup and route
 const swaggerDocs = require('./swaggerOptions'); // Import the swagger options
+
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Basic route to the main page
