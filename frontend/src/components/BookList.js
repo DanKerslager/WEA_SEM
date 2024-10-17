@@ -1,5 +1,6 @@
 // components/BookList.js
 
+// React module, which shows the list of books on the main page of the app.
 const BookList = ({ books, loading, error }) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;

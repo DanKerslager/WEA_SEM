@@ -1,5 +1,7 @@
 //import './Header.css';
 
+// React component that renders the header of the app.
+
 const Header = () => {
   return (
     <header>

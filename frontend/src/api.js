@@ -1,6 +1,8 @@
 // src/api.js
 import axios from 'axios';
 
+// Fetch filtered books data from the backend function.
+
 export const fetchBooks = async (filterParams) => {
   const { authors, categories, title, page, limit } = filterParams;
   let link = "http://localhost:8002/getBooks?";

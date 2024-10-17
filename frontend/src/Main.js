@@ -3,7 +3,10 @@ import Filter from './components/Filter';
 import BookList from './components/BookList';
 import { fetchBooks } from './api';
 
+// Main react component of the app.
+
 const Main = () => {
+  // Filtering variables for the book fetch.
   const [books, setBooks] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -14,6 +17,7 @@ const Main = () => {
   const [error, setError] = useState(null);
   const limit = 10;
 
+  // Function to fetch books data from the backend.
   const loadBooksData = async () => {
     setLoading(true);
     setError(null);

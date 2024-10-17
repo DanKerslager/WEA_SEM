@@ -1,12 +1,15 @@
+// /backend/index.js
+
 const express = require('express');
 const logger = require('./logger');
 const mongoose = require("mongoose")
 const cors = require("cors")
 const path = require('path');
 
-// Model pro vytváření dat knížek
+// Model for book database
 const BookModel = require("./server/models/Books")
 
+// Vytvoření instance expressu a přidání závyslostí
 const app = express();
 app.use(cors())
 app.use(express.json())
@@ -23,8 +26,8 @@ mongoose.connect(mongoURI)
     console.error("MongoDB connection error:", err);
   });
 
+// Port for the backend to listen to from the environment variable
 const PORT = process.env.PORT || 8002;
-console.log("running index");
 
 // API endpoint for receiving POST data
 app.post('/data', async (req, res) => {
@@ -50,37 +53,30 @@ app.post('/data', async (req, res) => {
   }
 });
 
-
-// API na získání knížek
-
-/*app.get("/getBooks", (req, res) => {
-  BookModel.find()
-  .then(books => res.json(books))
-  .catch(err => res.json(err))
-})*/
+// API endpoint for getting books with pagination and filtering
 app.get("/getBooks", async (req, res) => {
   try {
-    // proměnné pro stránkování
+    // paging variables
     let page = parseInt(req.query.page) || 1
     let limit = parseInt(req.query.limit) || 10
-    // proměnné pro filtraci
+    // filtration variables
     let author = req.query.author
     let categories = req.query.categories
     let title = req.query.title
-    //Vytvoř filter objekt, query parametrů poslané přes URL
+    //Filter parameter object carrying the filter values
     let filter = {};
     if (author) {
-      filter.authors = { $regex: author, $options: "i" }; // Filtrace autora (case-insensitive)
+      filter.authors = { $regex: author, $options: "i" }; // Author filtration (case-insensitive)
     }
     if (categories) {
-      filter.categories = { $regex: categories, $options: "i" }; // Filtrace žánru (case-insensitive)
+      filter.categories = { $regex: categories, $options: "i" }; // Categories filtration (case-insensitive)
     }
     if (title) {
-      filter.title = { $regex: title, $options: "i" }; // Filtrace názvu (case-insensitive)
+      filter.title = { $regex: title, $options: "i" }; // Title filtration (case-insensitive)
     }
-    //vypočítání stránkování
+    // Paging calculation
     const skip = (page - 1) * limit;
-    //filtrace
+    // Database query
     let bookArray = await BookModel.find(filter).skip(skip).limit(limit)
 
     const totalBooks = await BookModel.countDocuments();
@@ -94,20 +90,19 @@ app.get("/getBooks", async (req, res) => {
     res.status(500).json({ message: error.message })
   }
 })
-// Základní routa - logování při přístupu na hlavní stránku
+
+// Basic route to the main page
 app.get('/', (req, res) => {
   console.log("endpoint was hit");
   logger.info('Root endpoint was hit');
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Nastavení složky public jako složky pro statické soubory (HTML, CSS, JS)
+// Setting the public file fot static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Spuštění serveru na portu 3000 a logování
+// Start server and listen of port
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
   console.log(`Server is running on port ${PORT}`);
 });
-
-// časem rozsekat

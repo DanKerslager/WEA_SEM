@@ -1,5 +1,7 @@
 // components/Filter.js
 
+// React module, which shows the filter bar on the main page of the app.
+
 const Filter = ({ title, authors, categories, onTitleChange, onAuthorChange, onCategoriesChange }) => {
   return (
     <div id="searchBar">
