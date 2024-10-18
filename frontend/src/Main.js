@@ -6,9 +6,10 @@ import { fetchBooks } from './api';
 // Main react component of the app.
 
 const Main = () => {
+  const lastPage = localStorage.getItem('lastPage')
   // Filtering variables for the book fetch.
   const [books, setBooks] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(() => {return lastPage || 1});
   const [totalPages, setTotalPages] = useState(1);
   const [authors, setAuthors] = useState('');
   const [categories, setCategories] = useState('');
@@ -24,6 +25,7 @@ const Main = () => {
 
     try {
       const data = await fetchBooks({ authors, categories, title, page, limit });
+      localStorage.setItem('lastPage', page);
       setBooks(data.bookArray);
       setTotalPages(data.totalPages);
     } catch (err) {

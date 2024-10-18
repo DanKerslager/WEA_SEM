@@ -84,7 +84,7 @@ router.get('/', async (req, res) => {
     // Paging variables
     let page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 10;
-
+    
     // Filtration variables
     let author = req.query.author;
     let categories = req.query.categories;
@@ -107,8 +107,8 @@ router.get('/', async (req, res) => {
 
     // Database query
     let bookArray = await BookModel.find(filter).skip(skip).limit(limit);
-
-    const totalBooks = await BookModel.countDocuments();
+    // Total number of pages, gets updated by the filter
+    const totalBooks = await BookModel.find(filter).countDocuments(bookArray);
     res.status(200).json({
       totalBooks,
       totalPages: Math.ceil(totalBooks / limit),
