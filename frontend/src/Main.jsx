@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Filter from './components/Filter';
 import BookList from './components/BookList';
 import { fetchBooks } from './api';
-import {onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, updateTitle, updateAuthors, updateCategories} from './filter' 
+import {onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange} from './filter' 
 // Main react component of the app.
 
 const Main = () => {
