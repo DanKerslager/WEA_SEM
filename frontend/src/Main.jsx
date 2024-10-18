@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Filter from './components/Filter';
 import BookList from './components/BookList';
 import { fetchBooks } from './api';
-
+import {onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, updateTitle, updateAuthors, updateCategories} from './filter' 
 // Main react component of the app.
 
 const Main = () => {
@@ -17,7 +17,7 @@ const Main = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const limit = 10;
-
+  
   // Function to fetch books data from the backend.
   const loadBooksData = async () => {
     setLoading(true);
@@ -39,19 +39,14 @@ const Main = () => {
     loadBooksData();
   }, [authors, categories, title, page]);
 
-  
-  
   return (
     <div>
       <div id="content">
         <div id="filters">
           <Filter
-            title={title}
-            authors={authors}
-            categories={categories}
-            onTitleChange={(e) => { setTitle(e.target.value); setPage(1); }}
-            onAuthorChange={(e) => { setAuthors(e.target.value); setPage(1); }}
-            onCategoriesChange={(e) => { setCategories(e.target.value); setPage(1); }}
+            onTitleChange={onTitleOnChange(e => {setTitle(e?.target?.value); setPage(1);})}
+            onAuthorChange={onAuthorsOnChange((e) => {setAuthors(e?.target?.value); setPage(1);})}
+            onCategoriesChange={onCategoriesOnChange((e) => {setCategories(e?.target?.value); setPage(1);})}
           />
         </div>
 

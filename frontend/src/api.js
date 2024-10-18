@@ -4,6 +4,7 @@ import axios from 'axios';
 const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8002`; // Dynamically use backend port
 // Fetch filtered books data from the backend function.
 
+
 export const fetchBooks = async (filterParams) => {
   const { authors, categories, title, page, limit } = filterParams;
   let link = `${BASE_URL}/getBooks?`;
