@@ -3,4 +3,4 @@ mongo-data
 node_modules
 *.csv
 config.env
-books.json
+
