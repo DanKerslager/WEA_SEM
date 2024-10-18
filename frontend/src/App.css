@@ -36,15 +36,14 @@ main h2 {
 
 #searchBar {
   max-width: 200px;
+  background-color: darkgreen;
 }
 
 #searchBar > form {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
-}
-
-#searchButton {
-  width: 90%;
-  height: 50px;
+  color: yellowgreen;
 }
 
 #pagination {
