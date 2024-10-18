@@ -29,10 +29,14 @@ const PORT = process.env.PORT || 8002;
 // Import routes
 const getBooksRoute = require('./routes/getBooks');
 const dataImportRoute = require('./routes/dataImport');
+const registerRoute = require('./routes/register');
+const loginRoute = require('./routes/login');
 
 // Use routes
 app.use('/getBooks', getBooksRoute);  // The /getBooks route, used by frontend to retrieve books
 app.use('/data', dataImportRoute);    // The /data route, that imports the books into the database
+app.use('/register', registerRoute); // The /register route, used to register a new user
+app.use('/login', loginRoute);      // The /login route, used to login a user
 
 // Swagger UI setup and route
 const swaggerDocs = require('./swaggerOptions'); // Import the swagger options
