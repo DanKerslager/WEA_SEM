@@ -2,7 +2,8 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// Překlady pro oba jazyky
+//Contains the list of translations of Cezch and English languages
+
 const resources = {
   en: {
     translation: {
