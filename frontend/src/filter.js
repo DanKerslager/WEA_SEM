@@ -19,3 +19,9 @@ export const onAuthorsOnChange = (updateAuthors) => debounce(updateAuthors, 500)
  * @returns delayed function
  */
 export const onCategoriesOnChange = (updateCategories) => debounce(updateCategories, 500)
+/**
+ * This function delays the ISBN, before it gets send to backend
+ * @param {function} updateIsbn function of searched Isbn, that will be delayed 
+ * @returns delayed function
+ */
+export const onIsbnOnChange = (updateIsbn) => debounce(updateIsbn, 500)

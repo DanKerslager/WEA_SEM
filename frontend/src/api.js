@@ -9,12 +9,14 @@ const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8002`
  */
 
 export const fetchBooks = async (filterParams) => {
-  const { authors, categories, title, page, limit } = filterParams;
+  const { isbn, authors, categories, title, page, limit } = filterParams;
   let link = `${BASE_URL}/getBooks?`;
+  const encodedIsbn = encodeURIComponent(isbn);
   const encodedAuthors = encodeURIComponent(authors);
   const encodedCategories = encodeURIComponent(categories);
   const encodedTitle = encodeURIComponent(title);
-
+  
+  if (isbn !== '') link += `isbn=${encodedIsbn}&`;
   if (authors !== '') link += `author=${encodedAuthors}&`;
   if (categories !== '') link += `categories=${encodedCategories}&`;
   if (title !== '') link += `title=${encodedTitle}&`;
