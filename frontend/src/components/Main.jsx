@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import Filter from './Filter';
 import BookList from './BookList';
 import { fetchBooks } from '../api';
-import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange } from '../filter'
+import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, onIsbnOnChange } from '../filter'
+import {  useColorModeValue, Box} from '@chakra-ui/react'
 // Main react component of the app.
 
 const Main = () => {
@@ -11,6 +12,7 @@ const Main = () => {
   const [books, setBooks] = useState([]);
   const [page, setPage] = useState(() => { return lastPage || 1 });
   const [totalPages, setTotalPages] = useState(1);
+  const [isbn, setIsbn] = useState('');
   const [authors, setAuthors] = useState('');
   const [categories, setCategories] = useState('');
   const [title, setTitle] = useState('');
@@ -24,7 +26,7 @@ const Main = () => {
     setError(null);
 
     try {
-      const data = await fetchBooks({ authors, categories, title, page, limit });
+      const data = await fetchBooks({ isbn, authors, categories, title, page, limit });
       localStorage.setItem('lastPage', page);
       setBooks(data.bookArray);
       setTotalPages(data.totalPages);
@@ -37,18 +39,18 @@ const Main = () => {
 
   useEffect(() => {
     loadBooksData();
-  }, [authors, categories, title, page]);
+  }, [isbn, authors, categories, title, page]);
 
   return (
     <>
-      <div id="filters">
+      <Box bg={useColorModeValue('green.300', 'green.800')} id="filters">
         <Filter
+          onIsbnChange={onIsbnOnChange(e => {setIsbn(e?.target?.value); setPage(1);})}
           onTitleChange={onTitleOnChange(e => { setTitle(e?.target?.value); setPage(1); })}
           onAuthorChange={onAuthorsOnChange((e) => { setAuthors(e?.target?.value); setPage(1); })}
           onCategoriesChange={onCategoriesOnChange((e) => { setCategories(e?.target?.value); setPage(1); })}
         />
-      </div>
-
+      </Box>
       <div id="books">
         <BookList books={books} loading={loading} error={error} />
         <div id="pagination">
@@ -63,8 +65,6 @@ const Main = () => {
           ))}
         </div>
       </div>
-
-
     </>
   );
 };

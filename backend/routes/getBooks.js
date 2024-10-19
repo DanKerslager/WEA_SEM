@@ -86,12 +86,16 @@ router.get('/', async (req, res) => {
     let limit = parseInt(req.query.limit) || 10;
     
     // Filtration variables
+    let isbn = req.query.isbn;
     let author = req.query.author;
     let categories = req.query.categories;
     let title = req.query.title;
 
     // Filter parameter object carrying the filter values
     let filter = {};
+    if (isbn){
+      filter.isbn13 = { $regex: isbn, $options: 'i' };
+    }
     if (author) {
       filter.authors = { $regex: author, $options: 'i' }; // Author filtration (case-insensitive)
     }
