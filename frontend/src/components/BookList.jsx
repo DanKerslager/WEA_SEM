@@ -1,5 +1,5 @@
 // components/BookList.js
-
+import { Card, CardHeader, CardBody, CardFooter, Image, Heading, Text } from '@chakra-ui/react'
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ books, loading, error }) => {
   if (loading) return <p>Loading...</p>;
@@ -8,28 +8,30 @@ const BookList = ({ books, loading, error }) => {
   return (
     <div>
       {!loading && !error && books.map(book => (
-        <main key={book._id}>
-          <div id="bookInfo1">
-            <h2>{book.title}</h2>
-            <p>Authors: {book.authors}</p>
-            <p>Categories: {book.categories}</p>
-            <p>Subtitle: {book.subtitle}</p>
-            <p>Published year: {book.published_year}</p>
-            <p>Pages: {book.num_pages}</p>
+        <Card borderWidth='1px' maxW='960px' minH='200px' p='10px' borderRadius='lg' direction={{ base: 'column', sm: 'row' }}
+          overflow='hidden' variant='outline' key={book._id}>
+          <Image objectFit='cover' maxW={{ base: '100%', sm: '200px' }} src={book.thumbnail} alt={`${book.title} cover`} />
+    
+          <div>
+            <header>
+              <Heading size='md'>{book.title}</Heading>
+              <Text>{book.subtitle}</Text>
+            </header>
+            <div >
+              <Text>Authors: {book.authors}</Text>
+              <Text>Categories: {book.categories}</Text>
+              <Text>Published year: {book.published_year}</Text>
+            </div>
           </div>
-          <div id="bookInfo2">
-            <p>ISBN 10: {book.isbn10}</p>
-            <p>ISBN 13: {book.isbn13}</p>
-            <p>BookStock rate: {book.average_rating}</p>
-            <p>Ratings: {book.ratings_count}</p>
-            <p>Description: {book.description}</p>
+          <div >
+            <Text>Pages: {book.num_pages}</Text>
+            <Text>BookStock rate: {book.average_rating}</Text>
+            <Text>Ratings: {book.ratings_count}</Text>
           </div>
-          <div id="bookCover">
-            <img src={book.thumbnail} alt={`${book.title} cover`} />
-          </div>
-        </main>
-      ))}
-    </div>
+        </Card>
+      ))
+      }
+    </div >
   );
 };
 
