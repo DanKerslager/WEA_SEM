@@ -1,67 +1,68 @@
-body {
-  background-color: forestgreen;
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
+  
+}
+#wrapper{
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 1fr 300px minmax(200px, 30%) 1fr;
+  grid-template-areas: 
+    "navbar navbar navbar navbar"
+    ". filters books ."
+    "footer footer footer footer";
+}
+#navbar{
+  grid-area: navbar;
+}
+#filters{
+  grid-area: filters;
+  
+}
+#books{
+  grid-area: books
+}
+#footer{
+  grid-area: footer;
 }
 
-main {
+
+#book-card{
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+#search-bar > form{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+footer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background-color: black;
+  white-space:nowrap;
+}
+/*main {
   display: flex;
   max-width: 90%;
   flex-direction: row;
   justify-content:flex-start;
   margin: 0 auto;
   padding-bottom: 20px;
-}
-
-main h2 {
-  padding: 0;
-  margin: 0;
-}
-
-#content {
-  display: flex;
-  max-width: 100%;
-}
-
-#bookInfo1 {
-  width: 40%;
-}
-
-#bookInfo2 {
-  width: 40%;
-  padding-top: 32px;
-}
-
-#bookCover {
-  width: 20%;
-}
-
-#searchBar {
-  max-width: 200px;
-  background-color: darkgreen;
-}
-
-#searchBar > form {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  color: yellowgreen;
-}
-
-#pagination {
-  display: flex;
-  justify-content: center;
-}
-
-#pagination > button{
-  margin: 3px;
-}
-
-header {
-  color: yellowgreen;
-  text-align: center;
-  background-color: darkgreen;
-}
-
-footer{
-  color: yellowgreen;
-  background-color: darkgreen;
-}
+}*/
+/**/

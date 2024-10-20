@@ -1,0 +1,32 @@
+name: ESLint Check
+
+# Trigger the action on pull requests to the main branch
+on:
+  pull_request:
+    branches:
+      - main
+
+# Define the jobs to run
+jobs:
+  eslint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21' # Specify the Node.js version your project uses
+
+      # Step 3: Install dependencies (including ESLint)
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run ESLint
+      - name: Run ESLint
+        run: npm run lint
