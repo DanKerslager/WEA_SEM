@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {  useColorModeValue, Box} from '@chakra-ui/react';
+import {  useColorModeValue, Box, Button, Center} from '@chakra-ui/react';
 import Filter from './Filter';
 import BookList from './BookList';
 import { fetchBooks } from '../api';
@@ -53,17 +53,19 @@ const Main = () => {
       </Box>
       <div id="books">
         <BookList books={books} loading={loading} error={error} />
-        <div id="pagination">
+        <Center id="pagination">
           {Array.from({ length: totalPages }, (_, index) => (
-            <button
+            <Button
               key={index}
+              colorScheme='teal'
+              m={2}
               onClick={() => setPage(index + 1)}
               disabled={page === index + 1}
             >
               {index + 1}
-            </button>
+            </Button>
           ))}
-        </div>
+        </Center>
       </div>
     </>
   );

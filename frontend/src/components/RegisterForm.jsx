@@ -79,7 +79,7 @@ const RegisterForm = ({ setShowRegister }) => {
                     <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
                         {t('register')}
                     </Button>
-                    <Button ml={20} mt={4} colorScheme='gray' onClick={() => setShowRegister(false)}>
+                    <Button ml={20} mt={4} colorScheme='teal' variant='outline' onClick={() => setShowRegister(false)}>
                     {t('cancel')}
                     </Button>
                 </form>

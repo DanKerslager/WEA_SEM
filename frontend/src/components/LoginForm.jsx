@@ -76,7 +76,7 @@ const LoginForm = ({setShowLogin, setIsLoggedIn}) => {
                     <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
                         {t('login')}
                     </Button>
-                    <Button ml={20} mt={4} colorScheme='gray' onClick={() => setShowLogin(false)}>
+                    <Button ml={20} mt={4} colorScheme='teal' variant='outline' onClick={() => setShowLogin(false)}>
                         {t('cancel')}
                     </Button>
                 </form>
