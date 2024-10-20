@@ -18,13 +18,13 @@ const resources = {
   },
   cs: {
     translation: {
-        loading: "Načítání",
-        authors: "Autoři",
-        categories: "Kategorie",
-        title: "Název",
-        catalog: "Katalog",
-        username: "Uživatelské jméno",
-        logout: "Odhlásit se"
+      loading: "Načítání",
+      authors: "Autoři",
+      categories: "Kategorie",
+      title: "Název",
+      catalog: "Katalog",
+      username: "Uživatelské jméno",
+      logout: "Odhlásit se"
     }
   }
 };

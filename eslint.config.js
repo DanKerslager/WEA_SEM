@@ -42,7 +42,7 @@ const config = [
       "no-multiple-empty-lines": ["error", { max: 1 }], // Disallow multiple empty lines
 
       // --- Best Practices ---
-      "no-unused-vars": "warn", // Warn on unused variables
+      //"no-unused-vars": "warn", // Warn on unused variables
       "no-console": "off", // Allow console (useful for debugging)
       "no-eval": "error", // Disallow the use of eval() for security reasons
       "no-implicit-globals": "error", // Disallow implicit global variables

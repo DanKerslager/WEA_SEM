@@ -53,12 +53,12 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.get("/getBooks", async (req, res) => {
   try {
     // proměnné pro stránkování
-    let page = parseInt(req.query.page) || 1
-    let limit = parseInt(req.query.limit) || 10
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
     // proměnné pro filtraci
-    let author = req.query.author
-    let categories = req.query.categories
-    let title = req.query.title
+    let author = req.query.author;
+    let categories = req.query.categories;
+    let title = req.query.title;
     //Vytvoř filter objekt, query parametrů poslané přes URL
     let filter = {};
     if (author) {
@@ -73,19 +73,19 @@ app.get("/getBooks", async (req, res) => {
     //vypočítání stránkování
     const skip = (page - 1) * limit;
     //filtrace
-    let bookArray = await BookModel.find(filter).skip(skip).limit(limit)
+    let bookArray = await BookModel.find(filter).skip(skip).limit(limit);
 
     const totalBooks = await BookModel.countDocuments();
     res.status(200).json({
       totalBooks,
       totalPages: Math.ceil(totalBooks / limit),
       bookArray,
-    })
+    });
   }
   catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
-})
+});
 // Základní routa - logování při přístupu na hlavní stránku
 app.get('/', (req, res) => {
   console.log("endpoint was hit");

@@ -58,6 +58,7 @@
 
 const express = require('express');
 const User = require('../models/Users'); // Assuming your User model is in the models folder
+
 const router = express.Router();
 
 // Register API

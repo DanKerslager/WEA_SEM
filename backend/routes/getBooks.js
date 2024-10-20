@@ -84,7 +84,7 @@ router.get('/', async (req, res) => {
     // Paging variables
     let page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 10;
-    
+
     // Filtration variables
     let isbn = req.query.isbn;
     let author = req.query.author;

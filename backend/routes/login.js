@@ -63,12 +63,13 @@
 
 const express = require('express');
 const User = require('../models/Users'); // Assuming your User model is in the models folder
+
 const router = express.Router();
 
 // Login API
 router.post('/', async (req, res) => {
   const { email, password } = req.body;
-S
+
   try {
     // Find the user by email
     const user = await User.findOne({ email });

@@ -9,6 +9,7 @@ const Filter = ({  onIsbnChange, onTitleChange, onAuthorChange, onCategoriesChan
       <form>
         <label htmlFor="isbnBar">ISBN 13: </label>
         <input type="text" id="isbnBar" onChange={onIsbnChange} />
+
         <label htmlFor="titleBar">{t('title')}: </label>
         <input type="text" id="titleBar" onChange={onTitleChange} />
 

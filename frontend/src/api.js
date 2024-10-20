@@ -4,7 +4,7 @@ import axios from 'axios';
 const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8002`; // Dynamically use backend port
 /**
  * Fetch filtered books data from the backend function.
- * @param {params} filterParams paramateres passed to be used for filtering search results 
+ * @param {params} filterParams paramateres passed to be used for filtering search results
  * @returns filtered books
  */
 
@@ -15,7 +15,7 @@ export const fetchBooks = async (filterParams) => {
   const encodedAuthors = encodeURIComponent(authors);
   const encodedCategories = encodeURIComponent(categories);
   const encodedTitle = encodeURIComponent(title);
-  
+
   if (isbn !== '') link += `isbn=${encodedIsbn}&`;
   if (authors !== '') link += `author=${encodedAuthors}&`;
   if (categories !== '') link += `categories=${encodedCategories}&`;

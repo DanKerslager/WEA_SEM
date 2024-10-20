@@ -15,17 +15,17 @@ import {
   Stack,
   useColorMode,
   Center,
-} from '@chakra-ui/react'
-import '../'
-import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+} from '@chakra-ui/react';
+import '../';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 
 // React component that renders the header of the app.
 
 const Header = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { colorMode, toggleColorMode } = useColorMode();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { t, i18n } = useTranslation();
 
   return (

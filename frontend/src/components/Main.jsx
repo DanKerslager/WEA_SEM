@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
+import {  useColorModeValue, Box} from '@chakra-ui/react';
 import Filter from './Filter';
 import BookList from './BookList';
 import { fetchBooks } from '../api';
-import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, onIsbnOnChange } from '../filter'
-import {  useColorModeValue, Box} from '@chakra-ui/react'
+import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, onIsbnOnChange } from '../filter';
 // Main react component of the app.
 
 const Main = () => {
-  const lastPage = localStorage.getItem('lastPage')
+  const lastPage = localStorage.getItem('lastPage');
   // Filtering variables for the book fetch.
   const [books, setBooks] = useState([]);
-  const [page, setPage] = useState(() => { return lastPage || 1 });
+  const [page, setPage] = useState(() => { return lastPage || 1 ;});
   const [totalPages, setTotalPages] = useState(1);
   const [isbn, setIsbn] = useState('');
   const [authors, setAuthors] = useState('');
