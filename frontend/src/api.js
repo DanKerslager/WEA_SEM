@@ -1,6 +1,6 @@
 // src/api.js
 import axios from 'axios';
-import { response } from 'express';
+import {response} from 'express';
 
 const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8002`; // Dynamically use backend port
 /**
@@ -37,7 +37,7 @@ export const postRegister = async (userParams) =>{
     axios.post(`${BASE_URL}/register`, {
       username,
       email,
-      password
+      password  
     }).then(response => {return response;})
       .catch(error => {return error});
 }
