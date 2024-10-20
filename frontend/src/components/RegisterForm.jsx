@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form'
 import {
@@ -19,13 +19,20 @@ const RegisterForm = ({ setShowRegister }) => {
         register,
         formState: { errors, isSubmitting },
     } = useForm();
+    const [error, setError] = useState();
     const onSubmit = async (data) => {
         let username = data.username;
         let email = data.email;
         let password = data.password;
         const postData = await postRegister({ username, email, password})
         console.log(postData)
-        setShowRegister(false)
+        if (postData.data.status === 200){
+            console.log(postData)
+            setShowRegister(false)
+        }
+        else{
+            setError(postData.data.message)
+        }
     }
 
     return (
@@ -67,7 +74,7 @@ const RegisterForm = ({ setShowRegister }) => {
                             })}
                         />
                         <FormErrorMessage>
-                            {errors.name && errors.name.message}
+                            {errors.name && errors.name.message && error}
                         </FormErrorMessage>
                     </FormControl>
                     <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>

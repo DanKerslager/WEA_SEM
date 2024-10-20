@@ -20,7 +20,7 @@ import '../';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import Cookies from 'js-cookie';
@@ -34,13 +34,13 @@ const Header = () => {
   const [username, setUsername] = useState(Cookies.get('username') || '')
   const [password, setPassword] = useState(Cookies.get('password') || '')
   const { colorMode, toggleColorMode } = useColorMode();
+  const { t } = useTranslation();
 
-  const { t, i18n } = useTranslation();
 
   return (
     <>
       {showLogin && (
-        <LoginForm setShowLogin={setShowLogin} setIsLoggedIn={setIsLoggedIn}/>
+        <LoginForm setShowLogin={setShowLogin} setIsLoggedIn={setIsLoggedIn} />
       )}
       {showRegister && (
         <RegisterForm setShowRegister={setShowRegister} />
@@ -82,16 +82,17 @@ const Header = () => {
                         <p>{username}</p>
                       </Center>
                       <Center>
-                      <p>{email}</p>
+                        <p>{email}</p>
                       </Center>
                       <br />
                       <MenuDivider />
                       <MenuItem onClick={() => {
-                        Cookies.remove('email'); 
+                        Cookies.remove('email');
                         Cookies.remove('username');
                         Cookies.remove('password');
-                        isLoggedIn(false);
-                        }}>
+                        setIsLoggedIn(false);
+                        window.location.reload();
+                      }}>
                         {t('logout')}
                       </MenuItem>
                     </MenuList>

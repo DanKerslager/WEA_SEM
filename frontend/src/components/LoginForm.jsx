@@ -28,20 +28,19 @@ const LoginForm = ({setShowLogin, setIsLoggedIn}) => {
         const loginData = await getLogin({email, password})
         console.log(loginData)
         if(loginData.status === 200){
-            Cookies.set('username', loginData.user.username)
+            Cookies.set('username', loginData.data.user.username)
             Cookies.set('email', loginData.data.user.email)
             //Tohle bude potřeba ještě vyřešit
             Cookies.set('password', data.password)
 
             setShowLogin(false)
             setIsLoggedIn(true)
+            window.location.reload();
         }
         else{
             setError(loginData.data.message)
         }
-        
     }
-
     return (
         <Box id="popup-shadow" bg={useColorModeValue('gray.300', 'gray.800')} >
             <Box p={20} bg={useColorModeValue('gray.300', 'gray.800')} borderRadius={10}>
