@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form'
 import {
@@ -12,19 +12,34 @@ import {
     useColorModeValue
 } from '@chakra-ui/react'
 import { getLogin } from '../api';
-const LoginForm = ({setShowLogin}) => {
+import Cookies from 'js-cookie';
+
+const LoginForm = ({setShowLogin, setIsLoggedIn}) => {
     const { t } = useTranslation();
     const {
         handleSubmit,
         register,
         formState: { errors, isSubmitting },
     } = useForm();
+    const [error, setError] = useState();
     const onSubmit = async (data) => {
         let email = data.email;
         let password = data.password;
         const loginData = await getLogin({email, password})
         console.log(loginData)
-        setShowLogin(false)
+        if(loginData.status === 200){
+            Cookies.set('username', loginData.user.username)
+            Cookies.set('email', loginData.data.user.email)
+            //Tohle bude potřeba ještě vyřešit
+            Cookies.set('password', data.password)
+
+            setShowLogin(false)
+            setIsLoggedIn(true)
+        }
+        else{
+            setError(loginData.data.message)
+        }
+        
     }
 
     return (
@@ -48,6 +63,7 @@ const LoginForm = ({setShowLogin}) => {
                         <Input
                             mb={5}
                             id='password'
+                            type='password'
                             placeholder={t('password')}
                             {...register('password', {
                                 required: 'This is required',
@@ -55,7 +71,7 @@ const LoginForm = ({setShowLogin}) => {
                             })}
                         />
                         <FormErrorMessage>
-                            {errors.name && errors.name.message}
+                            {errors.name && errors.name.message && error}
                         </FormErrorMessage>
                     </FormControl>
                     <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>

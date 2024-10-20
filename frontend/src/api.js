@@ -1,6 +1,5 @@
 // src/api.js
 import axios from 'axios';
-import {response} from 'express';
 
 const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8002`; // Dynamically use backend port
 /**
@@ -34,29 +33,33 @@ export const fetchBooks = async (filterParams) => {
 
 export const postRegister = async (userParams) =>{
   const { username, email, password } = userParams;
-    axios.post(`${BASE_URL}/register`, {
-      username,
-      email,
-      password  
-    }).then(response => {return response;})
-      .catch(error => {return error});
-}
-//potom dodělat
-export const getLogin = async (userParams) =>{
-  const { email, password } = userParams;
-  axios.get({
-    method: 'get',
-    url: `${BASE_URL}/login`,
-    params: {
-      email:email,
-      password:password,
-    }
-  })
-  .then(response => {
+  try {
+    const response = await axios.post(`${BASE_URL}/register`, {
+      username, 
+      email, 
+      password
+    });
+    // Vrátíme response data
     return response.data;
-  })
-  .catch(error => {
-    return error;
-  })
-
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during register:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
+};
+export const getLogin = async (userParams) => {
+  const { email, password } = userParams;
+  
+  try {
+    const response = await axios.post(`${BASE_URL}/login`, {
+      email,
+      password
+    });
+    // Vrátíme response data
+    return response;
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during login:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
 };

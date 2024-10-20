@@ -23,7 +23,7 @@ const RegisterForm = ({ setShowRegister }) => {
         let username = data.username;
         let email = data.email;
         let password = data.password;
-        const postData = await postRegister({ username, email, password })
+        const postData = await postRegister({ username, email, password})
         console.log(postData)
         setShowRegister(false)
     }
@@ -59,6 +59,7 @@ const RegisterForm = ({ setShowRegister }) => {
                         <Input
                             mb={5}
                             id='password'
+                            type='password'
                             placeholder={t('password')}
                             {...register('password', {
                                 required: 'This is required',
