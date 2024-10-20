@@ -40,7 +40,7 @@ export const postRegister = async (userParams) =>{
       password
     });
     // Vrátíme response data
-    return response.data;
+    return response;
   } catch (error) {
     // Vrátíme chybu, pokud k ní dojde
     console.error("Error during register:", error);

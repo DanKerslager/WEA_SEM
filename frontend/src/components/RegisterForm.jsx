@@ -26,7 +26,7 @@ const RegisterForm = ({ setShowRegister }) => {
         let password = data.password;
         const postData = await postRegister({ username, email, password})
         console.log(postData)
-        if (postData.data.status === 200){
+        if (postData?.status === 201){
             console.log(postData)
             setShowRegister(false)
         }
@@ -34,7 +34,6 @@ const RegisterForm = ({ setShowRegister }) => {
             setError(postData.data.message)
         }
     }
-
     return (
         <Box id="popup-shadow" bg={useColorModeValue('gray.300', 'gray.800')} >
             <Box p={20} bg={useColorModeValue('gray.300', 'gray.800')} borderRadius={10}>

@@ -27,7 +27,7 @@ const LoginForm = ({setShowLogin, setIsLoggedIn}) => {
         let password = data.password;
         const loginData = await getLogin({email, password})
         console.log(loginData)
-        if(loginData.status === 200){
+        if(loginData?.status === 200){
             Cookies.set('username', loginData.data.user.username)
             Cookies.set('email', loginData.data.user.email)
             //Tohle bude potřeba ještě vyřešit
