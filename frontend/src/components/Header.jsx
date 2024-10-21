@@ -1,4 +1,6 @@
 //import './Header.css';
+import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import {
   Box,
   Flex,
@@ -20,22 +22,19 @@ import '../';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
-import { useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-import Cookies from 'js-cookie';
 // React component that renders the header of the app.
 
 const Header = () => {
-  const [showLogin, setShowLogin] = useState(false)
-  const [showRegister, setShowRegister] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [email, setEmail] = useState(Cookies.get('email') || '')
-  const [username, setUsername] = useState(Cookies.get('username') || '')
-  const [password, setPassword] = useState(Cookies.get('password') || '')
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState(Cookies.get('email') || '');
+  const [username, setUsername] = useState(Cookies.get('username') || '');
+  const [password, setPassword] = useState(Cookies.get('password') || '');
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
-
 
   return (
     <>
