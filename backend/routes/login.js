@@ -62,6 +62,7 @@
  */
 
 const express = require('express');
+const bcrypt = require('bcrypt'); // Import bcrypt for password comparison
 const User = require('../models/Users'); // Assuming your User model is in the models folder
 
 const router = express.Router();
@@ -73,7 +74,13 @@ router.post('/', async (req, res) => {
   try {
     // Find the user by email
     const user = await User.findOne({ email });
-    if (!user || user.password !== password) {
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Compare the provided password with the hashed password in the database
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
