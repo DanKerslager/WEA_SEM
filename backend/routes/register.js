@@ -57,6 +57,7 @@
  */
 
 const express = require('express');
+const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
 const User = require('../models/Users'); // Assuming your User model is in the models folder
 
 const router = express.Router();
@@ -72,8 +73,12 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
+    // Hash the password before saving it
+    const saltRounds = 10; // You can adjust this for security/performance
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     // Create and save the new user
-    const newUser = new User({ username, email, password });
+    const newUser = new User({ username, email, password: hashedPassword }); // Store the hashed password
     await newUser.save();
 
     res.status(201).json({ message: 'User registered successfully' });
@@ -84,3 +89,4 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
+

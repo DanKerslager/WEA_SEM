@@ -4,12 +4,15 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
+const bodyParser = require('body-parser');
 const logger = require('./logger');
 
 // Create an instance of express and add dependencies
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // MongoDB connection URI
 const mongoURI = `mongodb://${process.env.DB_User}:${process.env.DB_Password}@${process.env.DB_Host}:${process.env.DB_Port}/${'bookCatalog'}?authSource=admin`;
