@@ -8,23 +8,31 @@ const resources = {
   en: {
     translation: {
       loading: "Loading",
+      login: "Login",
+      register: "Sign up",
       authors: "Authors",
       categories: "Categories",
       title: "Title",
       catalog: "Catalog",
       username: "Username",
-      logout: "Logout"
+      password: "Password",
+      logout: "Logout",
+      cancel: "Cancel"
     }
   },
   cs: {
     translation: {
       loading: "Načítání",
+      login: "Přihlásit se",
+      register: "Registrovat se",
       authors: "Autoři",
       categories: "Kategorie",
       title: "Název",
       catalog: "Katalog",
       username: "Uživatelské jméno",
-      logout: "Odhlásit se"
+      password: "Heslo",
+      logout: "Odhlásit se",
+      cancel: "Zrušit"
     }
   }
 };

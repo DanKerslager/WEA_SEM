@@ -1,5 +1,6 @@
 // components/Filter.js
 import { useTranslation } from 'react-i18next';
+
 // React module, which shows the filter bar on the main page of the app.
 
 const Filter = ({  onIsbnChange, onTitleChange, onAuthorChange, onCategoriesChange }) => {
