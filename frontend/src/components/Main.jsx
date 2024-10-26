@@ -6,7 +6,7 @@ import { fetchBooks } from '../api';
 import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, onIsbnOnChange } from '../filter';
 // Main react component of the app.
 
-const Main = () => {
+const Main = ({ setDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
   // Filtering variables for the book fetch.
   const [books, setBooks] = useState([]);
@@ -52,7 +52,7 @@ const Main = () => {
         />
       </Box>
       <div id="books">
-        <BookList books={books} loading={loading} error={error} />
+        <BookList setDetail={setDetail} books={books} loading={loading} error={error} />
         <Center id="pagination">
           {Array.from({ length: totalPages }, (_, index) => (
             <Button
