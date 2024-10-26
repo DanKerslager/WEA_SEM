@@ -20,8 +20,6 @@ const BookDetail = () => {
                 <Text>Desription</Text>
             </Box>
             <Button
-            ml={20}
-            mt={4}
             colorScheme="teal"
             variant="outline"
             onClick={() => MoveToBookDetail(false)}>

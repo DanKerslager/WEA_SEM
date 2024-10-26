@@ -1,83 +1,123 @@
-
-*{
-  margin:0;
-  padding:0;
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
   font-size: 1.1rem;
   font-family: 'Poppins', sans-serif;
-  
+
 }
-#wrapper{
+
+#wrapper {
   display: grid;
   grid-gap: 5px;
-  grid-template-columns: 1fr 280px minmax(200px, 30%) 1fr;
-  grid-template-areas: 
-    "navbar navbar navbar navbar"
-    ". filters books ."
-    "footer footer footer footer";
+  grid-template-columns: 1fr 70% 1fr;
+  grid-template-areas:
+    "navbar navbar navbar"
+    ". main ."
+    "footer footer footer";
 }
-#navbar{
+
+#navbar {
   grid-area: navbar;
 }
-#filters{
-  grid-area: filters;
-  
+
+#main {
+
+  grid-area: main;
 }
-#books{
-  grid-area: books
-}
-#footer{
+
+#footer {
   grid-area: footer;
 }
 
 
+#main {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  width: 100%;
+  padding: 20px;
+}
 #book-card{
   display: flex;
-  flex-wrap: nowrap;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 300px;
+}
+#filters{
+  grid-area: filters;
+  flex-basis: 1;
+  
+}
+#books{
+  grid-area: books;
+  flex-basis: 1;
 }
 
-#search-bar > form{
+
+#book-list {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
+  justify-content: stretch;
+}
+
+#book-card {
+ 
+  min-height: 500px;
+}
+
+img {
+  width: 100%;
+  height: auto;
+
+}
+
+#search-bar> form {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
   padding: 10px;
 }
-#popup-shadow{
+
+#popup-shadow {
   position: fixed;
   z-index: 999;
   width: 100%;
   height: 100%;
-  top:0;
+  top: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.sign-up, .login{
+
+.sign-up,
+.login {
   z-index: 1000;
   border-radius: 10px;
   padding: 20px;
   background-color: #53ca9c;
-  
+
 }
-.sign-up-content, .login-content{
+
+.sign-up-content,
+.login-content {
   padding: 20px;
 }
 
-footer{
+footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 30px;
-  white-space:nowrap;
+  white-space: nowrap;
 }
+
 /*main {
   display: flex;
   max-width: 90%;

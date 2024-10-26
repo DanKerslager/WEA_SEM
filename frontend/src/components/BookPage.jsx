@@ -42,7 +42,7 @@ const BookPage = () => {
     }, [isbn, authors, categories, title, page]);
     return (
         <>
-            <Box bg={useColorModeValue('green.300', 'green.800')} id="filters">
+            <Box id="filters" bg={useColorModeValue('green.300', 'green.800')}>
                 <Filter
                     onIsbnChange={onIsbnOnChange(e => { setIsbn(e?.target?.value); setPage(1); })}
                     onTitleChange={onTitleOnChange(e => { setTitle(e?.target?.value); setPage(1); })}

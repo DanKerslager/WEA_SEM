@@ -33,7 +33,9 @@ const Main = () => {
   }, [bookDetail]); // Přidání detail do závislostí useEffect
   return (
     <>
+    <div id='main'>
       {bookDetail ? <BookDetail /> : <BookPage />}
+    </div>
     </>
   );
 };
