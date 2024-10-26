@@ -1,10 +1,8 @@
 import React from 'react';
 import {useState, useEffect} from 'react'
-import { Grid, GridItem } from '@chakra-ui/react';
 import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
-import BookDetail from './components/BookDetail';
 
 export const Wrapper = () => {
 
@@ -42,7 +40,7 @@ export const Wrapper = () => {
   return (
     <div id='wrapper'>
       <Header />
-      {detail ? <BookDetail setDetail={setDetail}/> : <Main setDetail={setDetail}/>} {/* No props passed since all filtering and pagination is now handled inside Main */}
+      <Main/> {/* No props passed since all filtering and pagination is now handled inside Main */}
       <Footer />
     </div>
   );

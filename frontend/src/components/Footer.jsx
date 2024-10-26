@@ -4,11 +4,11 @@ import {Box, useColorModeValue,} from '@chakra-ui/react';
 
 const Footer = () => {
   return (
-    <footer id='footer'>
-      <Box bg={useColorModeValue('gray.400', 'gray.800')}>
+    <Box as={'footer'} bg={useColorModeValue('gray.100', 'gray.900')} id='footer'>
+      <Box >
         <p>&copy; 2024 BookStock s.r.o.</p>
       </Box>
-    </footer>
+    </Box>
   );
 };
 export default Footer;
