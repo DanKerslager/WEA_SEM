@@ -57,3 +57,16 @@ export const getLogin = async (userParams) => {
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
 };
+export const fetchBookDetail = async(bookParams) => {
+  let { bookId } = bookParams;
+  let link = `${BASE_URL}/getBooks/${bookId}`;
+  try {
+    const response = await axios.get(link);
+    // Vrátíme response data
+    return response.data;
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during book detail:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
+}
