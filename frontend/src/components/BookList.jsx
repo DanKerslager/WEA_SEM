@@ -19,7 +19,6 @@ const BookList = ({ books, loading, error }) => {
             <Text>{book.subtitle}</Text>
             <Text>{t('authors')}: {book.authors}</Text>
             <Text>{t('categories')}: {book.categories}</Text>
-           
           </Box>
       ))
       }
