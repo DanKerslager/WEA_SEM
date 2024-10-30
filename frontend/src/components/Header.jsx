@@ -55,7 +55,7 @@ const Header = () => {
                   {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                 </Button>
 
-                {(isLoggedIn || (email !== '' && username !== '')) ? (
+                {(isLoggedIn) ? (
                   <Menu>
                     <MenuButton
                       as={Button}

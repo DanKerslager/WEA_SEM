@@ -16,5 +16,4 @@ export const PageProvider = ({ children }) => {
     </PageContext.Provider>
   )
 }
-
 export const usePageContext = () => useContext(PageContext)

@@ -6,7 +6,7 @@ import BookList from './BookList';
 import { fetchBooks } from '../api';
 import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, onIsbnOnChange } from '../filter';
 
-const BookPage = () => {
+const BookPage = ({setBookId, setBookDetail}) => {
     const lastPage = localStorage.getItem('lastPage');
     // Filtering variables for the book fetch.
     const [books, setBooks] = useState([]);
@@ -19,7 +19,6 @@ const BookPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const limit = 10;
-
     // Function to fetch books data from the backend.
     const loadBooksData = async () => {
         setLoading(true);
@@ -36,7 +35,6 @@ const BookPage = () => {
             setLoading(false);
         }
     };
-
     useEffect(() => {
         loadBooksData();
     }, [isbn, authors, categories, title, page]);
@@ -51,7 +49,7 @@ const BookPage = () => {
                 />
             </Box>
             <div id="books">
-                <BookList books={books} loading={loading} error={error} />
+                <BookList setBookId={setBookId} setBookDetail={setBookDetail} books={books} loading={loading} error={error} />
                 <Center id="pagination">
                     {Array.from({ length: totalPages }, (_, index) => (
                         <Button

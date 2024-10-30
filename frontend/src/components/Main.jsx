@@ -6,8 +6,11 @@ import { usePageContext } from '../providers/PageProvider';
 // Main react component of the app.
 
 const Main = () => {
-  const {bookDetail, MoveToBookDetail} = usePageContext();
-
+  const [bookId, setBookId] = useState('');
+  const [bookDetail, setBookDetail] = useState(() => {
+    const savedDetail = localStorage.getItem('detail');
+    return savedDetail === 'true'; // Convert string back to boolean
+  });
   useEffect(() => {
     localStorage.setItem('detail', bookDetail);
   }, [bookDetail]);
@@ -15,12 +18,12 @@ const Main = () => {
   useEffect(() => {
     const handlePopState = (event) => {
       if (bookDetail) {
-        MoveToBookDetail(false); // Nastavení detail na false pouze pokud je true
+        setBookDetail(false); // Nastavení detail na false pouze pokud je true
       }
     };
     const handleKeyDown = (event) => {
       if (event.altKey && event.key === 'ArrowLeft' && bookDetail) {
-        MoveToBookDetail(false); // Nastavení detail na false pouze pokud je true
+        setBookDetail(false); // Nastavení detail na false pouze pokud je true
       }
     };
     window.addEventListener('popstate', handlePopState); // Sledování změn stavu historie
@@ -34,7 +37,7 @@ const Main = () => {
   return (
     <>
     <div id='main'>
-      {bookDetail ? <BookDetail /> : <BookPage />}
+      {bookDetail ? <BookDetail bookId={bookId} setBookDetail={setBookDetail}/> : <BookPage setBookId={setBookId} setBookDetail={setBookDetail}/>}
     </div>
     </>
   );
