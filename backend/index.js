@@ -35,6 +35,7 @@ const getBooksDetailRoute = require('./routes/bookId');
 const dataImportRoute = require('./routes/dataImport');
 const registerRoute = require('./routes/register');
 const loginRoute = require('./routes/login');
+const addCommentRoute = require('./routes/addComment');
 
 // Use routes
 app.use('/getBooks', getBooksRoute);  // The /getBooks route, used by frontend to retrieve books
@@ -42,6 +43,7 @@ app.use('/getBooks', getBooksDetailRoute);  // The /getBooks/:id route, used by 
 app.use('/data', dataImportRoute);    // The /data route, that imports the books into the database
 app.use('/register', registerRoute); // The /register route, used to register a new user
 app.use('/login', loginRoute);      // The /login route, used to login a user
+app.use('/getBooks', addCommentRoute); // The /addcomment route, used to add a comment to a book
 
 // Swagger UI setup and route
 const swaggerDocs = require('./swaggerOptions'); // Import the swagger options
