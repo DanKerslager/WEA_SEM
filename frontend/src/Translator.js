@@ -29,7 +29,7 @@ const resources = {
     translation: {
       loading: "Načítání",
       login: "Přihlásit se",
-      register: "Registrovat se",
+      register: "Zaregistrovat",
       authors: "Autoři",
       categories: "Kategorie",
       title: "Název",
