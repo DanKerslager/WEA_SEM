@@ -2,7 +2,7 @@
  * @swagger
  * /data:
  *   post:
- *     summary: Import an array of books
+ *     summary: Add or update an array of books
  *     tags: [Books]
  *     requestBody:
  *       required: true
@@ -25,10 +25,10 @@
  *                   description: The publication date of the book
  *                 isbn:
  *                   type: string
- *                   description: The ISBN number of the book
+ *                   description: The ISBN number of the book (used as a unique identifier)
  *     responses:
  *       201:
- *         description: Books added successfully
+ *         description: Books added or updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -36,7 +36,7 @@
  *               properties:
  *                 status:
  *                   type: string
- *                   example: "Books added successfully"
+ *                   example: "Books added or updated successfully"
  *                 books:
  *                   type: array
  *                   items:
@@ -62,7 +62,7 @@
  *                   type: string
  *                   example: "Input must be an array of books"
  *       500:
- *         description: Failed to save books
+ *         description: Failed to save or update books
  *         content:
  *           application/json:
  *             schema:
@@ -76,13 +76,11 @@
  *                   example: "Database error details here"
  */
 
-// /routes/dataImport.js
 
 const express = require('express');
 const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger');
 
-// Create a new router object
 const router = express.Router();
 
 // API endpoint for receiving POST data
@@ -97,19 +95,42 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    // Remove all existing books
-    await BookModel.deleteMany({});
+    // Map each book to a bulkWrite operation
+    const operations = books.map(book => ({
+      updateOne: {
+        filter: { isbn13: book.isbn13 }, // Use isbn13 as the unique identifier
+        update: {
+          $set: {
+            isbn10: book.isbn10,
+            title: book.title,
+            categories: book.categories,
+            subtitle: book.subtitle,
+            authors: book.authors,
+            thumbnail: book.thumbnail,
+            description: book.description,
+            published_year: book.published_year,
+            average_rating: book.average_rating,
+            num_pages: book.num_pages,
+            ratings_count: book.ratings_count
+          },
+          // Append comments if provided, without overwriting existing ones
+          $push: book.comments ? { comments: { $each: book.comments } } : {} 
+        },
+        upsert: true
+      }
+    }));
 
-    // Use Mongoose's insertMany method to insert multiple records at once
-    const savedBooks = await BookModel.insertMany(books);
+    // Execute bulkWrite operation
+    const result = await BookModel.bulkWrite(operations);
 
-    // Respond with the saved data
-    res.status(201).json({ status: 'Books added successfully', books: savedBooks });
+    res.status(201).json({
+      status: 'Books added or updated successfully',
+      result
+    });
   } catch (err) {
-    logger.error('Error saving books:', err);
+    logger.error('Error in bulk save:', err);
     res.status(500).json({ error: 'Failed to save books', details: err.message });
   }
 });
 
-// Export the router
 module.exports = router;
