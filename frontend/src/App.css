@@ -109,6 +109,38 @@ img {
   padding: 20px;
 }
 
+#book-detail-card {
+  display: flex;
+  flex-direction: column;
+}
+
+#book-detail-content-essentials {
+  display: flex;
+}
+
+#book-detail-content {
+  border-radius: 8px;
+  background-color: dimgrey;
+  padding: 5px 5px 5px 5px;
+}
+
+#comment-section {
+  border-radius: 8px;
+  background-color: dimgrey;
+  padding: 5px 5px 5px 5px;
+}
+
+#book-detail-content-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+#title-and-back-button {
+  display: flex;
+  justify-content: space-between;
+}
+
 footer {
   display: flex;
   flex-direction: column;
