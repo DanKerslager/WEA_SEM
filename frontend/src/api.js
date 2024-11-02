@@ -70,3 +70,8 @@ export const fetchBookDetail = async(bookParams) => {
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
 }
+export const createComment = async(userParams) => {
+  const {text, user} = userParams;
+  
+  const response = await axios.post(`${BASE_URL}/`)
+}

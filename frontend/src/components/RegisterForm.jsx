@@ -30,7 +30,7 @@ const RegisterForm = ({ setShowRegister }) => {
     console.log(postData);
     if (postData?.status === 201) {
       setError(null)
-          setSuccess(postData.data.message)
+      setSuccess(postData.data.message)
       return new Promise((resolve) => {
         setTimeout(() => {
           setShowRegister(false);

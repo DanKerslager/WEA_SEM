@@ -1,29 +1,42 @@
 // components/BookDetail.jsx
-import { Card, CardHeader, CardBody, CardFooter, Image, Heading, Text, Box, Button } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { usePageContext } from '../providers/PageProvider';
 import { fetchBookDetail } from '../api';
-import { useEffect, useState } from 'react';
+import { Card, CardHeader, CardBody, CardFooter, Image, Heading, Text, Box, Button } from '@chakra-ui/react';
 
 
-const BookDetail = ({bookId, setBookDetail}) => {
-  const [book, setBook] = useState({});
-  const [error, setError] = useState(null);
-  const { t } = useTranslation();
-  const loadBookDetailData = async () => {
-    setError(null);
-    try {
-        const data = await fetchBookDetail({bookId});
-        setBook(data)
+const BookDetail = ({ bookId, setBookDetail }) => {
+    const [book, setBook] = useState({});
+    const [error, setError] = useState(null);
+    const { t } = useTranslation();
+    const {
+        handleSubmit,
+        register,
+        formState: { errors, isSubmitting },
+    } = useForm();
 
-    } catch (err) {
-        setError(err.message);
+    const onSubmit = async(data) => {
+        let text = data.text;
+        let user = data.user;
     }
-};
 
-useEffect(() => {
-    loadBookDetailData();
-}, [bookId]);
+    const loadBookDetailData = async () => {
+        setError(null);
+        try {
+            const data = await fetchBookDetail({ bookId });
+            setBook(data)
+
+        } catch (err) {
+            setError(err.message);
+        }
+
+    };
+
+    useEffect(() => {
+        loadBookDetailData();
+    }, [bookId]);
     return (
         <Box id="book-detail-card">
             <Image id="book-detail-image" />
@@ -44,13 +57,18 @@ useEffect(() => {
                 <Text>{book.description}</Text>
             </Box>
             <Button
-            colorScheme="teal"
-            variant="outline"
-            onClick={() => setBookDetail(false)}>
-            {t('cancel')}
+                colorScheme="teal"
+                variant="outline"
+                onClick={() => setBookDetail(false)}>
+                {t('cancel')}
             </Button>
             <Box id="comment-section">
-                <Text>Magical dynamic comment section to be done later</Text>
+                <form onSubmit={handleSubmit(onSubmit)} id='comment-post'>
+                    <input type="text" placeholder='Write a comment' />
+                    <Button colorScheme="teal" variant="outline" type='submit' isLoading={isSubmitting}>Comment</Button>
+                    <Button colorScheme="teal" variant="outline" onClick={() => setBookDetail(false)}> {t('cancel')}</Button>
+                </form>
+                
             </Box>
         </Box>
     )
