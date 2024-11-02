@@ -1,5 +1,5 @@
 // components/BookDetail.jsx
-import { Card, CardHeader, CardBody, CardFooter, Image, Heading, Text, Box, Button } from '@chakra-ui/react';
+import { Card, CardHeader, CardBody, CardFooter, Image, Heading, Text, Box, Button, useColorModeValue } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { usePageContext } from '../providers/PageProvider';
 import { fetchBookDetail } from '../api';
@@ -26,7 +26,7 @@ useEffect(() => {
 }, [bookId]);
     return (
         <Box id="book-detail-card">
-            <Box id="book-detail-content">
+            <Box id="book-detail-content" bg={useColorModeValue('gray.400', 'gray.700')}>
                 <Box id="title-and-back-button">
                     <Heading>{book.title}</Heading>
                     <Button
@@ -57,7 +57,7 @@ useEffect(() => {
             <Box id="book-detail-card-divider">
                 <br></br>
             </Box>
-            <Box id="comment-section">
+            <Box id="comment-section" bg={useColorModeValue('gray.400', 'gray.700')}>
                 <Text>Magical dynamic comment section to be done later</Text>
             </Box>
         </Box>
