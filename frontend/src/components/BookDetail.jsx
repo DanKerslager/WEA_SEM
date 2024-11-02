@@ -19,6 +19,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
             const data = await fetchBookDetail({ bookId });
             console.log(data)
             setBook(data)
+            console.log('BAFFFF')
 
         } catch (err) {
             setError(err.message);
