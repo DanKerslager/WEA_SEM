@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 
+const commentSchema = new mongoose.Schema({
+  text: { type: String, required: true },
+  user: { type: String, required: true }, // You might want to store a userId if you have user auth
+  createdAt: { type: Date, default: Date.now }
+});
+
 const BookSchema = new mongoose.Schema({
   isbn13: {
     type: String,
@@ -55,7 +61,8 @@ const BookSchema = new mongoose.Schema({
   ratings_count: {
     type: Number,
     required: false, // volitelné pole
-  }
+  },
+  comments: [commentSchema]
 });
 
 // Vytvoření modelu
