@@ -1,7 +1,7 @@
 // components/BookList.js
 import { Card, Image, Heading, Text, Box } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { usePageContext } from '../providers/PageProvider';
+import { usePageContext } from '../providers/AuthProvider';
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ setBookId, setBookDetail, books, loading, error }) => {
   const { t } = useTranslation();

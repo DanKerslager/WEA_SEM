@@ -29,10 +29,16 @@ import RegisterForm from './RegisterForm';
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [email, setEmail] = useState(Cookies.get('email') || '');
-  const [username, setUsername] = useState(Cookies.get('username') || '');
-  const [password, setPassword] = useState(Cookies.get('password') || '');
+  
+
+  const profileCookie = Cookies.get('profile')
+  const profile = profileCookie ? JSON.parse(profileCookie) : null;
+  const profileEmail = profile?.user?.email;
+  const profileUsername = profile?.user?.username;
+  const profileIsLoggedIn = profile?.isLoggedIn;
+  const [email, setEmail] = useState(profileEmail || '');
+  const [username, setUsername] = useState(profileUsername || '');
+  const [isLoggedIn, setIsLoggedIn] = useState(profileIsLoggedIn || false);
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
 
@@ -86,9 +92,7 @@ const Header = () => {
                       <br />
                       <MenuDivider />
                       <MenuItem onClick={() => {
-                        Cookies.remove('email');
-                        Cookies.remove('username');
-                        Cookies.remove('password');
+                        Cookies.remove('profile');
                         setIsLoggedIn(false);
                         window.location.reload();
                       }}>

@@ -1,30 +1,23 @@
 // components/BookDetail.jsx
-import { Card, CardHeader, CardBody, CardFooter, Image, Heading, Text, Box, Button } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { usePageContext } from '../providers/PageProvider';
+import { usePageContext } from '../providers/AuthProvider';
 import { fetchBookDetail } from '../api';
-import { Card, CardHeader, CardBody, CardFooter, Image, Heading, Text, Box, Button } from '@chakra-ui/react';
-
+import { Card, CardHeader, CardBody, CardFooter, Image, Heading, Text, Box, Button, Textarea, useColorModeValue, } from '@chakra-ui/react';
+import Comments from './Comments';
 
 const BookDetail = ({ bookId, setBookDetail }) => {
     const [book, setBook] = useState({});
     const [error, setError] = useState(null);
     const { t } = useTranslation();
-    const {
-        handleSubmit,
-        register,
-        formState: { errors, isSubmitting },
-    } = useForm();
-
-    const onSubmit = async(data) => {
-        let text = data.text;
-        let user = data.user;
-    }
+    
 
     const loadBookDetailData = async () => {
         setError(null);
         try {
             const data = await fetchBookDetail({ bookId });
+            console.log(data)
             setBook(data)
 
         } catch (err) {
@@ -50,7 +43,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
                 </Box>
                 <br></br>
                 <Box id="book-detail-content-essentials">
-                <Image id="book-detail-image" objectFit='cover' maxW={{ base: '100%', sm: '200px' }} src={book.thumbnail} alt={`${book.title} cover`} />
+                    <Image id="book-detail-image" objectFit='cover' maxW={{ base: '100%', sm: '200px' }} src={book.thumbnail} alt={`${book.title} cover`} />
                     <Box id="book-detail-content-text">
                         <Text>{t('authors')}: {book.authors}</Text>
                         <Text>{t('categories')}: {book.categories}</Text>
@@ -66,17 +59,11 @@ const BookDetail = ({ bookId, setBookDetail }) => {
                 <Text>{t('description')}:</Text>
                 <Text>{book.description}</Text>
             </Box>
-            <Button
-            colorScheme="teal"
-            variant="outline"
-            onClick={() => setBookDetail(false)}>
-            {t('cancel')}
-            </Button>
-            <Box id="comment-section">
-                <Text>Magical dynamic comment section to be done later</Text>
+            
+            <Box mt={5} id="comment-section" bg={useColorModeValue('gray.400', 'gray.700')}>
+                <Comments bookId={bookId} comments={book.comments}/>
             </Box>
         </Box>
     )
 };
-
 export default BookDetail;
