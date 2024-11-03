@@ -10,7 +10,10 @@ const logger = require('./logger');
 // Create an instance of express and add dependencies
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+
+// If you’re using other parsers like urlencoded, also set a limit
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
