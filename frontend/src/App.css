@@ -44,6 +44,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #80808000;
+  transition: 0.3s;
+  
+}
+#book-card:hover{
+  cursor: pointer;
+  
+  background-color: #53ca9c;
 }
 #filters{
   grid-area: filters;
