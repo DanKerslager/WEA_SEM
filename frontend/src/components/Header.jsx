@@ -31,7 +31,6 @@ const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const {user, isAuthenticated, logout} = useAuth();
-  console.log(user)
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
 

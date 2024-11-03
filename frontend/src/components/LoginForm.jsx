@@ -24,25 +24,15 @@ const LoginForm = ({ setShowLogin }) => {
     register,
     formState: { errors, isSubmitting },
   } = useForm();
-
   const onSubmit = async (data) => {
     let email = data.email;
     let password = data.password;
     const loginData = await getLogin({ email, password });
     //get user data
     let user = loginData.data.user
-    console.log(loginData.message);
     if (loginData?.status === 200) {
-      /*
-      Cookies.set('profile', JSON.stringify(
-        {
-          user,
-          isLoggedIn: true
-        }
-      )); */
       login(user)
       setShowLogin(false);
-      //window.location.reload();
     } else {
       setError(loginData.message);
     }
@@ -57,7 +47,7 @@ const LoginForm = ({ setShowLogin }) => {
         <form onSubmit={handleSubmit(onSubmit)} id="sign-up">
           <div id="sign-up-content">
             <FormControl mb={5} isInvalid={errors.email}>
-              <Heading as="h3" size="lg">
+              <Heading mb={5} as="h3" size="lg">
                 {t('login')}
               </Heading>
               <FormLabel htmlFor="email">Email</FormLabel>

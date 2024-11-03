@@ -16,9 +16,6 @@ const Main = () => {
     if(bookId == ''){
       setBookId(localStorage.getItem('bookId'))
     }
-  }, [bookDetail]);
-
-  useEffect(() => {
     const handlePopState = (event) => {
       if (bookDetail) {
         setBookDetail(false); // Nastavení detail na false pouze pokud je true
@@ -39,7 +36,9 @@ const Main = () => {
   }, [bookDetail]); // Přidání detail do závislostí useEffect
   return (
     <div id='main'>
-        {bookDetail ? <BookDetail bookId={bookId} setBookDetail={setBookDetail} /> : <BookPage setBookId={setBookId} setBookDetail={setBookDetail} />}
+        {bookDetail ? 
+        <BookDetail bookId={bookId} setBookDetail={setBookDetail} /> : 
+        <BookPage setBookId={setBookId} setBookDetail={setBookDetail} />}
     </div>
   );
 };

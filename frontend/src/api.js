@@ -80,7 +80,6 @@ export const createComment = async(userParams) => {
       text,
       user
     })
-    console.log(response)
     //Vratíme response data
     return response;
   }
