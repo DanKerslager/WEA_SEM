@@ -5,6 +5,7 @@ import Filter from './Filter';
 import BookList from './BookList';
 import { fetchBooks } from '../api';
 import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, onIsbnOnChange } from '../filter';
+import Pagination from './Pagination';
 
 
 
@@ -54,18 +55,9 @@ const BookPage = ({ setBookId, setBookDetail }) => {
             </Box>
             <div id="books">
                 <BookList setBookId={setBookId} setBookDetail={setBookDetail} books={books} loading={loading} error={error} />
+                
                 <Center id="pagination">
-                    {Array.from({ length: totalPages }, (_, index) => (
-                        <Button
-                            key={index}
-                            colorScheme='teal'
-                            m={2}
-                            onClick={() => setPage(index + 1)}
-                            disabled={page === index + 1}
-                        >
-                            {index + 1}
-                        </Button>
-                    ))}
+                    <Pagination totalPages={totalPages} currentPage={page} onPageChange={setPage}/>
                 </Center>
             </div>
         </>
