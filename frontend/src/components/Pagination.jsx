@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react';
 const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     const maxVisiblePages = 6;
 
-    const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    const startPage = Math.max(2, currentPage - Math.floor(maxVisiblePages / 2));
     const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1);
 
     const visiblePages = [];
@@ -22,7 +22,16 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
             >
                 Previous
             </Button>
-
+            <Button
+                mr={1}
+                colorScheme='teal'
+                onClick={() => onPageChange(1)}
+                className={currentPage === 1 ? 'active' : ''}
+            >
+                1
+            </Button>
+            {/* Ellipsis after the first page if necessary */}
+            {startPage > 2 && <span>...</span>}
             {/* Page Number Buttons */}
             {visiblePages.map((page) => (
                 <Button
@@ -41,7 +50,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
 
             {/* Last Page Button */}
             {endPage < totalPages && (
-                <Button mr={1} colorScheme='teal' onClick={() => onPageChange(totalPages)}>
+                <Button ml={1} mr={1} colorScheme='teal' onClick={() => onPageChange(totalPages)}>
                     {totalPages}
                 </Button>
             )}
