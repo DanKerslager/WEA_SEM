@@ -47,7 +47,6 @@ app.use('/getBooks', addCommentRoute); // The /addcomment route, used to add a c
 
 // Swagger UI setup and route
 const swaggerDocs = require('./swaggerOptions'); // Import the swagger options
-
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Základní routa - logování při přístupu na hlavní stránku
@@ -59,6 +58,7 @@ app.get('/', (req, res) => {
 
 // Setting the public file for static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/logs', express.static(path.join(__dirname, 'logs')));
 
 // Start server and listen on port
 app.listen(PORT, () => {
