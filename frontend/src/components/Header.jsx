@@ -24,28 +24,21 @@ import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import { useAuth } from '../providers/AuthProvider';
 // React component that renders the header of the app.
 
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  
-
-  const profileCookie = Cookies.get('profile')
-  const profile = profileCookie ? JSON.parse(profileCookie) : null;
-  const profileEmail = profile?.user?.email;
-  const profileUsername = profile?.user?.username;
-  const profileIsLoggedIn = profile?.isLoggedIn;
-  const [email, setEmail] = useState(profileEmail || '');
-  const [username, setUsername] = useState(profileUsername || '');
-  const [isLoggedIn, setIsLoggedIn] = useState(profileIsLoggedIn || false);
+  const {user, isAuthenticated, logout} = useAuth();
+  console.log(user)
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
 
   return (
     <>
       {showLogin && (
-        <LoginForm setShowLogin={setShowLogin} setIsLoggedIn={setIsLoggedIn} />
+        <LoginForm setShowLogin={setShowLogin}/>
       )}
       {showRegister && (
         <RegisterForm setShowRegister={setShowRegister} />
@@ -61,7 +54,7 @@ const Header = () => {
                   {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                 </Button>
 
-                {(isLoggedIn) ? (
+                {(isAuthenticated) ? (
                   <Menu>
                     <MenuButton
                       as={Button}
@@ -84,17 +77,15 @@ const Header = () => {
                       </Center>
                       <br />
                       <Center>
-                        <p>{username}</p>
+                        <p>{user.username}</p>
                       </Center>
                       <Center>
-                        <p>{email}</p>
+                        <p>{user.email}</p>
                       </Center>
                       <br />
                       <MenuDivider />
                       <MenuItem onClick={() => {
-                        Cookies.remove('profile');
-                        setIsLoggedIn(false);
-                        window.location.reload();
+                        logout();
                       }}>
                         {t('logout')}
                       </MenuItem>

@@ -71,9 +71,10 @@ export const fetchBookDetail = async(bookParams) => {
   }
 }
 export const createComment = async(userParams) => {
-  const {bookId, text, user} = userParams;
+  const {bookId, text, username} = userParams;
   let link = `${BASE_URL}/getBooks/${bookId}/comments`;
   try{
+    let user = username;
     const response = await axios.post(link, {
       bookId,
       text,
@@ -81,7 +82,7 @@ export const createComment = async(userParams) => {
     })
     console.log(response)
     //Vratíme response data
-    return response
+    return response;
   }
   catch (error){
     // Vrátíme chybu, pokud k ní dojde

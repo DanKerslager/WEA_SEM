@@ -22,7 +22,9 @@ const resources = {
       username: "Username",
       password: "Password",
       logout: "Logout",
-      cancel: "Cancel"
+      cancel: "Cancel",
+      comments: "Comments",
+      comment: "Comment",
     }
   },
   cs: {
@@ -42,7 +44,9 @@ const resources = {
       username: "Uživatelské jméno",
       password: "Heslo",
       logout: "Odhlásit se",
-      cancel: "Zrušit"
+      cancel: "Zrušit",
+      comments: "Komentáře",
+      comment: "Okomentovat",
     }
   }
 };

@@ -13,8 +13,10 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { getLogin } from '../api';
+import { useAuth } from '../providers/AuthProvider';
 
-const LoginForm = ({ setShowLogin, setIsLoggedIn }) => {
+const LoginForm = ({ setShowLogin }) => {
+  const { login } = useAuth()
   const [error, setError] = useState('')
   const { t } = useTranslation();
   const {
@@ -31,13 +33,14 @@ const LoginForm = ({ setShowLogin, setIsLoggedIn }) => {
     let user = loginData.data.user
     console.log(loginData.message);
     if (loginData?.status === 200) {
+      /*
       Cookies.set('profile', JSON.stringify(
         {
           user,
           isLoggedIn: true
         }
-      ));
-      setIsLoggedIn(true);
+      )); */
+      login(user)
       setShowLogin(false);
       //window.location.reload();
     } else {

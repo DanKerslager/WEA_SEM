@@ -5,15 +5,14 @@ import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
 import { Card, CardHeader, CardBody, CardFooter, Image, Heading, Text, Box, Button, Textarea, useColorModeValue, } from '@chakra-ui/react';
 import { createComment } from '../api';
+import { useAuth } from '../providers/AuthProvider';
 
-const Comments = ({ bookId, comments}) => {
+const Comments = ({ bookId, comments, commentCreated, setCommentCreated }) => {
     const [error, setError] = useState(null);
-    //Get data from Cookies
-    const profileCookie = Cookies.get('profile')
-    const profile = profileCookie ? JSON.parse(profileCookie) : null;
-    const username = profile?.user?.username;
-    const isLoggedIn = profile?.isLoggedIn;
-
+    const [showButtons, setShowButtons] = useState(false);
+    
+    const { user, isAuthenticated } = useAuth();
+    const { t } = useTranslation();
     const {
         handleSubmit,
         register,
@@ -21,30 +20,37 @@ const Comments = ({ bookId, comments}) => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        setError(null)
-        console.log(data)
+        setError(null);
+        //refresh textarea
+        document.getElementById('text').value = '';
         try {
             let text = data.text;
             //Get username from cookies
-            let user = username
-            let comment = createComment({ bookId, text, user })
-            console.log(comment)
+            let username = user.username;
+            let comment = await createComment({ bookId, text, username });
+            setCommentCreated((prev) => !prev)
         } catch (err) {
-            setError(err.message)
+            setError(err.message);
         }
     }
-    if (isLoggedIn) {
+    if (isAuthenticated) {
         return (
-            <> 
-                <Text fontSize='2xl'>Comments: {comments?.length || 0}</Text>
+            <>
+                <Text fontSize='2xl'>{t('comments')}: {comments?.length || 0}</Text>
                 <form onSubmit={handleSubmit(onSubmit)} id='comment-post'>
-                    <Textarea id='text' placeholder='Write a comment'{...register('text', {
+                    <Textarea id='text' onClick={() => setShowButtons(true)} placeholder='Write a comment'{...register('text', {
                         required: 'Write a comment',
                     })} />
-                    <Button colorScheme="teal" variant="outline" type='submit' isLoading={isSubmitting}>Comment</Button>
+                    {showButtons && (
+                        <>
+                            <Button mt={3} colorScheme="teal" variant="outline" type='submit' isLoading={isSubmitting}>{t('comment')}</Button>
+                            <Button ml={3} mt={3} colorScheme="teal" variant="outline" onClick={() => setShowButtons(false)}>{t('cancel')}</Button>
+                        </>
+                    )}
+
                 </form>
                 <Box id='comments'>
-                    {comments?.map((comment, index) =>(
+                    {comments?.map((comment, index) => (
                         <Box key={index} id='comment'>
                             <div>
                                 <Text>{comment.user}</Text>
@@ -60,7 +66,7 @@ const Comments = ({ bookId, comments}) => {
     else {
         return (
             <>
-            <p>Sign up to see comments.</p>
+                <p>Sign up to see comments.</p>
             </>
         )
     }

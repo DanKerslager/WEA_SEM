@@ -36,7 +36,6 @@
 #main {
   display: flex;
   flex-direction: row;
-  justify-content: stretch;
   width: 100%;
   padding: 20px;
 }
@@ -45,6 +44,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #80808000;
+  transition: 0.3s;
+  
+}
+#book-card:hover{
+  cursor: pointer;
+  
+  background-color: #53ca9c;
 }
 #filters{
   grid-area: filters;
@@ -55,8 +62,6 @@
   grid-area: books;
   flex-basis: 1;
 }
-
-
 #book-list {
   display: flex;
   flex-direction: column;
@@ -146,6 +151,12 @@ footer {
   justify-content: center;
   padding: 30px;
   white-space: nowrap;
+}
+#spinner{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 /*main {
