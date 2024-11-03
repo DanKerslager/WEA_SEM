@@ -43,7 +43,7 @@ const Comments = ({ bookId, comments, commentCreated, setCommentCreated }) => {
                     })} />
                     {showButtons && (
                         <>
-                            <Button mt={3} colorScheme="teal" variant="outline" type='submit' onClick={() => setShowButtons(false)} isLoading={isSubmitting}>{t('comment')}</Button>
+                            <Button mt={3} colorScheme="teal" variant="outline" type='submit' isLoading={isSubmitting}>{t('comment')}</Button>
                             <Button ml={3} mt={3} colorScheme="teal" variant="outline" onClick={() => setShowButtons(false)}>{t('cancel')}</Button>
                         </>
                     )}
