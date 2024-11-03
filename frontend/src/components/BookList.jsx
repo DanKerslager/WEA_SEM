@@ -2,10 +2,20 @@
 import { Card, Image, Heading, Text, Box } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { usePageContext } from '../providers/AuthProvider';
+import { Alert, AlertIcon, AlertTitle, AlertDescription, } from '@chakra-ui/react';
+import { SemipolarSpinner } from 'react-epic-spinners';
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ setBookId, setBookDetail, books, loading, error }) => {
   const { t } = useTranslation();
-
+  if (loading) { return <div id='spinner'><SemipolarSpinner size={200} /></div> }
+  else if (error) {
+      return (
+          <Alert status='error'>
+              <AlertIcon />
+              <AlertDescription>{error}</AlertDescription>
+          </Alert>
+      )
+  }
   return (
     <div id="book-list">
       {!loading && !error && books.map(book => (

@@ -19,10 +19,8 @@ const BookDetail = ({ bookId, setBookDetail }) => {
     const loadBookDetailData = async () => {
         setError(null);
         try {
-            const data = await fetchBookDetail({ bookId });
-            console.log(data)
+            let data = await fetchBookDetail({ bookId });
             setBook(data)
-            console.log('BAFFFF')
 
         } catch (err) {
             setError(err.message);

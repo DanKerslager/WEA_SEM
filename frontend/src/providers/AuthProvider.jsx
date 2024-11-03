@@ -17,21 +17,18 @@ export const AuthProvider = ({ children }) => {
     };
     loadUserData();
   }, []);
-
   // Function to handle user login
   const login = (userData) => {
     setUser(userData);
     setIsAuthenticated(true);
     localStorage.setItem('user', JSON.stringify(userData)); // Persist user data in local storage
   };
-
   // Function to handle user logout
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem('user'); // Remove user data from local storage
   };
-
   // Context value to pass down to components
   const authContextValue = {
     user,
@@ -39,12 +36,10 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
   };
-
   return (
     <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );
 };
-
 export const useAuth = () => useContext(AuthContext);

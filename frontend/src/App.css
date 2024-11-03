@@ -50,7 +50,6 @@
 }
 #book-card:hover{
   cursor: pointer;
-  
   background-color: #53ca9c;
 }
 #filters{

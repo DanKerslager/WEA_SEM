@@ -5,8 +5,7 @@ import Filter from './Filter';
 import BookList from './BookList';
 import { fetchBooks } from '../api';
 import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, onIsbnOnChange } from '../filter';
-import { Alert, AlertIcon, AlertTitle, AlertDescription, } from '@chakra-ui/react'
-import { SemipolarSpinner } from 'react-epic-spinners'
+
 
 
 const BookPage = ({ setBookId, setBookDetail }) => {
@@ -43,15 +42,6 @@ const BookPage = ({ setBookId, setBookDetail }) => {
         loadBooksData();
     }, [isbn, authors, categories, title, page]);
 
-    if (loading) { return <div id='spinner'><SemipolarSpinner size={200} /></div> }
-    if (error) {
-        return (
-            <Alert status='error'>
-                <AlertIcon />
-                <AlertDescription>{error}</AlertDescription>
-            </Alert>
-        )
-    }
     return (
         <>
             <Box id="filters" bg={colorMode}>
