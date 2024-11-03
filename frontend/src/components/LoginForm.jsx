@@ -27,13 +27,19 @@ const LoginForm = ({ setShowLogin, setIsLoggedIn }) => {
     let email = data.email;
     let password = data.password;
     const loginData = await getLogin({ email, password });
+    //get user data
+    let user = loginData.data.user
     console.log(loginData.message);
     if (loginData?.status === 200) {
-      Cookies.set('username', loginData.data.user.username);
-      Cookies.set('email', loginData.data.user.email);
-      setShowLogin(false);
+      Cookies.set('profile', JSON.stringify(
+        {
+          user,
+          isLoggedIn: true
+        }
+      ));
       setIsLoggedIn(true);
-      window.location.reload();
+      setShowLogin(false);
+      //window.location.reload();
     } else {
       setError(loginData.message);
     }

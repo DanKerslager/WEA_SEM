@@ -70,3 +70,23 @@ export const fetchBookDetail = async(bookParams) => {
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
 }
+export const createComment = async(userParams) => {
+  const {bookId, text, user} = userParams;
+  let link = `${BASE_URL}/getBooks/${bookId}/comments`;
+  try{
+    const response = await axios.post(link, {
+      bookId,
+      text,
+      user
+    })
+    console.log(response)
+    //Vratíme response data
+    return response
+  }
+  catch (error){
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during comment post:", error);
+    return error.response ? error.response.data : { message: 'Unknown Error' }
+  }
+  
+}
