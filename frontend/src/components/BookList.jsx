@@ -5,8 +5,6 @@ import { usePageContext } from '../providers/AuthProvider';
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ setBookId, setBookDetail, books, loading, error }) => {
   const { t } = useTranslation();
-  if (loading) return <p>{t('loading')}...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <div id="book-list">

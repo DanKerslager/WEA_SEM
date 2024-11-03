@@ -36,7 +36,6 @@
 #main {
   display: flex;
   flex-direction: row;
-  justify-content: stretch;
   width: 100%;
   padding: 20px;
 }
@@ -55,8 +54,6 @@
   grid-area: books;
   flex-basis: 1;
 }
-
-
 #book-list {
   display: flex;
   flex-direction: column;
@@ -146,6 +143,12 @@ footer {
   justify-content: center;
   padding: 30px;
   white-space: nowrap;
+}
+#spinner{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 /*main {

@@ -1,12 +1,15 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
-import {  useColorModeValue, Box, Button, Center} from '@chakra-ui/react';
+import { useColorModeValue, Box, Button, Center } from '@chakra-ui/react';
 import Filter from './Filter';
 import BookList from './BookList';
 import { fetchBooks } from '../api';
 import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, onIsbnOnChange } from '../filter';
+import { Alert, AlertIcon, AlertTitle, AlertDescription, } from '@chakra-ui/react'
+import { SemipolarSpinner } from 'react-epic-spinners'
 
-const BookPage = ({setBookId, setBookDetail}) => {
+
+const BookPage = ({ setBookId, setBookDetail }) => {
     const lastPage = localStorage.getItem('lastPage');
     // Filtering variables for the book fetch.
     const [books, setBooks] = useState([]);
@@ -19,6 +22,7 @@ const BookPage = ({setBookId, setBookDetail}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const limit = 10;
+    const colorMode = useColorModeValue('green.300', 'green.800')
     // Function to fetch books data from the backend.
     const loadBooksData = async () => {
         setLoading(true);
@@ -38,9 +42,19 @@ const BookPage = ({setBookId, setBookDetail}) => {
     useEffect(() => {
         loadBooksData();
     }, [isbn, authors, categories, title, page]);
+
+    if (loading) { return <div id='spinner'><SemipolarSpinner size={200} /></div> }
+    if (error) {
+        return (
+            <Alert status='error'>
+                <AlertIcon />
+                <AlertDescription>{error}</AlertDescription>
+            </Alert>
+        )
+    }
     return (
         <>
-            <Box id="filters" bg={useColorModeValue('green.300', 'green.800')}>
+            <Box id="filters" bg={colorMode}>
                 <Filter
                     onIsbnChange={onIsbnOnChange(e => { setIsbn(e?.target?.value); setPage(1); })}
                     onTitleChange={onTitleOnChange(e => { setTitle(e?.target?.value); setPage(1); })}
