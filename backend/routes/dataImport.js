@@ -83,6 +83,15 @@ const logger = require('../logger');
 
 const router = express.Router();
 
+// Funkce pro chunkování pole
+function chunkArray(array, chunkSize) {
+  const chunks = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(array.slice(i, i + chunkSize));
+  }
+  return chunks;
+}
+
 // API endpoint for receiving POST data
 router.post('/', async (req, res) => {
   const books = req.body; // Expecting an array of books
@@ -94,38 +103,43 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'Input must be an array of books' });
   }
 
-  try {
-    // Map each book to a bulkWrite operation
-    const operations = books.map(book => ({
-      updateOne: {
-        filter: { isbn13: book.isbn13 }, // Use isbn13 as the unique identifier
-        update: {
-          $set: {
-            isbn10: book.isbn10,
-            title: book.title,
-            categories: book.categories,
-            subtitle: book.subtitle,
-            authors: book.authors,
-            thumbnail: book.thumbnail,
-            description: book.description,
-            published_year: book.published_year,
-            average_rating: book.average_rating,
-            num_pages: book.num_pages,
-            ratings_count: book.ratings_count
-          },
-          // Append comments if provided, without overwriting existing ones
-          $push: book.comments ? { comments: { $each: book.comments } } : {} 
-        },
-        upsert: true
-      }
-    }));
+  // Nastavení velikosti chunku (například 100 knih na jeden chunk)
+  const chunkSize = 100;
+  const bookChunks = chunkArray(books, chunkSize);
 
-    // Execute bulkWrite operation
-    const result = await BookModel.bulkWrite(operations);
+  try {
+    // Zpracování každého chunku postupně
+    for (const chunk of bookChunks) {
+      const operations = chunk.map(book => ({
+        updateOne: {
+          filter: { isbn13: book.isbn13 }, // Používáme isbn13 jako unikátní identifikátor
+          update: {
+            $set: {
+              isbn10: book.isbn10,
+              title: book.title,
+              categories: book.categories,
+              subtitle: book.subtitle,
+              authors: book.authors,
+              thumbnail: book.thumbnail,
+              description: book.description,
+              published_year: book.published_year,
+              average_rating: book.average_rating,
+              num_pages: book.num_pages,
+              ratings_count: book.ratings_count
+            },
+            // Připojíme komentáře, pokud jsou poskytnuty, bez přepsání existujících komentářů
+            $push: book.comments ? { comments: { $each: book.comments } } : {} 
+          },
+          upsert: true
+        }
+      }));
+
+      // Provedení bulkWrite operace pro aktuální chunk
+      await BookModel.bulkWrite(operations);
+    }
 
     res.status(201).json({
       status: 'Books added or updated successfully',
-      result
     });
   } catch (err) {
     logger.error('Error in bulk save:', err);
