@@ -1,1 +1,0 @@
-POST http://localhost:8002/register?username=john_doe&email=john@example.com&password=mypassword123
