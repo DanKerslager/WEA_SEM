@@ -59,19 +59,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/logs', (req, res) => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  const logFileName = `combined-${year}-${month}-${day}.log`;
-  res.sendFile(path.join(__dirname, 'logs', logFileName));
-});
-
-
 // Setting the public file for static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 // Start server and listen on port
 app.listen(PORT, () => {
