@@ -79,6 +79,8 @@
 const express = require('express');
 const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger');
+const fs = require('fs');
+const path = require('path');
 
 const router = express.Router();
 
