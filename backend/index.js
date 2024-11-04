@@ -23,10 +23,10 @@ const mongoURI = `mongodb://${process.env.DB_User}:${process.env.DB_Password}@${
 // Connect to MongoDB
 mongoose.connect(mongoURI)
   .then(() => {
-    console.log("MongoDB connected successfully");
+    logger.info("MongoDB connected successfully");
   })
   .catch(err => {
-    console.error("MongoDB connection error:", err);
+    logger.info("MongoDB connection error:", err);
   });
 
 // Port for the backend to listen to from the environment variable
@@ -55,7 +55,6 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Základní routa - logování při přístupu na hlavní stránku
 app.get('/', (req, res) => {
-  console.log("endpoint was hit");
   logger.info('Root endpoint was hit');
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -77,5 +76,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Start server and listen on port
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
-  console.log(`Server is running on port ${PORT}`);
 });
