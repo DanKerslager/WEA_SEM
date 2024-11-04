@@ -39,8 +39,6 @@ services:
       MONGO_INITDB_DATABASE: bookCatalog
     ports:
       - "50002:27017"  # Port MongoDB (default)
-    volumes:
-      - "/home/cerny/logs/sk03:/data/db"  # Data MongoDB
     networks:
       - internalnetwork
   
