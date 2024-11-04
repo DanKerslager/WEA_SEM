@@ -28,7 +28,13 @@ const UserSchema = new mongoose.Schema({
   subtitle: {
     type: String,
     required: false,
-  }
+  },
+  favoriteBooks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'books', // Reference to Book model
+    },
+  ],
 });
 
 // Vytvoření modelu

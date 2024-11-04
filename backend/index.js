@@ -6,6 +6,7 @@ const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 const logger = require('./logger');
+const initializeRoutes = require("./routes");
 
 // Create an instance of express and add dependencies
 const app = express();
@@ -29,24 +30,8 @@ mongoose.connect(mongoURI)
     logger.info("MongoDB connection error:", err);
   });
 
-// Port for the backend to listen to from the environment variable
-const PORT = process.env.PORT || 8002;
-
-// Import routes
-const getBooksRoute = require('./routes/getBooks');
-const getBooksDetailRoute = require('./routes/bookId');
-const dataImportRoute = require('./routes/dataImport');
-const registerRoute = require('./routes/register');
-const loginRoute = require('./routes/login');
-const addCommentRoute = require('./routes/addComment');
-
-// Use routes
-app.use('/getBooks', getBooksRoute);  // The /getBooks route, used by frontend to retrieve books
-app.use('/getBooks', getBooksDetailRoute);  // The /getBooks/:id route, used by frontend to retrieve book detail
-app.use('/data', dataImportRoute);    // The /data route, that imports the books into the database
-app.use('/register', registerRoute); // The /register route, used to register a new user
-app.use('/login', loginRoute);      // The /login route, used to login a user
-app.use('/getBooks', addCommentRoute); // The /addcomment route, used to add a comment to a book
+// Initialize routes
+initializeRoutes(app);
 
 // Swagger UI setup and route
 const swaggerDocs = require('./swaggerOptions'); // Import the swagger options
@@ -61,7 +46,7 @@ app.get('/', (req, res) => {
 
 // Setting the public file for static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
-
+const PORT = process.env.PORT || 8002;
 // Start server and listen on port
 app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);

@@ -33,7 +33,7 @@ services:
     container_name: sk03-mongo
     image: mongo:latest  # Použijeme oficiální MongoDB image
     restart: always
-    command: ["mongod", "--port", "50002"]  # Setting internal MongoDB port
+    command: ["mongod", "--port", "50002", "--quiet", "--logpath", "/dev/null"]  # Setting internal MongoDB port
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_User}  # Root uživatel
       MONGO_INITDB_ROOT_PASSWORD: ${DB_Password}  # Root heslo
