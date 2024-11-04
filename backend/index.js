@@ -25,6 +25,7 @@ const mongoURI = `mongodb://${process.env.DB_User}:${process.env.DB_Password}@${
 mongoose.connect(mongoURI)
   .then(() => {
     logger.info("MongoDB connected successfully");
+    console.log("MongoDB connected successfully");
   })
   .catch(err => {
     logger.info("MongoDB connection error:", err);
