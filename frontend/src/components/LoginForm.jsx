@@ -16,8 +16,8 @@ import { getLogin } from '../api';
 import { useAuth } from '../providers/AuthProvider';
 
 const LoginForm = ({ setShowLogin }) => {
-  const { login } = useAuth()
-  const [error, setError] = useState('')
+  const { login } = useAuth();
+  const [error, setError] = useState('');
   const { t } = useTranslation();
   const {
     handleSubmit,
@@ -29,9 +29,9 @@ const LoginForm = ({ setShowLogin }) => {
     let password = data.password;
     const loginData = await getLogin({ email, password });
     //get user data
-    let user = loginData.data.user
+    let user = loginData.data.user;
     if (loginData?.status === 200) {
-      login(user)
+      login(user);
       setShowLogin(false);
     } else {
       setError(loginData.message);
@@ -72,15 +72,17 @@ const LoginForm = ({ setShowLogin }) => {
                 placeholder={t('password')}
                 {...register('password', {
                   required: 'This is required',
-                  minLength: { value: 6, message: 'Minimum length should be 6' },
+                  minLength: {
+                    value: 6,
+                    message: 'Minimum length should be 6',
+                  },
                 })}
               />
               <FormErrorMessage>
                 {errors.password && errors.password.message}
               </FormErrorMessage>
-
             </FormControl>
-            {error && (<p style={{color: '#FC8181'}}>{error}</p>)}
+            {error && <p style={{ color: '#FC8181' }}>{error}</p>}
             <Button
               mt={4}
               colorScheme="teal"
@@ -100,9 +102,8 @@ const LoginForm = ({ setShowLogin }) => {
             </Button>
           </div>
         </form>
-        
       </Box>
-    </Box >
+    </Box>
   );
 };
 export default LoginForm;

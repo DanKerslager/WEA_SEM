@@ -86,7 +86,7 @@ router.get('/:id', async (req, res) => {
   try {
     let id = req.params.id;
     // Database query for one book
-    let bookDetail = await BookModel.findOne({ _id: id })
+    let bookDetail = await BookModel.findOne({ _id: id });
     res.status(200).json(bookDetail);
   } catch (error) {
     logger.error('Error in /getBooks/:id endpoint:', error.message);

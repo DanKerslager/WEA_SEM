@@ -76,7 +76,6 @@
  *                   example: "Database error details here"
  */
 
-
 const express = require('express');
 const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger');
@@ -128,7 +127,7 @@ router.post('/', async (req, res) => {
               ratings_count: book.ratings_count
             },
             // Připojíme komentáře, pokud jsou poskytnuty, bez přepsání existujících komentářů
-            $push: book.comments ? { comments: { $each: book.comments } } : {} 
+            $push: book.comments ? { comments: { $each: book.comments } } : {}
           },
           upsert: true
         }

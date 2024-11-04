@@ -69,7 +69,7 @@ export const fetchBookDetail = async(bookParams) => {
     console.error("Error during book detail:", error);
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
-}
+};
 export const createComment = async(userParams) => {
   const {bookId, text, username} = userParams;
   let link = `${BASE_URL}/getBooks/${bookId}/comments`;
@@ -79,14 +79,13 @@ export const createComment = async(userParams) => {
       bookId,
       text,
       user
-    })
+    });
     //Vratíme response data
     return response;
   }
   catch (error){
     // Vrátíme chybu, pokud k ní dojde
     console.error("Error during comment post:", error);
-    return error.response ? error.response.data : { message: 'Unknown Error' }
+    return error.response ? error.response.data : { message: 'Unknown Error' };
   }
-  
-}
+};

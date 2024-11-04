@@ -1,5 +1,4 @@
-import React from 'react';
-import {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react';
 import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
@@ -10,11 +9,9 @@ export const Wrapper = () => {
     const savedDetail = localStorage.getItem('detail');
     return savedDetail === 'true'; // Convert string back to boolean
   });
-  
   useEffect(() => {
     localStorage.setItem('detail', detail);
   }, [detail]);
-
   useEffect(() => {
     const handlePopState = (event) => {
       if (detail) {
