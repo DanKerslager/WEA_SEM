@@ -12,7 +12,7 @@ services:
       - DB_User=${DB_User}
       - DB_Password=${DB_Password}
       - DB_Host=sk03-mongo
-      - DB_Port=27017
+      - DB_Port=50002
     volumes:
       - "/home/cerny/logs/sk03:/app/logs"  # Pro logy
     networks:
@@ -33,12 +33,13 @@ services:
     container_name: sk03-mongo
     image: mongo:latest  # Použijeme oficiální MongoDB image
     restart: always
+    command: ["mongod", "--port", "50002"]  # Setting internal MongoDB port
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_User}  # Root uživatel
       MONGO_INITDB_ROOT_PASSWORD: ${DB_Password}  # Root heslo
       MONGO_INITDB_DATABASE: bookCatalog
     ports:
-      - "50002:27017"  # Port MongoDB (default)
+      - "50002:50002"  # Port MongoDB (default)
     networks:
       - internalnetwork
   
@@ -49,9 +50,7 @@ services:
     ports:
       - "10002:8081"
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_User}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_Password}
-      ME_CONFIG_MONGODB_SERVER: sk03-mongo
+      ME_CONFIG_MONGODB_URL: "mongodb://${DB_User}:${DB_Password}@sk03-mongo:50002/bookCatalog?authSource=admin"
     depends_on:
       - mongo-db
     networks:
