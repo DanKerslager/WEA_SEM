@@ -94,7 +94,19 @@ function chunkArray(array, chunkSize) {
 // API endpoint for receiving POST data
 router.post('/', async (req, res) => {
   const books = req.body; // Expecting an array of books
-  logger.info('Received POST data:', books);
+
+    // Log a brief message
+  logger.info(`Received a POST request with ${books.length} books`);
+
+  // Write the last call's books to a file, overwriting the previous call's data
+  const lastCallFilePath = path.join(__dirname, '../logs/lastCallBooks.json');
+  fs.writeFile(lastCallFilePath, JSON.stringify(books, null, 2), (err) => {
+    if (err) {
+      logger.error('Failed to write last call books to file:', err);
+    } else {
+      logger.info('Last call books successfully written to file');
+    }
+  });
 
   // Check if the input is an array
   if (!Array.isArray(books)) {
