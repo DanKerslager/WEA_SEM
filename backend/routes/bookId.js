@@ -75,9 +75,10 @@
 
 // routes/bookRoutes.js
 const express = require('express');
-const router = express.Router();
 const bookController = require('../controllers/bookController'); // Import the controller
 const logger = require('../logger');
+
+const router = express.Router();
 
 // API endpoint for getting book details by ID
 router.get('/:id', (req, res) => {
