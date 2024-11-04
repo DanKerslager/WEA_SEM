@@ -62,6 +62,10 @@ const BookSchema = new mongoose.Schema({
     type: Number,
     required: false, // volitelné pole
   },
+  available: {
+    type: Boolean,
+    default: false, // výchozí hodnota je true
+  },
   comments: [commentSchema]
 });
 

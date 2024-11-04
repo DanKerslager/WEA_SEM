@@ -102,6 +102,13 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'Input must be an array of books' });
   }
 
+  try {
+    await BookModel.updateMany({}, { $set: { available: false } });
+  } catch (err) {
+    logger.error('Error setting all books to unavailable:', err);
+    return res.status(500).json({ error: 'Failed to set books as unavailable', details: err.message });
+  }
+
   // Nastavení velikosti chunku (například 100 knih na jeden chunk)
   const chunkSize = 100;
   const bookChunks = chunkArray(books, chunkSize);
@@ -124,7 +131,8 @@ router.post('/', async (req, res) => {
               published_year: book.published_year,
               average_rating: book.average_rating,
               num_pages: book.num_pages,
-              ratings_count: book.ratings_count
+              ratings_count: book.ratings_count,
+              available: true, // Nastavíme knihu jako dostupnou
             },
             // Připojíme komentáře, pokud jsou poskytnuty, bez přepsání existujících komentářů
             $push: book.comments ? { comments: { $each: book.comments } } : {}
