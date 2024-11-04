@@ -73,26 +73,25 @@
  *                   example: "Error fetching book details"
  */
 
+// routes/bookRoutes.js
 const express = require('express');
-const BookModel = require('../models/Books'); // Import the Book model
+const router = express.Router();
+const bookController = require('../controllers/bookController'); // Import the controller
 const logger = require('../logger');
 
-// Create a new router object
-const router = express.Router();
+// API endpoint for getting book details by ID
+router.get('/:id', (req, res) => {
+  logger.info(`/getBooks/${req.params.id} endpoint was hit`);
 
-// API endpoint for getting books with pagination and filtering
-router.get('/:id', async (req, res) => {
-  logger.info('/getBooks/id endpoint was hit' + JSON.stringify(req.query));
-  try {
-    let id = req.params.id;
-    // Database query for one book
-    let bookDetail = await BookModel.findOne({ _id: id });
-    res.status(200).json(bookDetail);
-  } catch (error) {
-    logger.error('Error in /getBooks/:id endpoint:', error.message);
-    res.status(500).json({ message: error.message });
+  // Check if the provided ID is a valid MongoDB ObjectId format
+  const { id } = req.params;
+  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+    logger.warn(`Invalid book ID format: ${id}`);
+    return res.status(400).json({ message: 'Invalid book ID format' });
   }
+
+  // If validation passes, call the controller
+  bookController.getBookDetailsById(req, res);
 });
 
-// Export the router
 module.exports = router;

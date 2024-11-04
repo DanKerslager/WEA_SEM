@@ -76,31 +76,29 @@
  *                   example: "Database error details here"
  */
 
+// routes/bookRoutes.js
 const express = require('express');
-const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger');
 const fs = require('fs');
 const path = require('path');
+const bookController = require('../controllers/bookController'); // Import the controller
 
 const router = express.Router();
-
-// Funkce pro chunkování pole
-function chunkArray(array, chunkSize) {
-  const chunks = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    chunks.push(array.slice(i, i + chunkSize));
-  }
-  return chunks;
-}
 
 // API endpoint for receiving POST data
 router.post('/', async (req, res) => {
   const books = req.body; // Expecting an array of books
 
-    // Log a brief message
+  // Log the number of books received
   logger.info(`Received a POST request with ${books.length} books`);
 
-  // Write the last call's books to a file, overwriting the previous call's data
+  // Check if the input is an array
+  if (!Array.isArray(books)) {
+    logger.error('Invalid input: not an array');
+    return res.status(400).json({ error: 'Input must be an array of books' });
+  }
+
+  // Write the last call's books to a file
   const lastCallFilePath = path.join(__dirname, '../logs/lastCallBooks.json');
   fs.writeFile(lastCallFilePath, JSON.stringify(books, null, 2), (err) => {
     if (err) {
@@ -110,62 +108,18 @@ router.post('/', async (req, res) => {
     }
   });
 
-  // Check if the input is an array
-  if (!Array.isArray(books)) {
-    logger.error('Invalid input: not an array');
-    return res.status(400).json({ error: 'Input must be an array of books' });
-  }
-
+  // Delegate to the controller
   try {
-    await BookModel.updateMany({}, { $set: { available: false } });
-  } catch (err) {
-    logger.error('Error setting all books to unavailable:', err);
-    return res.status(500).json({ error: 'Failed to set books as unavailable', details: err.message });
-  }
-
-  // Nastavení velikosti chunku (například 100 knih na jeden chunk)
-  const chunkSize = 100;
-  const bookChunks = chunkArray(books, chunkSize);
-
-  try {
-    // Zpracování každého chunku postupně
-    for (const chunk of bookChunks) {
-      const operations = chunk.map(book => ({
-        updateOne: {
-          filter: { isbn13: book.isbn13 }, // Používáme isbn13 jako unikátní identifikátor
-          update: {
-            $set: {
-              isbn10: book.isbn10,
-              title: book.title,
-              categories: book.categories,
-              subtitle: book.subtitle,
-              authors: book.authors,
-              thumbnail: book.thumbnail,
-              description: book.description,
-              published_year: book.published_year,
-              average_rating: book.average_rating,
-              num_pages: book.num_pages,
-              ratings_count: book.ratings_count,
-              available: true, // Nastavíme knihu jako dostupnou
-            },
-            // Připojíme komentáře, pokud jsou poskytnuty, bez přepsání existujících komentářů
-            $push: book.comments ? { comments: { $each: book.comments } } : {}
-          },
-          upsert: true
-        }
-      }));
-
-      // Provedení bulkWrite operace pro aktuální chunk
-      await BookModel.bulkWrite(operations);
-    }
-
+    const result = await bookController.addOrUpdateBooks(books); // Pass the body to the controller
     res.status(201).json({
       status: 'Books added or updated successfully',
+      result,
     });
-  } catch (err) {
-    logger.error('Error in bulk save:', err);
-    res.status(500).json({ error: 'Failed to save books', details: err.message });
+  } catch (error) {
+    logger.error('Error processing books:', error);
+    res.status(500).json({ error: 'Failed to save books', details: error.message });
   }
 });
 
+// Export the router
 module.exports = router;

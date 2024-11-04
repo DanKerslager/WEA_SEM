@@ -56,9 +56,9 @@
  *                   example: "Server error"
  */
 
+// routes/userRoutes.js
 const express = require('express');
-const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
-const User = require('../models/Users'); // Assuming your User model is in the models folder
+const userController = require('../controllers/userController'); // Import the controller
 
 const router = express.Router();
 
@@ -67,26 +67,15 @@ router.post('/', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    // Check if the user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    const result = await userController.registerUser(username, email, password);
+    res.status(201).json(result);
+  } catch (error) {
+    if (error.message === 'User already exists') {
       return res.status(400).json({ message: 'User already exists' });
     }
-
-    // Hash the password before saving it
-    const saltRounds = 10; // You can adjust this for security/performance
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Create and save the new user
-    const newUser = new User({ username, email, password: hashedPassword }); // Store the hashed password
-    await newUser.save();
-
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (error) {
     console.error('Error registering user:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
 module.exports = router;
-

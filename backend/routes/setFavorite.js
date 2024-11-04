@@ -60,51 +60,31 @@
  */
 
 const express = require("express");
-const UserModel = require("../models/Users"); // Import the User model
+const logger = require("../logger"); // Assuming you have a logger setup
+const { setFavBook } = require("../controllers/userController"); // Import the function from UserController
 const router = express.Router();
-
-// Function to set or unset a favorite book for a user
-async function setFavoriteBook(userId, bookId, isFavorite) {
-  try {
-    const user = await UserModel.findById(userId);
-
-    if (!user) throw new Error("User not found.");
-
-    if (isFavorite) {
-      // Add the book to favorites if not already present
-      if (!user.favoriteBooks.includes(bookId)) {
-        user.favoriteBooks.push(bookId);
-        await user.save();
-        return { message: "Book has been added to favorites." };
-      } else {
-        return { message: "Book is already in favorites." };
-      }
-    } else {
-      // Remove the book from favorites if present
-      user.favoriteBooks = user.favoriteBooks.filter(
-        (favoriteBookId) => !favoriteBookId.equals(bookId)
-      );
-      await user.save();
-      return { message: "Book has been removed from favorites." };
-    }
-  } catch (error) {
-    throw new Error("Error updating favorite status: " + error.message);
-  }
-}
 
 // Route to handle adding/removing favorites
 router.patch("/users/:userId/favorites", async (req, res) => {
   const { userId } = req.params;
   const { bookId, isFavorite } = req.body;
 
+  // Input validation
   if (!bookId || typeof isFavorite !== "boolean") {
+    logger.warn(`Invalid input for userId: ${userId} - bookId: ${bookId}, isFavorite: ${isFavorite}`);
     return res.status(400).json({ message: "Invalid bookId or isFavorite flag." });
   }
 
+  logger.info(`User ${userId} is updating favorites: bookId ${bookId}, isFavorite ${isFavorite}`);
+
   try {
-    const response = await setFavoriteBook(userId, bookId, isFavorite);
-    res.status(200).json(response);
+    const response = await setFavBook(userId, bookId, isFavorite);
+    if (!response.success) {
+      return res.status(400).json({ message: response.message });
+    }
+    res.status(200).json({ message: response.message });
   } catch (error) {
+    logger.error(`Error updating favorite for user ${userId}: ${error.message}`);
     res.status(500).json({ message: error.message });
   }
 });

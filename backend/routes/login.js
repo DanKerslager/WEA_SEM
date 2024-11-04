@@ -61,32 +61,23 @@
  *                   example: "Server error"
  */
 
+// routes/userRoutes.js
 const express = require('express');
-const bcrypt = require('bcrypt'); // Import bcrypt for password comparison
-const User = require('../models/Users'); // Assuming your User model is in the models folder
+const userController = require('../controllers/userController'); // Import the controller
 
 const router = express.Router();
 
 // Login API
-router.post('/', async (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find the user by email
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
-
-    // Compare the provided password with the hashed password in the database
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
-
-    // Login success (For now, you can send the user info back)
-    res.status(200).json({ message: 'Logged in successfully', user: { email: user.email, username: user.username } });
+    const result = await userController.loginUser(email, password);
+    res.status(200).json(result);
   } catch (error) {
+    if (error.message === 'Invalid credentials') {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
     console.error('Error logging in user:', error);
     res.status(500).json({ message: 'Server error' });
   }
