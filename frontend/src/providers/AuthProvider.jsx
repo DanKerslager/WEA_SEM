@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // AKA isLoggedIn
 
   // Simulate loading user data from local storage or an API on mount

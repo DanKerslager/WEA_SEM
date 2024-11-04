@@ -28,15 +28,15 @@ const RegisterForm = ({ setShowRegister }) => {
     let password = data.password;
     const postData = await postRegister({ username, email, password });
     if (postData?.status === 201) {
-      setError(null)
-      setSuccess(postData.data.message)
+      setError(null);
+      setSuccess(postData.data.message);
       return new Promise((resolve) => {
         setTimeout(() => {
           setShowRegister(false);
-          setSuccess(null)
-          resolve()
-        }, 3000)
-      })
+          setSuccess(null);
+          resolve();
+        }, 3000);
+      });
     } else {
       setError(postData.message);
     }

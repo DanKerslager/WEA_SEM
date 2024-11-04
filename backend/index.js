@@ -50,6 +50,7 @@ app.use('/getBooks', addCommentRoute); // The /addcomment route, used to add a c
 
 // Swagger UI setup and route
 const swaggerDocs = require('./swaggerOptions'); // Import the swagger options
+
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Základní routa - logování při přístupu na hlavní stránku

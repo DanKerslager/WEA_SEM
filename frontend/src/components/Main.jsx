@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useColorModeValue, Box, Button, Center } from '@chakra-ui/react';
 import BookPage from './BookPage';
-import BookDetail from './BookDetail'
+import BookDetail from './BookDetail';
 import { usePageContext } from '../providers/AuthProvider';
 // Main react component of the app.
 
@@ -13,8 +13,8 @@ const Main = () => {
   });
   useEffect(() => {
     localStorage.setItem('detail', bookDetail);
-    if(bookId == ''){
-      setBookId(localStorage.getItem('bookId'))
+    if (bookId === '') {
+      setBookId(localStorage.getItem('bookId'));
     }
     const handlePopState = (event) => {
       if (bookDetail) {
@@ -36,8 +36,8 @@ const Main = () => {
   }, [bookDetail]); // Přidání detail do závislostí useEffect
   return (
     <div id='main'>
-        {bookDetail ? 
-        <BookDetail bookId={bookId} setBookDetail={setBookDetail} /> : 
+      {bookDetail ?
+        <BookDetail bookId={bookId} setBookDetail={setBookDetail} /> :
         <BookPage setBookId={setBookId} setBookDetail={setBookDetail} />}
     </div>
   );
