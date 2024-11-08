@@ -25,6 +25,7 @@ const resources = {
       cancel: "Cancel",
       comments: "Comments",
       comment: "Comment",
+      loginToComment: "Please log in to comment",
     }
   },
   cs: {
@@ -47,6 +48,7 @@ const resources = {
       cancel: "Zrušit",
       comments: "Komentáře",
       comment: "Okomentovat",
+      loginToComment: "Pro komentování se prosím přihlašte",
     }
   }
 };

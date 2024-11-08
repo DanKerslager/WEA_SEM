@@ -9,7 +9,7 @@ import {
   onCategoriesOnChange,
   onIsbnOnChange,
 } from '../filter';
-import Pagination from './Pagination';
+
 
 const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
@@ -55,7 +55,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   }, [isbn, authors, categories, title, page]);
 
   return (
-    <>
+    <div id="book-page">
       <Box id="filters" bg={colorMode}>
         <Filter
           onIsbnChange={onIsbnOnChange((e) => {
@@ -83,17 +83,13 @@ const BookPage = ({ setBookId, setBookDetail }) => {
           books={books}
           loading={loading}
           error={error}
+          totalPages={totalPages}
+          page={page}
+          setPage={setPage}
         />
-
-        <Center id="pagination">
-          <Pagination
-            totalPages={totalPages}
-            currentPage={page}
-            onPageChange={setPage}
-          />
-        </Center>
       </div>
-    </>
+
+    </div>
   );
 };
 

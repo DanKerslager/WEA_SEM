@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
 import {
+  Avatar,
   Card,
   CardHeader,
   CardBody,
@@ -44,64 +45,69 @@ const Comments = ({ bookId, comments, commentCreated, setCommentCreated }) => {
       setError(err.message);
     }
   };
-  if (isAuthenticated) {
-    return (
-      <>
-        <Text fontSize="2xl">
-          {t('comments')}: {comments?.length || 0}
-        </Text>
-        {isAuthenticated ? (
-          <form onSubmit={handleSubmit(onSubmit)} id="comment-post">
-            <Textarea
-              id="text"
-              onClick={() => setShowButtons(true)}
-              placeholder="Write a comment"
-              {...register('text', {
-                required: 'Write a comment',
-              })}
-            />
-            {showButtons && (
-              <>
-                <Button
-                  mt={3}
-                  colorScheme="teal"
-                  variant="outline"
-                  type="submit"
-                  isLoading={isSubmitting}
-                >
-                  {t('comment')}
-                </Button>
-                <Button
-                  ml={3}
-                  mt={3}
-                  colorScheme="teal"
-                  variant="outline"
-                  onClick={() => setShowButtons(false)}
-                >
-                  {t('cancel')}
-                </Button>
-              </>
-            )}
-          </form>
-        ) : (
-          <>
-            <p>Sign up to see comments.</p>
-          </>
-        )}
+  return (
+    <>
+      <Text fontSize="2xl">
+        {t('comments')}: {comments?.length || 0}
+      </Text>
+      {isAuthenticated ? (
+        <form onSubmit={handleSubmit(onSubmit)} id="comment-post">
+          <Textarea
+            id="text"
+            onClick={() => setShowButtons(true)}
+            placeholder="Write a comment"
+            {...register('text', {
+              required: 'Write a comment',
+            })}
+          />
+          {showButtons && (
+            <>
+              <Button
+                mt={3}
+                colorScheme="teal"
+                variant="outline"
+                type="submit"
+                isLoading={isSubmitting}
+              >
+                {t('comment')}
+              </Button>
+              <Button
+                ml={3}
+                mt={3}
+                colorScheme="teal"
+                variant="outline"
+                onClick={() => setShowButtons(false)}
+              >
+                {t('cancel')}
+              </Button>
+            </>
+          )}
+        </form>
+      ) : (
+        <div>
+          <p id="login-to-comment">
+            {t('loginToComment')}
+          </p>
+        </div>
+      )}
 
-        <Box id="comments">
-          {comments?.map((comment, index) => (
-            <Box key={index} id="comment">
+      <Box id="comments">
+        {comments?.map((comment, index) => (
+          <Box key={index} id="comment">
+            <div id='comment-header'>
+              <div id='comment-user'>
+                <Avatar size={'sm'} mr={2} src={'https://avatars.dicebear.com/api/male/username.svg'} />
+                <Text as={'span'}>{comment.user}</Text>
+              </div>
               <div>
-                <Text>{comment.user}</Text>
                 <Text>{comment.createdAt}</Text>
               </div>
-              <p>{comment.text}</p>
-            </Box>
-          ))}
-        </Box>
-      </>
-    );
-  }
-};
+            </div>
+            <p>{comment.text}</p>
+          </Box>
+        ))}
+      </Box>
+    </>
+  );
+}
 export default Comments;

@@ -64,13 +64,11 @@
 // routes/userRoutes.js
 const express = require('express');
 const userController = require('../controllers/userController'); // Import the controller
-
 const router = express.Router();
 
 // Login API
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const result = await userController.loginUser(email, password);
     res.status(200).json(result);
