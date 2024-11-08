@@ -50,38 +50,45 @@ const Comments = ({ bookId, comments, commentCreated, setCommentCreated }) => {
         <Text fontSize="2xl">
           {t('comments')}: {comments?.length || 0}
         </Text>
-        <form onSubmit={handleSubmit(onSubmit)} id="comment-post">
-          <Textarea
-            id="text"
-            onClick={() => setShowButtons(true)}
-            placeholder="Write a comment"
-            {...register('text', {
-              required: 'Write a comment',
-            })}
-          />
-          {showButtons && (
-            <>
-              <Button
-                mt={3}
-                colorScheme="teal"
-                variant="outline"
-                type="submit"
-                isLoading={isSubmitting}
-              >
-                {t('comment')}
-              </Button>
-              <Button
-                ml={3}
-                mt={3}
-                colorScheme="teal"
-                variant="outline"
-                onClick={() => setShowButtons(false)}
-              >
-                {t('cancel')}
-              </Button>
-            </>
-          )}
-        </form>
+        {isAuthenticated ? (
+          <form onSubmit={handleSubmit(onSubmit)} id="comment-post">
+            <Textarea
+              id="text"
+              onClick={() => setShowButtons(true)}
+              placeholder="Write a comment"
+              {...register('text', {
+                required: 'Write a comment',
+              })}
+            />
+            {showButtons && (
+              <>
+                <Button
+                  mt={3}
+                  colorScheme="teal"
+                  variant="outline"
+                  type="submit"
+                  isLoading={isSubmitting}
+                >
+                  {t('comment')}
+                </Button>
+                <Button
+                  ml={3}
+                  mt={3}
+                  colorScheme="teal"
+                  variant="outline"
+                  onClick={() => setShowButtons(false)}
+                >
+                  {t('cancel')}
+                </Button>
+              </>
+            )}
+          </form>
+        ) : (
+          <>
+            <p>Sign up to see comments.</p>
+          </>
+        )}
+
         <Box id="comments">
           {comments?.map((comment, index) => (
             <Box key={index} id="comment">
@@ -95,12 +102,6 @@ const Comments = ({ bookId, comments, commentCreated, setCommentCreated }) => {
         </Box>
       </>
     );
-  } else {
-    return (
-      <>
-        <p>Sign up to see comments.</p>
-      </>
-    );
-  };
+  }
 };
 export default Comments;
