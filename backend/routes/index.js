@@ -9,6 +9,7 @@ const registerRoute = require("./register");
 const loginRoute = require("./login");
 const addCommentRoute = require("./addComment");
 const setFavoriteRoute = require("./setFavorite");
+const addRatingRoute = require("./addRating");
 
 // Function to initialize all routes
 const initializeRoutes = (app) => {
@@ -19,6 +20,7 @@ const initializeRoutes = (app) => {
   app.use("/login", loginRoute);                 // Login a user
   app.use("/getBooks", addCommentRoute);         // Add a comment to a book
   app.use("/setFavorite", setFavoriteRoute);     // Set a book as favorite
+  app.use("/getBooks", addRatingRoute);          // Add a rating to a book
 };
 
 module.exports = initializeRoutes;
