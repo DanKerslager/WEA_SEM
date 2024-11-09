@@ -33,12 +33,20 @@
  *                 user:
  *                   type: object
  *                   properties:
+ *                     userId:
+ *                       type: string
+ *                       example: "605c72d7e25e5c23a8a5f2b4"
  *                     email:
  *                       type: string
  *                       example: john@example.com
  *                     username:
  *                       type: string
  *                       example: john_doe
+ *                     favorites:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                       description: List of favorite book IDs
  *       400:
  *         description: Invalid credentials
  *         content:
@@ -63,7 +71,8 @@
 
 // routes/userRoutes.js
 const express = require('express');
-const userController = require('../controllers/userController'); // Import the controller
+const userController = require('../controllers/userController');
+
 const router = express.Router();
 
 // Login API
@@ -82,3 +91,4 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
+
