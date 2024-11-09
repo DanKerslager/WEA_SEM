@@ -35,8 +35,18 @@ const loginUser = async (email, password) => {
     throw new Error('Invalid credentials');
   }
 
-  return { message: 'Logged in successfully', user: { email: user.email, username: user.username } };
+  // Return the user data with favorites and user ID
+  return {
+    message: 'Logged in successfully',
+    user: {
+      userId: user._id,
+      email: user.email,
+      username: user.username,
+      favorites: user.favoriteBooks, // Assuming 'favoriteBooks' is an array in the user schema
+    },
+  };
 };
+
 
 // Function to set or unset a favorite book for a user and return the updated favorites
 const setFavBook = async (userId, bookId, isFavorite) => {
