@@ -14,6 +14,7 @@ import Pagination from './Pagination';
 import { setFavorite } from '../api';
 import { useAuth } from '../providers/AuthProvider';
 import { useState, useEffect } from 'react';
+import { rateBook } from '../api';
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages, page, setPage }) => {
   const { t } = useTranslation();
@@ -37,7 +38,19 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
       console.error("Failed to update favorite status:", error);
     }
   }
- 
+  const giveStarRating = async (nextValue, bookId) => {
+    try { 
+      setRating(nextValue);
+      const response = await rateBook({ user: user.username, bookId, rating: nextValue });
+      console.log(response);
+    } catch (error) {
+      console.error("Failed to update rating:", error);
+    }
+  }
+  useEffect(() => {
+    console.log('Rating is:', rating);
+  }
+  , [rating]);
 
 
   if (loading) {
@@ -101,6 +114,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                     }}
                   >
                     <Rating
+                      initialValue={ book?.user_ratings?.find((userRating) => userRating?.user === user?.username)?.rating}                      
                       fillColorArray={[
                         '#f14f45',
                         '#f16c45',
@@ -109,7 +123,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                         '#f1d045'
                       ]}
                       SVGstyle={{ 'display': 'inline' }}
-                      onClick={(rate) => console.log(rate)}
+                      onClick={async(value) => await giveStarRating(value, book._id)}
 
                     />
                   </div>

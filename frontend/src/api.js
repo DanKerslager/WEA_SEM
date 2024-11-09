@@ -104,7 +104,24 @@ export const setFavorite = async(userParams) => {
     return response.data;
   } catch (error) {
     // Vrátíme chybu, pokud k ní dojde
-    console.error("Error during setting favourite:", error.response || error.message);
+    console.error("Error during setting favourite:", error);
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
 };
+
+export const rateBook = async(userParams) => {
+  const { user, bookId, rating } = userParams;
+  let link = `${BASE_URL}/getBooks/${bookId}/ratings`;
+  try {
+    const response = await axios.post(link, {
+      user,
+      rating
+    });
+    // Vrátíme response data
+    return response.data;
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during rating book:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
+}
