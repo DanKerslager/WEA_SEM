@@ -31,7 +31,7 @@ exports.addCommentToBook = async (req, res) => {
   }
 };
 
-// Controller function to add a rating to a specific book
+// Controller function to add or update a rating for a specific book
 exports.addRatingToBook = async (req, res) => {
   const { id } = req.params;
   const { rating, user } = req.body;
@@ -46,22 +46,29 @@ exports.addRatingToBook = async (req, res) => {
       return res.status(404).json({ message: 'Book not found' });
     }
 
-    // Create a new rating object
-    const newRating = { rating, user, createdAt: new Date() };
-    book.user_ratings.push(newRating);
+    // Find if the user already has a rating for this book
+    const existingRating = book.user_ratings.find(r => r.user === user);
 
-    // Update the average rating and ratings count using the schema method
-    book.updateAverageAndCount();
+    if (existingRating) {
+      // Update the existing rating
+      existingRating.rating = rating;
+      existingRating.createdAt = new Date(); // Update the timestamp if needed
+    } else {
+      // Create a new rating object and add it if the user hasn't rated yet
+      const newRating = { rating, user, createdAt: new Date() };
+      book.user_ratings.push(newRating);
+    }
 
-    // Save the updated book document
+    // Save the updated book document, triggering the pre-save hook
     await book.save();
 
-    res.status(201).json(book); // Return the updated book with the new rating
+    res.status(201).json(book); // Return the updated book with the new or updated rating
   } catch (error) {
     logger.error('Error in addRatingToBook controller:', error.message);
-    res.status(500).json({ message: 'Failed to add rating', details: error.message });
+    res.status(500).json({ message: 'Failed to add or update rating', details: error.message });
   }
 };
+
 
 // Controller function for getting book details by ID
 exports.getBookDetailsById = async (req, res) => {
