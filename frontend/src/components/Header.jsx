@@ -76,10 +76,10 @@ const Header = () => {
                       </Center>
                       <br />
                       <Center>
-                        <p>{user.username}</p>
+                        <p>{user?.username}</p>
                       </Center>
                       <Center>
-                        <p>{user.email}</p>
+                        <p>{user?.email}</p>
                       </Center>
                       <br />
                       <MenuDivider />

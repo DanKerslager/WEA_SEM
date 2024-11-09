@@ -1,7 +1,7 @@
 // controllers/userController.js
 const bcrypt = require('bcrypt');
 const User = require('../models/Users'); // Assuming your User model is in the models folder
-
+const mongoose = require("mongoose");
 // Function to register a new user
 const registerUser = async (username, email, password) => {
   // Check if the user already exists
@@ -51,7 +51,7 @@ const loginUser = async (email, password) => {
 // Function to set or unset a favorite book for a user and return the updated favorites
 const setFavBook = async (userId, bookId, isFavorite) => {
   try {
-    const user = await UserModel.findById(userId);
+    const user = await User.findById(userId);
 
     if (!user) {
       return { success: false, message: "User not found." };

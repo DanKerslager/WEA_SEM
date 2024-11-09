@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
   // Context value to pass down to components
   const authContextValue = {
     user,
+    setUser,
     isAuthenticated,
     login,
     logout,

@@ -102,7 +102,7 @@ exports.getBooks = async (req, res) => {
     let author = req.query.author;
     let categories = req.query.categories;
     let title = req.query.title;
-
+    let favorites = req.query.favorites;
     // Filter parameter object carrying the filter values
     let filter = {};
     if (isbn) {
@@ -117,7 +117,10 @@ exports.getBooks = async (req, res) => {
     if (title) {
       filter.title = { $regex: title, $options: 'i' }; // Title filtration (case-insensitive)
     }
-
+    if(favorites){
+      let parsedFavorites = JSON.parse(favorites);
+      filter._id = { $in: parsedFavorites  };
+    }  
     // Paging calculation
     const skip = (page - 1) * limit;
 
@@ -125,7 +128,6 @@ exports.getBooks = async (req, res) => {
     let bookArray = await BookModel.find(filter).skip(skip).limit(limit);
     // Total number of pages, gets updated by the filter
     const totalBooks = await BookModel.countDocuments(filter); // Updated to use the filter correctly
-
     res.status(200).json({
       totalBooks,
       totalPages: Math.ceil(totalBooks / limit),

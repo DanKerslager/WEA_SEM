@@ -8,7 +8,7 @@ const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8002`
  * @returns filtered books
  */
 export const fetchBooks = async (filterParams) => {
-  const { isbn, authors, categories, title, page, limit } = filterParams;
+  const { isbn, authors, categories, title, page, limit, favorites } = filterParams;
   let link = `${BASE_URL}/getBooks?`;
   const encodedIsbn = encodeURIComponent(isbn);
   const encodedAuthors = encodeURIComponent(authors);
@@ -18,6 +18,7 @@ export const fetchBooks = async (filterParams) => {
   if (authors !== '') link += `author=${encodedAuthors}&`;
   if (categories !== '') link += `categories=${encodedCategories}&`;
   if (title !== '') link += `title=${encodedTitle}&`;
+  if (favorites.length > 0) link += `favorites=${JSON.stringify(favorites)}&`;
   link += `page=${page}&limit=${limit}&`;
   try {
     const response = await axios.get(link);
@@ -87,5 +88,23 @@ export const createComment = async(userParams) => {
     // Vrátíme chybu, pokud k ní dojde
     console.error("Error during comment post:", error);
     return error.response ? error.response.data : { message: 'Unknown Error' };
+  }
+};
+export const setFavorite = async(userParams) => {
+
+  const { userId, bookId, isFavorite } = userParams;
+  let link = `${BASE_URL}/setFavorite/users/${userId}/favorites`;
+  try {
+    console.log(userId);
+    const response = await axios.patch(link, {
+      bookId,
+      isFavorite
+    });
+    // Vrátíme response data
+    return response.data;
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during setting favourite:", error.response || error.message);
+    return error.response ? error.response.data : { message: 'Unknown error' };
   }
 };

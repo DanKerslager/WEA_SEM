@@ -11,15 +11,33 @@ import { SemipolarSpinner } from 'react-epic-spinners';
 import { usePageContext } from '../providers/AuthProvider';
 import { Rating } from 'react-simple-star-rating';
 import Pagination from './Pagination';
-import { useState } from 'react';
+import { setFavorite } from '../api';
+import { useAuth } from '../providers/AuthProvider';
+import { useState, useEffect } from 'react';
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages, page, setPage }) => {
   const { t } = useTranslation();
-
+  const { user, setUser, isAuthenticated } = useAuth();
   //test
   const [rating, setRating] = useState(0)
-
-
+  const setFavorites = async (bookId, isFavourite) => {
+    try {
+      const response = await setFavorite({ userId: user.userId, bookId, isFavorite: isFavourite });
+      setUser((prevUser) => {
+        const updatedFavorites = isFavourite
+          ? [...prevUser.favorites, bookId]
+          : prevUser.favorites.filter(favId => favId !== bookId);
+        
+        const updatedUser = { ...prevUser, favorites: updatedFavorites };
+        // Update local storage after updating the user
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        return updatedUser;
+      });
+    } catch (error) {
+      console.error("Failed to update favorite status:", error);
+    }
+  }
+ 
 
 
   if (loading) {
@@ -69,30 +87,48 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
 
                 </div>
               </Box>
-              <Text style={{textAlign: 'center'}}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
-              <div
-                style={{
-                  display: 'inline-block',
-                  textAlign: 'center',
-                  direction: 'ltr',
-                  fontFamily: 'sans-serif',
-                  touchAction: 'none'
-                }}
-              >
-                <Rating
-                fillColorArray={[
-                  '#f14f45',
-                  '#f16c45',
-                  '#f18845',
-                  '#f1b345',
-                  '#f1d045'
-                ]}
-                  SVGstyle={{'display': 'inline'}}
-                  onClick={(rate) => console.log(rate)}
-                  
-                />
-              </div>
-              <Button id='view' colorScheme="red" size="sm">Add to favourite</Button>
+              <Text style={{ textAlign: 'center' }}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
+
+              {isAuthenticated && (
+                <>
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      textAlign: 'center',
+                      direction: 'ltr',
+                      fontFamily: 'sans-serif',
+                      touchAction: 'none'
+                    }}
+                  >
+                    <Rating
+                      fillColorArray={[
+                        '#f14f45',
+                        '#f16c45',
+                        '#f18845',
+                        '#f1b345',
+                        '#f1d045'
+                      ]}
+                      SVGstyle={{ 'display': 'inline' }}
+                      onClick={(rate) => console.log(rate)}
+
+                    />
+                  </div>
+                  {user?.favorites?.includes(book._id) ? (
+                    <Button id='view' colorScheme="red" size="sm" onClick={async () => {
+                      const response = await setFavorites(book._id, false);
+                      console.log(response);
+                    }}>Remove</Button>
+
+                  ) : (
+                    <Button id='view' colorScheme="teal" size="sm" onClick={async () => {
+                      const response = await setFavorites(book._id, true);
+                      console.log(response);
+                    }}>Add to favourite</Button>
+                  )}
+
+                </>
+              )}
+
             </>
           ))}
       </div>

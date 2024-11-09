@@ -69,7 +69,6 @@ const router = express.Router();
 router.patch("/users/:userId/favorites", async (req, res) => {
   const { userId } = req.params;
   const { bookId, isFavorite } = req.body;
-
   // Input validation
   if (!bookId || typeof isFavorite !== "boolean") {
     logger.warn(`Invalid input for userId: ${userId} - bookId: ${bookId}, isFavorite: ${isFavorite}`);
