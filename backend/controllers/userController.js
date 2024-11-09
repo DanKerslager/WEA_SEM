@@ -38,7 +38,7 @@ const loginUser = async (email, password) => {
   return { message: 'Logged in successfully', user: { email: user.email, username: user.username } };
 };
 
-// Function to set or unset a favorite book for a user
+// Function to set or unset a favorite book for a user and return the updated favorites
 const setFavBook = async (userId, bookId, isFavorite) => {
   try {
     const user = await UserModel.findById(userId);
@@ -52,9 +52,17 @@ const setFavBook = async (userId, bookId, isFavorite) => {
       if (!user.favoriteBooks.includes(bookId)) {
         user.favoriteBooks.push(bookId);
         await user.save();
-        return { success: true, message: "Book has been added to favorites." };
+        return {
+          success: true,
+          message: "Book has been added to favorites.",
+          favorites: user.favoriteBooks,
+        };
       } else {
-        return { success: false, message: "Book is already in favorites." };
+        return {
+          success: false,
+          message: "Book is already in favorites.",
+          favorites: user.favoriteBooks,
+        };
       }
     } else {
       // Remove the book from favorites if present
@@ -62,12 +70,21 @@ const setFavBook = async (userId, bookId, isFavorite) => {
         (favoriteBookId) => !favoriteBookId.equals(bookId)
       );
       await user.save();
-      return { success: true, message: "Book has been removed from favorites." };
+      return {
+        success: true,
+        message: "Book has been removed from favorites.",
+        favorites: user.favoriteBooks,
+      };
     }
   } catch (error) {
-    return { success: false, message: "Error updating favorite status: " + error.message };
+    return {
+      success: false,
+      message: "Error updating favorite status: " + error.message,
+      favorites: [],
+    };
   }
 };
+
 
 // Export the controller functions
 module.exports = {

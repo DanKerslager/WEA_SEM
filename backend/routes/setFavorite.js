@@ -80,13 +80,18 @@ router.patch("/users/:userId/favorites", async (req, res) => {
 
   try {
     const response = await setFavBook(userId, bookId, isFavorite);
+
     if (!response.success) {
-      return res.status(400).json({ message: response.message });
+      return res.status(400).json({ message: response.message, favorites: response.favorites });
     }
-    res.status(200).json({ message: response.message });
+
+    res.status(200).json({
+      message: response.message,
+      favorites: response.favorites,
+    });
   } catch (error) {
     logger.error(`Error updating favorite for user ${userId}: ${error.message}`);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Error updating favorite status.", details: error.message });
   }
 });
 
