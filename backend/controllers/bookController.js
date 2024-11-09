@@ -31,6 +31,38 @@ exports.addCommentToBook = async (req, res) => {
   }
 };
 
+// Controller function to add a rating to a specific book
+exports.addRatingToBook = async (req, res) => {
+  const { id } = req.params;
+  const { rating, user } = req.body;
+
+  try {
+    // Find the book by ID
+    const book = await BookModel.findById(id);
+
+    // Check if the book exists
+    if (!book) {
+      logger.warn(`Book with ID ${id} not found.`);
+      return res.status(404).json({ message: 'Book not found' });
+    }
+
+    // Create a new rating object
+    const newRating = { rating, user, createdAt: new Date() };
+    book.user_ratings.push(newRating);
+
+    // Update the average rating and ratings count using the schema method
+    book.updateAverageAndCount();
+
+    // Save the updated book document
+    await book.save();
+
+    res.status(201).json(book); // Return the updated book with the new rating
+  } catch (error) {
+    logger.error('Error in addRatingToBook controller:', error.message);
+    res.status(500).json({ message: 'Failed to add rating', details: error.message });
+  }
+};
+
 // Controller function for getting book details by ID
 exports.getBookDetailsById = async (req, res) => {
   const { id } = req.params;

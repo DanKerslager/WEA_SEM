@@ -2,5 +2,4 @@ logs
 mongo-data
 node_modules
 *.csv
-config.env
 /mocks
