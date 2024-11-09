@@ -15,9 +15,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
   // Filtering variables for the book fetch.
   const [books, setBooks] = useState([]);
-  const [page, setPage] = useState(() => {
-    return lastPage || 1;
-  });
+  const [page, setPage] = useState(lastPage || 1);
   const [totalPages, setTotalPages] = useState(1);
   const [isbn, setIsbn] = useState('');
   const [authors, setAuthors] = useState('');
@@ -76,6 +74,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
           })}
         />
       </Box>
+      {console.log(page)}
       <div id="books">
         <BookList
           setBookId={setBookId}

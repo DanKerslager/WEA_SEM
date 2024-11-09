@@ -35,7 +35,7 @@ const loginUser = async (email, password) => {
     throw new Error('Invalid credentials');
   }
 
-  return { message: 'Logged in successfully', user: { email: user.email, username: user.username } };
+  return { message: 'Logged in successfully', user: { email: user.email, username: user.username, } };
 };
 
 // Function to set or unset a favorite book for a user

@@ -13,7 +13,7 @@ const addRatingRoute = require("./addRating");
 
 // Function to initialize all routes
 const initializeRoutes = (app) => {
-  app.use("/getBooks", getBooksRoute);          // Retrieve books
+  app.use("/getBooks", getBooksRoute);           // Retrieve books
   app.use("/getBooks", getBooksDetailRoute);     // Retrieve book detail
   app.use("/data", dataImportRoute);             // Import books into the database
   app.use("/register", registerRoute);           // Register a new user

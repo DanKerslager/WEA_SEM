@@ -3,9 +3,8 @@ import { Button } from '@chakra-ui/react';
 
 const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   const maxVisiblePages = 6;
-
-    const startPage = Math.max(2, currentPage - Math.floor(maxVisiblePages / 2));
-    const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1);
+  const startPage = Math.max(2, currentPage - Math.floor(maxVisiblePages / 2));
+  const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1);
 
   const visiblePages = [];
   for (let i = startPage; i <= endPage; i++) {
@@ -15,6 +14,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     return (
         <div className="pagination">
             {/* Previous Button */}
+            {console.log(currentPage)}
             <Button
                 mr={1}
                 colorScheme='teal'
@@ -27,20 +27,21 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
                 mr={1}
                 colorScheme='teal'
                 onClick={() => onPageChange(1)}
-                className={currentPage === 1 ? 'active' : ''}
+                disabled={currentPage === 1}
             >
                 1
             </Button>
             {/* Ellipsis after the first page if necessary */}
             {startPage > 2 && <span>...</span>}
             {/* Page Number Buttons */}
+            {/*console.log(currentPage === page)*/}
             {visiblePages.map((page) => (
                 <Button
                     mr={1}
                     colorScheme='teal'
                     key={page}
                     onClick={() => onPageChange(page)}
-                    className={currentPage === page ? 'active' : ''}
+                    disabled={currentPage === page}
                 >
                     {page}
                 </Button>
@@ -51,7 +52,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
 
             {/* Last Page Button */}
             {endPage < totalPages && (
-                <Button ml={1} mr={1} colorScheme='teal' onClick={() => onPageChange(totalPages)}>
+                <Button ml={1} mr={1} colorScheme='teal' onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages}>
                     {totalPages}
                 </Button>
             )}
