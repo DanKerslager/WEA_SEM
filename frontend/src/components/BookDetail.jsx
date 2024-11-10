@@ -27,7 +27,8 @@ const BookDetail = ({ bookId, setBookDetail }) => {
   const { t } = useTranslation();
   const colorMode = useColorModeValue('gray.100', 'gray.700');
   //Get data from Cookies
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+  const isFavorited = user?.favorites?.find(favoriteId => favoriteId === bookId);
   const loadBookDetailData = async () => {
     setError(null);
     try {
@@ -48,7 +49,8 @@ const BookDetail = ({ bookId, setBookDetail }) => {
           bg={colorMode}
         >
           <Box id="title-and-back-button">
-            {book.available ? (<Heading>{book.title}</Heading>) : (<Text>{t('bookDetailUnavailable')}</Text>)}
+            
+            {(book.available ||  isFavorited) ? (<Heading>{book.title}</Heading>) : (<Text>{t('bookDetailUnavailable')}</Text>)}
             <Button
               colorScheme="red"
               variant="outline"
@@ -58,7 +60,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
             </Button>
           </Box>
           
-          {book.available && (
+          {(book.available || isFavorited) && (
             <>
               <br />
               <Box id="book-detail-content-essentials">
