@@ -101,30 +101,31 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                 </div>
               </Box>
               <Text style={{ textAlign: 'center' }}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
-              {isAuthenticated && (
+
+              <div
+                style={{
+                  display: 'inline-block',
+                  textAlign: 'center',
+                  direction: 'ltr',
+                  fontFamily: 'sans-serif',
+                  touchAction: 'none'
+                }}
+              >
+                <Rating
+                  initialValue={book?.user_ratings?.find((userRating) => userRating?.user === user?.username)?.rating}
+                  fillColorArray={[
+                    '#f14f45',
+                    '#f16c45',
+                    '#f18845',
+                    '#f1b345',
+                    '#f1d045'
+                  ]}
+                  SVGstyle={{ 'display': 'inline' }}
+                  onClick={async (value) => await giveStarRating(value, book._id)}
+                />
+              </div>
+              {isAuthenticated && book.available && (
                 <>
-                  <div
-                    style={{
-                      display: 'inline-block',
-                      textAlign: 'center',
-                      direction: 'ltr',
-                      fontFamily: 'sans-serif',
-                      touchAction: 'none'
-                    }}
-                  >
-                    <Rating
-                      initialValue={book?.user_ratings?.find((userRating) => userRating?.user === user?.username)?.rating}
-                      fillColorArray={[
-                        '#f14f45',
-                        '#f16c45',
-                        '#f18845',
-                        '#f1b345',
-                        '#f1d045'
-                      ]}
-                      SVGstyle={{ 'display': 'inline' }}
-                      onClick={async (value) => await giveStarRating(value, book._id)}
-                    />
-                  </div>
                   {user?.favorites?.includes(book._id) ? (
                     <Button id='view' colorScheme="red" size="sm" onClick={async () => {
                       await setFavorites(book._id, false);
@@ -136,7 +137,6 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                   )}
                 </>
               )}
-
             </>
           ))}
       </div>

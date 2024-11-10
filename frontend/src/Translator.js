@@ -26,6 +26,7 @@ const resources = {
       comments: "Comments",
       comment: "Comment",
       loginToComment: "Please log in to comment",
+      bookDetailUnavailable: "Book is currently unavailable",
     }
   },
   cs: {
@@ -49,6 +50,7 @@ const resources = {
       comments: "Komentáře",
       comment: "Okomentovat",
       loginToComment: "Pro komentování se prosím přihlašte",
+      bookDetailUnavailable: "Kniha není k dispozici",
     }
   }
 };
