@@ -27,8 +27,8 @@ const BookPage = ({ setBookId, setBookDetail }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { user, setUser } = useAuth();
-  
+  const { user, setUser, isAuthenticated } = useAuth();
+
   const favorites = showFavorites ? user?.favorites : [];
   const limit = 10;
   const colorMode = useColorModeValue('green.300', 'green.800');
@@ -37,7 +37,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const loadBooksData = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const data = await fetchBooks({
         isbn,
@@ -85,14 +85,17 @@ const BookPage = ({ setBookId, setBookDetail }) => {
         />
       </Box>
       <div id="books">
-        <div id="filter-buttons">
-        <Button mr={6} colorScheme='red' onClick={() => {if(showFavorites){setShowFavorites(false); setShowHidden(false); return} setShowFavorites(true); setShowHidden(true);  setPage(1);}}>
-          {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
-        </Button>
-        <Button colorScheme='teal' onClick={() => {setShowHidden(!showHidden); setPage(1);}} disabled={showFavorites === true}>
-          {showHidden ? 'Show Available' : 'Show Hidden'}
-        </Button>
-        </div>
+        {isAuthenticated && (
+          <div id="filter-buttons">
+            <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return } setShowFavorites(true); setShowHidden(true); setPage(1); }}>
+              {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
+            </Button>
+            <Button colorScheme='teal' onClick={() => { setShowHidden(!showHidden); setPage(1); }} disabled={showFavorites === true}>
+              {showHidden ? 'Show Available' : 'Show Hidden'}
+            </Button>
+          </div>
+        )}
+
         {showFavorites && favorites.length === 0 ? (
           <Center>No book has been favorited yet.</Center>
         ) : (

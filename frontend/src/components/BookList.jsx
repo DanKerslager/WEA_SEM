@@ -125,15 +125,18 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                     />
                   </div>
                 )}
-
-                {user?.favorites?.includes(book._id) ? (
-                  <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => {
-                    await setFavorites(book._id, false);
-                  }}>Remove</Button>
-                ) : (
-                  <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => {
-                    await setFavorites(book._id, true);
-                  }}>Add to favourite</Button>
+                {isAuthenticated && (
+                  <>
+                    {user?.favorites?.includes(book._id) ? (
+                      <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => {
+                        await setFavorites(book._id, false);
+                      }}>Remove</Button>
+                    ) : (
+                      <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => {
+                        await setFavorites(book._id, true);
+                      }}>Add to favourite</Button>
+                    )}
+                  </>
                 )}
               </div>
             </Box>
