@@ -71,7 +71,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
         {!loading &&
           !error &&
           books.map((book) => (
-            <>
+            <Box borderRadius="lg" borderWidth="1px">
               <Box
                 onClick={() => {
                   setBookDetail(true);
@@ -80,7 +80,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                 }}
                 id="book-card"
                 //borderWidth="1px"
-                borderRadius="lg"
+
                 overflow="hidden"
                 key={book._id}
               >
@@ -99,43 +99,44 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                 </div>
               </Box>
               <Text style={{ textAlign: 'center' }}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
-
-              <div
-                style={{
-                  display: 'inline-block',
-                  textAlign: 'center',
-                  direction: 'ltr',
-                  fontFamily: 'sans-serif',
-                  touchAction: 'none'
-                }}
-              >
-                <Rating
-                  initialValue={book?.user_ratings?.find((userRating) => userRating?.user === user?.username)?.rating}
-                  fillColorArray={[
-                    '#f14f45',
-                    '#f16c45',
-                    '#f18845',
-                    '#f1b345',
-                    '#f1d045'
-                  ]}
-                  SVGstyle={{ 'display': 'inline' }}
-                  onClick={async (value) => await giveStarRating(value, book._id)}
-                />
+              <div id='favorite-rating'>
+                <div
+                  style={{
+                    display: 'inline-block',
+                    textAlign: 'center',
+                    direction: 'ltr',
+                    fontFamily: 'sans-serif',
+                    touchAction: 'none'
+                  }}
+                >
+                  <Rating
+                    initialValue={book?.user_ratings?.find((userRating) => userRating?.user === user?.username)?.rating}
+                    fillColorArray={[
+                      '#f14f45',
+                      '#f16c45',
+                      '#f18845',
+                      '#f1b345',
+                      '#f1d045'
+                    ]}
+                    SVGstyle={{ 'display': 'inline' }}
+                    onClick={async (value) => await giveStarRating(value, book._id)}
+                  />
+                </div>
+                {isAuthenticated && book.available && (
+                  <>
+                    {user?.favorites?.includes(book._id) ? (
+                      <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => {
+                        await setFavorites(book._id, false);
+                      }}>Remove</Button>
+                    ) : (
+                      <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => {
+                        await setFavorites(book._id, true);
+                      }}>Add to favourite</Button>
+                    )}
+                  </>
+                )}
               </div>
-              {isAuthenticated && book.available && (
-                <>
-                  {user?.favorites?.includes(book._id) ? (
-                    <Button id='view' colorScheme="red" size="sm" onClick={async () => {
-                      await setFavorites(book._id, false);
-                    }}>Remove</Button>
-                  ) : (
-                    <Button id='view' colorScheme="teal" size="sm" onClick={async () => {
-                      await setFavorites(book._id, true);
-                    }}>Add to favourite</Button>
-                  )}
-                </>
-              )}
-            </>
+            </Box>
           ))}
       </div>
       <Center id="pagination">

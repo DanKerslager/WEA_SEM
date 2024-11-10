@@ -204,3 +204,9 @@ footer {
 .pagination {
   margin-top: 5px;
 }
+#favorite-rating{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
