@@ -9,7 +9,7 @@ const registerRoute = require("./register");
 const loginRoute = require("./login");
 const addCommentRoute = require("./addComment");
 const setFavoriteRoute = require("./setFavorite");
-const addRatingRoute = require("./addrating");
+const addRatingRoute = require("./addRating");
 
 // Function to initialize all routes
 const initializeRoutes = (app) => {
