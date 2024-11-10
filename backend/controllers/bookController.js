@@ -1,6 +1,7 @@
 // controllers/bookController.js
 const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger'); // Import the logger
+const e = require('express');
 
 // Controller funkce pro přidání komentáře ke konkrétní knize
 exports.addCommentToBook = async (req, res) => {
@@ -58,7 +59,6 @@ exports.addRatingToBook = async (req, res) => {
       const newRating = { rating, user, createdAt: new Date() };
       book.user_ratings.push(newRating);
     }
-
     // Save the updated book document, triggering the pre-save hook
     await book.save();
 
@@ -103,6 +103,7 @@ exports.getBooks = async (req, res) => {
     let categories = req.query.categories;
     let title = req.query.title;
     let favorites = req.query.favorites;
+    let showHidden = req.query.showHidden;
     // Filter parameter object carrying the filter values
     let filter = {};
     if (isbn) {
@@ -120,7 +121,14 @@ exports.getBooks = async (req, res) => {
     if(favorites){
       let parsedFavorites = JSON.parse(favorites);
       filter._id = { $in: parsedFavorites  };
-    }  
+    }
+    if(showHidden){
+      let parsedShowHidden = JSON.parse(showHidden);
+      console.log(parsedShowHidden);
+      if(parsedShowHidden === false){
+        filter.available = true;
+      }
+    } 
     // Paging calculation
     const skip = (page - 1) * limit;
 

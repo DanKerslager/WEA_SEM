@@ -23,21 +23,21 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const [categories, setCategories] = useState('');
   const [title, setTitle] = useState('');
   const [showFavorites, setShowFavorites] = useState(false);
-  const [showAvailable, setShowAvailable] = useState(false);
+  const [showHidden, setShowHidden] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { user, setUser } = useAuth();
+  
   const favorites = showFavorites ? user?.favorites : [];
   const limit = 10;
   const colorMode = useColorModeValue('green.300', 'green.800');
-
 
   // Function to fetch books data from the backend.
   const loadBooksData = async () => {
     setLoading(true);
     setError(null);
-
+    
     try {
       const data = await fetchBooks({
         isbn,
@@ -46,7 +46,8 @@ const BookPage = ({ setBookId, setBookDetail }) => {
         title,
         page,
         limit,
-        favorites
+        favorites,
+        showHidden,
       });
       localStorage.setItem('lastPage', page);
       setBooks(data.bookArray);
@@ -58,8 +59,9 @@ const BookPage = ({ setBookId, setBookDetail }) => {
     }
   };
   useEffect(() => {
+    console.log(showHidden);
     loadBooksData();
-  }, [isbn, authors, categories, title, page, showFavorites]);
+  }, [isbn, authors, categories, title, page, showFavorites, showHidden]);
 
   return (
     <div id="book-page">
@@ -84,11 +86,11 @@ const BookPage = ({ setBookId, setBookDetail }) => {
         />
       </Box>
       <div id="books">
-        <Button colorMode={'teal'} onClick={() => {setShowFavorites(!showFavorites); setPage(1);}}>
+        <Button colorMode={'teal'} onClick={() => {if(showFavorites){setShowFavorites(false); setShowHidden(false); return} setShowFavorites(true); setShowHidden(true);  setPage(1);}}>
           {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
         </Button>
-        <Button colorMode={'teal'} onClick={() => setShowAvailable(!showAvailable)}>
-          {showAvailable ? 'Show Available' : 'Show Hidden'}
+        <Button colorMode={'teal'} onClick={() => {setShowHidden(!showHidden); setPage(1);}} disabled={showFavorites === true}>
+          {showHidden ? 'Show Available' : 'Show Hidden'}
         </Button>
         {console.log(favorites.length === 0)}
         {showFavorites && favorites.length === 0 ? (

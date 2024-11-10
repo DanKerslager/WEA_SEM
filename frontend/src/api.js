@@ -8,7 +8,7 @@ const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8002`
  * @returns filtered books
  */
 export const fetchBooks = async (filterParams) => {
-  const { isbn, authors, categories, title, page, limit, favorites } = filterParams;
+  const { isbn, authors, categories, title, page, limit, favorites, showHidden } = filterParams;
   let link = `${BASE_URL}/getBooks?`;
   const encodedIsbn = encodeURIComponent(isbn);
   const encodedAuthors = encodeURIComponent(authors);
@@ -19,6 +19,7 @@ export const fetchBooks = async (filterParams) => {
   if (categories !== '') link += `categories=${encodedCategories}&`;
   if (title !== '') link += `title=${encodedTitle}&`;
   if (favorites.length > 0) link += `favorites=${JSON.stringify(favorites)}&`;
+  if (showHidden !== '') link += `showHidden=${JSON.stringify(showHidden)}&`;
   link += `page=${page}&limit=${limit}&`;
   try {
     const response = await axios.get(link);

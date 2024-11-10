@@ -28,7 +28,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
         const updatedFavorites = isFavourite
           ? [...prevUser.favorites, bookId]
           : prevUser.favorites.filter(favId => favId !== bookId);
-        
+
         const updatedUser = { ...prevUser, favorites: updatedFavorites };
         // Update local storage after updating the user
         localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -39,7 +39,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
     }
   }
   const giveStarRating = async (nextValue, bookId) => {
-    try { 
+    try {
       setRating(nextValue);
       const response = await rateBook({ user: user.username, bookId, rating: nextValue });
       console.log(response);
@@ -50,7 +50,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
   useEffect(() => {
     console.log('Rating is:', rating);
   }
-  , [rating]);
+    , [rating]);
 
 
   if (loading) {
@@ -101,7 +101,6 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                 </div>
               </Box>
               <Text style={{ textAlign: 'center' }}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
-
               {isAuthenticated && (
                 <>
                   <div
@@ -114,7 +113,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                     }}
                   >
                     <Rating
-                      initialValue={ book?.user_ratings?.find((userRating) => userRating?.user === user?.username)?.rating}                      
+                      initialValue={book?.user_ratings?.find((userRating) => userRating?.user === user?.username)?.rating}
                       fillColorArray={[
                         '#f14f45',
                         '#f16c45',
@@ -123,23 +122,18 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                         '#f1d045'
                       ]}
                       SVGstyle={{ 'display': 'inline' }}
-                      onClick={async(value) => await giveStarRating(value, book._id)}
-
+                      onClick={async (value) => await giveStarRating(value, book._id)}
                     />
                   </div>
                   {user?.favorites?.includes(book._id) ? (
                     <Button id='view' colorScheme="red" size="sm" onClick={async () => {
-                      const response = await setFavorites(book._id, false);
-                      console.log(response);
+                      await setFavorites(book._id, false);
                     }}>Remove</Button>
-
                   ) : (
                     <Button id='view' colorScheme="teal" size="sm" onClick={async () => {
-                      const response = await setFavorites(book._id, true);
-                      console.log(response);
+                      await setFavorites(book._id, true);
                     }}>Add to favourite</Button>
                   )}
-
                 </>
               )}
 
