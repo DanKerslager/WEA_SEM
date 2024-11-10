@@ -59,13 +59,18 @@
   /*min-height: calc(100% - 268px);*/
   padding: 20px;
   border-radius: 8px;
-  grid-area: filters;
   flex-basis: 1;
 }
 #books{
-  grid-area: books;
   flex-basis: 1;
   width: 80%;
+}
+#books #filter-buttons{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 5px;
 }
 #book-list {
   display: flex;
@@ -195,4 +200,7 @@ footer {
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
+}
+.pagination {
+  margin-top: 5px;
 }

@@ -59,7 +59,6 @@ const BookPage = ({ setBookId, setBookDetail }) => {
     }
   };
   useEffect(() => {
-    console.log(showHidden);
     loadBooksData();
   }, [isbn, authors, categories, title, page, showFavorites, showHidden]);
 
@@ -86,13 +85,14 @@ const BookPage = ({ setBookId, setBookDetail }) => {
         />
       </Box>
       <div id="books">
-        <Button colorMode={'teal'} onClick={() => {if(showFavorites){setShowFavorites(false); setShowHidden(false); return} setShowFavorites(true); setShowHidden(true);  setPage(1);}}>
+        <div id="filter-buttons">
+        <Button mr={6} colorScheme='red' onClick={() => {if(showFavorites){setShowFavorites(false); setShowHidden(false); return} setShowFavorites(true); setShowHidden(true);  setPage(1);}}>
           {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
         </Button>
-        <Button colorMode={'teal'} onClick={() => {setShowHidden(!showHidden); setPage(1);}} disabled={showFavorites === true}>
+        <Button colorScheme='teal' onClick={() => {setShowHidden(!showHidden); setPage(1);}} disabled={showFavorites === true}>
           {showHidden ? 'Show Available' : 'Show Hidden'}
         </Button>
-        {console.log(favorites.length === 0)}
+        </div>
         {showFavorites && favorites.length === 0 ? (
           <Center>No book has been favorited yet.</Center>
         ) : (

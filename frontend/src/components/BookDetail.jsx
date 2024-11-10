@@ -48,7 +48,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
           bg={colorMode}
         >
           <Box id="title-and-back-button">
-            {book.available && (<Heading>{book.title}</Heading>)}
+            {book.available ? (<Heading>{book.title}</Heading>) : (<Text>{t('bookDetailUnavailable')}</Text>)}
             <Button
               colorScheme="red"
               variant="outline"
@@ -57,9 +57,10 @@ const BookDetail = ({ bookId, setBookDetail }) => {
               X
             </Button>
           </Box>
-          <br />
-          {book.available ? (
+          
+          {book.available && (
             <>
+              <br />
               <Box id="book-detail-content-essentials">
                 <Image
                   id="book-detail-image"
@@ -95,8 +96,6 @@ const BookDetail = ({ bookId, setBookDetail }) => {
               <Text>{t('description')}:</Text>
               <Text>{book.description}</Text>
             </>
-          ) : (
-            <Text>{t('bookDetailUnavailable')}</Text>
           )}
         </Box>
         {book.available && (

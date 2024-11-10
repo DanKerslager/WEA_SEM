@@ -124,7 +124,6 @@ exports.getBooks = async (req, res) => {
     }
     if(showHidden){
       let parsedShowHidden = JSON.parse(showHidden);
-      console.log(parsedShowHidden);
       if(parsedShowHidden === false){
         filter.available = true;
       }

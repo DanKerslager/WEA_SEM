@@ -96,7 +96,6 @@ export const setFavorite = async(userParams) => {
   const { userId, bookId, isFavorite } = userParams;
   let link = `${BASE_URL}/setFavorite/users/${userId}/favorites`;
   try {
-    console.log(userId);
     const response = await axios.patch(link, {
       bookId,
       isFavorite

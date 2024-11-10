@@ -5,8 +5,17 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   const maxVisiblePages = 6;
   const startPage = Math.max(2, currentPage - Math.floor(maxVisiblePages / 2));
   const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1);
-
   const visiblePages = [];
+  
+  if (totalPages <= 1) {
+    return (
+      <div className="pagination">
+        <Button colorScheme="teal" disabled>
+          1
+        </Button>
+      </div>
+    );
+  }
   for (let i = startPage; i <= endPage; i++) {
     visiblePages.push(i);
   }
@@ -14,7 +23,6 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     return (
         <div className="pagination">
             {/* Previous Button */}
-            {console.log(currentPage)}
             <Button
                 mr={1}
                 colorScheme='teal'
@@ -34,7 +42,6 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
             {/* Ellipsis after the first page if necessary */}
             {startPage > 2 && <span>...</span>}
             {/* Page Number Buttons */}
-            {/*console.log(currentPage === page)*/}
             {visiblePages.map((page) => (
                 <Button
                     mr={1}

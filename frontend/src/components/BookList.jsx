@@ -41,14 +41,12 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
   const giveStarRating = async (nextValue, bookId) => {
     try {
       setRating(nextValue);
-      const response = await rateBook({ user: user.username, bookId, rating: nextValue });
-      console.log(response);
+      await rateBook({ user: user.username, bookId, rating: nextValue });
     } catch (error) {
       console.error("Failed to update rating:", error);
     }
   }
   useEffect(() => {
-    console.log('Rating is:', rating);
   }
     , [rating]);
 
@@ -141,7 +139,6 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
           ))}
       </div>
       <Center id="pagination">
-        {console.log(page)}
         <Pagination
           totalPages={totalPages}
           currentPage={page}
