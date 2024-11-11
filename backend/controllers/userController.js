@@ -2,6 +2,8 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/Users'); // Assuming your User model is in the models folder
 const mongoose = require("mongoose");
+const logAuditEvent = require('./AuditLogController'); // Import the audit log controller
+
 // Function to register a new user
 const registerUser = async (username, email, password) => {
   // Check if the user already exists
@@ -17,6 +19,9 @@ const registerUser = async (username, email, password) => {
   // Create and save the new user
   const newUser = new User({ username, email, password: hashedPassword }); // Store the hashed password
   await newUser.save();
+
+  // Log the user registration event
+  await logAuditEvent('user_registration', username, { email });
 
   return { message: 'User registered successfully' };
 };
@@ -34,6 +39,9 @@ const loginUser = async (email, password) => {
   if (!isPasswordValid) {
     throw new Error('Invalid credentials');
   }
+
+  // Log the user login event
+  await logAuditEvent('user_login', user.username, { email });
 
   // Return the user data with favorites and user ID
   return {

@@ -2,6 +2,7 @@
 const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger'); // Import the logger
 const e = require('express');
+const { chunkArray, makeFilterObject } = require('./utils');
 
 // Controller funkce pro přidání komentáře ke konkrétní knize
 exports.addCommentToBook = async (req, res) => {
@@ -93,43 +94,13 @@ exports.getBookDetailsById = async (req, res) => {
 // Controller function for getting books with pagination and filtering
 exports.getBooks = async (req, res) => {
   try {
-    // Paging variables
+    // Paging
     let page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 10;
-
-    // Filtration variables
-    let isbn = req.query.isbn;
-    let author = req.query.author;
-    let categories = req.query.categories;
-    let title = req.query.title;
-    let favorites = req.query.favorites;
-    let showHidden = req.query.showHidden;
-    // Filter parameter object carrying the filter values
-    let filter = {};
-    if (isbn) {
-      filter.isbn13 = { $regex: isbn, $options: 'i' };
-    }
-    if (author) {
-      filter.authors = { $regex: author, $options: 'i' }; // Author filtration (case-insensitive)
-    }
-    if (categories) {
-      filter.categories = { $regex: categories, $options: 'i' }; // Categories filtration (case-insensitive)
-    }
-    if (title) {
-      filter.title = { $regex: title, $options: 'i' }; // Title filtration (case-insensitive)
-    }
-    if(favorites){
-      let parsedFavorites = JSON.parse(favorites);
-      filter._id = { $in: parsedFavorites  };
-    }
-    if(showHidden){
-      let parsedShowHidden = JSON.parse(showHidden);
-      if(parsedShowHidden === false){
-        filter.available = true;
-      }
-    } 
-    // Paging calculation
     const skip = (page - 1) * limit;
+
+    // Filter object creation
+    filter = makeFilterObject(req.query);
 
     // Database query
     let bookArray = await BookModel.find(filter).skip(skip).limit(limit);
@@ -146,15 +117,6 @@ exports.getBooks = async (req, res) => {
   }
 };
 
-// Function to chunk the array
-function chunkArray(array, chunkSize) {
-  const chunks = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    chunks.push(array.slice(i, i + chunkSize));
-  }
-  return chunks;
-}
-
 // Add or update books in the database
 exports.addOrUpdateBooks = async (books) => {
   try {
@@ -168,38 +130,38 @@ exports.addOrUpdateBooks = async (books) => {
   const chunkSize = 100;
   const bookChunks = chunkArray(books, chunkSize);
 
-  try {
-    // Process each chunk
-    for (const chunk of bookChunks) {
-      const operations = chunk.map(book => ({
-        updateOne: {
-          filter: { isbn13: book.isbn13 }, // Use isbn13 as unique identifier
-          update: {
-            $set: {
-              isbn10: book.isbn10,
-              title: book.title,
-              categories: book.categories,
-              subtitle: book.subtitle,
-              authors: book.authors,
-              thumbnail: book.thumbnail,
-              description: book.description,
-              published_year: book.published_year,
-              average_rating: book.average_rating,
-              num_pages: book.num_pages,
-              ratings_count: book.ratings_count,
-              available: true, // Set book as available
-            },
-            $push: book.comments ? { comments: { $each: book.comments } } : {}
+  // Iterate over each chunk (assuming books are already chunked)
+  for (const chunk of bookChunks) {
+    const operations = chunk.map(book => ({
+      updateOne: {
+        filter: { isbn13: book.isbn13 }, // Use isbn13 as unique identifier
+        update: {
+          $set: {
+            isbn10: book.isbn10,
+            title: book.title,
+            categories: book.categories,
+            subtitle: book.subtitle,
+            authors: book.authors,
+            thumbnail: book.thumbnail,
+            description: book.description,
+            published_year: book.published_year,
+            average_rating: book.average_rating,
+            num_pages: book.num_pages,
+            ratings_count: book.ratings_count,
+            available: true, // Set book as available
           },
-          upsert: true
-        }
-      }));
+          $push: book.comments ? { comments: { $each: book.comments } } : {}
+        },
+        upsert: true
+      }
+    }));
 
+    try {
       // Execute bulkWrite operation for the current chunk
       await BookModel.bulkWrite(operations);
+    } catch (err) {
+      // Log the error for the current chunk and proceed to the next one
+      logger.error('Error processing chunk:', err);
     }
-  } catch (err) {
-    logger.error('Error in bulk save:', err);
-    throw new Error('Failed to save books');
   }
 };
