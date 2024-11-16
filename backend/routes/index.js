@@ -10,7 +10,7 @@ const loginRoute = require("./login");
 const addCommentRoute = require("./addComment");
 const setFavoriteRoute = require("./setFavorite");
 const addRatingRoute = require("./addRating");
-const userAdressRoute = require("./userAdress");
+const userAddressRoute = require("./userAddress");
 const userDetailRoute = require("./userDetail");
 
 // Function to initialize all routes
@@ -23,7 +23,7 @@ const initializeRoutes = (app) => {
   app.use("/getBooks", addCommentRoute);         // Add a comment to a book
   app.use("/setFavorite", setFavoriteRoute);     // Set a book as favorite
   app.use("/getBooks", addRatingRoute);          // Add a rating to a book
-  app.use("/user", userAdressRoute);             // Add a user address
+  app.use("/user", userAddressRoute);            // Add a user address
   app.use("/user", userDetailRoute);             // Get user details
 };
 
