@@ -1,40 +1,92 @@
 const mongoose = require("mongoose");
 
-// User schema, users are defined by their email and nickname, emain is used as a main unique identifier by the app
+// Address schema for storing personal and billing addresses
+const AddressSchema = new mongoose.Schema({
+  street: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  zipCode: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+});
 
+// User schema, users are defined by their email and nickname
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
     unique: true,
+    trim: true,
   },
   username: {
     type: String,
     required: true,
     maxlength: 10,
     unique: true,
+    trim: true,
   },
   password: {
     type: String,
     required: true,
   },
-  name: {
-    type: String,
-    maxlength: 255,
-  },
-  surname: {
-    type: String,
-  },
-  subtitle: {
-    type: String,
-    required: false,
-  },
   favoriteBooks: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'books', // Reference to Book model
+      ref: "books", // Reference to Book model
     },
   ],
+  personalAddress: AddressSchema, // Embeds personal address
+  billingAddress: {
+    type: AddressSchema, // Embeds billing address
+  },
+  sameAsPersonalAddress: {
+    type: Boolean,
+    default: false, // Flag to indicate if billing and personal addresses are the same
+  },
+  consentToDataProcessing: {
+    type: Boolean,
+    default: false,
+  },
+  personalInfo: {
+    firstName: {
+      type: String,
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      trim: true,
+    },
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other", "Prefer not to say"], // Options for gender
+    },
+    age: {
+      type: Number,
+      min: 0,
+    },
+    favoriteGenres: [
+      {
+        type: String,
+      },
+    ],
+    referenceSource: {
+      type: String, // Where did the user find this platform?
+    },
+  },
 });
 
 // Vytvoření modelu
