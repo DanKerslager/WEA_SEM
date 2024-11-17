@@ -41,14 +41,17 @@ function makeFilterObject(requestQuery) {
       filter.available = true;
     }
   }
-  if(showRated){
-    let parsedShowRated = JSON.parse(showRated);
-    let parsedUserId = JSON.parse(userId);
-    console.log(parsedShowRated)
-    if(parsedShowRated === true && userId){
-      filter.user_rating = {
-        $elemMatch: { user: parsedUserId }, // MongoDB query for an array match
-      };
+  if (showRated) {
+    try {
+      let parsedShowRated = JSON.parse(showRated);
+      let parsedUserId = JSON.parse(userId);
+      if (parsedShowRated === true && parsedUserId) {
+        filter.user_ratings = {
+          $elemMatch: { user: parsedUserId },
+        };
+      }
+    } catch (err) {
+      console.error("Invalid JSON for showRated or userId:", err);
     }
   }
 return filter;

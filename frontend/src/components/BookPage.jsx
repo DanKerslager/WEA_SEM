@@ -11,10 +11,10 @@ import {
 } from '../filter';
 import { useAuth } from '../providers/AuthProvider';
 
-
 const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
   const onFavorites = localStorage.getItem('onFavorites');
+  const onRated = localStorage.getItem('onRated');
   const favoriteBooks = localStorage.getItem('favoriteBooks');
 
   const lastIsbn = localStorage.getItem('lastIsbn');
@@ -30,7 +30,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const [categories, setCategories] = useState(lastCategories || '');
   const [title, setTitle] = useState(lastTitle || '');
   const [showFavorites, setShowFavorites] = useState(onFavorites || false);
-  const [showRated, setShowRated] = useState(false);
+  const [showRated, setShowRated] = useState(onRated || false);
 
   const [showHidden, setShowHidden] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
@@ -46,7 +46,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const loadBooksData = async () => {
     setLoading(true);
     setError(null);
-
+    
     try {
       const data = await fetchBooks({
         isbn,
@@ -62,7 +62,8 @@ const BookPage = ({ setBookId, setBookDetail }) => {
       });
       localStorage.setItem('lastPage', page);
       localStorage.setItem('onFavorites', showFavorites);
-
+      localStorage.setItem('onRated', showRated);
+      
       setBooks(data.bookArray);
       setTotalPages(data.totalPages);
     } catch (err) {

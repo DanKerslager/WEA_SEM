@@ -41,7 +41,7 @@ const Main = () => {
   return (
     <div id='main'>
       {showUserDetail ? (
-        <UserDetails userId={user?.userId} />
+        <UserDetails userId={user?._id} />
       ) : (
         <>
           {bookDetail ?
