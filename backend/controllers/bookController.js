@@ -2,6 +2,8 @@
 const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger'); // Import the logger
 const e = require('express');
+const { chunkArray, makeFilterObject } = require('./utils');
+const logAuditEvent = require('./AuditLogController'); // Import the audit log controller
 
 // Controller funkce pro přidání komentáře ke konkrétní knize
 exports.addCommentToBook = async (req, res) => {
@@ -32,44 +34,6 @@ exports.addCommentToBook = async (req, res) => {
   }
 };
 
-// Controller function to add or update a rating for a specific book
-exports.addRatingToBook = async (req, res) => {
-  const { id } = req.params;
-  const { rating, user } = req.body;
-
-  try {
-    // Find the book by ID
-    const book = await BookModel.findById(id);
-
-    // Check if the book exists
-    if (!book) {
-      logger.warn(`Book with ID ${id} not found.`);
-      return res.status(404).json({ message: 'Book not found' });
-    }
-
-    // Find if the user already has a rating for this book
-    const existingRating = book.user_ratings.find(r => r.user === user);
-
-    if (existingRating) {
-      // Update the existing rating
-      existingRating.rating = rating;
-      existingRating.createdAt = new Date(); // Update the timestamp if needed
-    } else {
-      // Create a new rating object and add it if the user hasn't rated yet
-      const newRating = { rating, user, createdAt: new Date() };
-      book.user_ratings.push(newRating);
-    }
-    // Save the updated book document, triggering the pre-save hook
-    await book.save();
-
-    res.status(201).json(book); // Return the updated book with the new or updated rating
-  } catch (error) {
-    logger.error('Error in addRatingToBook controller:', error.message);
-    res.status(500).json({ message: 'Failed to add or update rating', details: error.message });
-  }
-};
-
-
 // Controller function for getting book details by ID
 exports.getBookDetailsById = async (req, res) => {
   const { id } = req.params;
@@ -93,43 +57,13 @@ exports.getBookDetailsById = async (req, res) => {
 // Controller function for getting books with pagination and filtering
 exports.getBooks = async (req, res) => {
   try {
-    // Paging variables
+    // Paging
     let page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 10;
-
-    // Filtration variables
-    let isbn = req.query.isbn;
-    let author = req.query.author;
-    let categories = req.query.categories;
-    let title = req.query.title;
-    let favorites = req.query.favorites;
-    let showHidden = req.query.showHidden;
-    // Filter parameter object carrying the filter values
-    let filter = {};
-    if (isbn) {
-      filter.isbn13 = { $regex: isbn, $options: 'i' };
-    }
-    if (author) {
-      filter.authors = { $regex: author, $options: 'i' }; // Author filtration (case-insensitive)
-    }
-    if (categories) {
-      filter.categories = { $regex: categories, $options: 'i' }; // Categories filtration (case-insensitive)
-    }
-    if (title) {
-      filter.title = { $regex: title, $options: 'i' }; // Title filtration (case-insensitive)
-    }
-    if(favorites){
-      let parsedFavorites = JSON.parse(favorites);
-      filter._id = { $in: parsedFavorites  };
-    }
-    if(showHidden){
-      let parsedShowHidden = JSON.parse(showHidden);
-      if(parsedShowHidden === false){
-        filter.available = true;
-      }
-    } 
-    // Paging calculation
     const skip = (page - 1) * limit;
+
+    // Filter object creation
+    filter = makeFilterObject(req.query);
 
     // Database query
     let bookArray = await BookModel.find(filter).skip(skip).limit(limit);
@@ -146,15 +80,6 @@ exports.getBooks = async (req, res) => {
   }
 };
 
-// Function to chunk the array
-function chunkArray(array, chunkSize) {
-  const chunks = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    chunks.push(array.slice(i, i + chunkSize));
-  }
-  return chunks;
-}
-
 // Add or update books in the database
 exports.addOrUpdateBooks = async (books) => {
   try {
@@ -168,38 +93,39 @@ exports.addOrUpdateBooks = async (books) => {
   const chunkSize = 100;
   const bookChunks = chunkArray(books, chunkSize);
 
-  try {
-    // Process each chunk
-    for (const chunk of bookChunks) {
-      const operations = chunk.map(book => ({
-        updateOne: {
-          filter: { isbn13: book.isbn13 }, // Use isbn13 as unique identifier
-          update: {
-            $set: {
-              isbn10: book.isbn10,
-              title: book.title,
-              categories: book.categories,
-              subtitle: book.subtitle,
-              authors: book.authors,
-              thumbnail: book.thumbnail,
-              description: book.description,
-              published_year: book.published_year,
-              average_rating: book.average_rating,
-              num_pages: book.num_pages,
-              ratings_count: book.ratings_count,
-              available: true, // Set book as available
-            },
-            $push: book.comments ? { comments: { $each: book.comments } } : {}
+  // Iterate over each chunk (assuming books are already chunked)
+  for (const chunk of bookChunks) {
+    const operations = chunk.map(book => ({
+      updateOne: {
+        filter: { isbn13: book.isbn13 }, // Use isbn13 as unique identifier
+        update: {
+          $set: {
+            isbn10: book.isbn10,
+            title: book.title,
+            categories: book.categories,
+            subtitle: book.subtitle,
+            authors: book.authors,
+            thumbnail: book.thumbnail,
+            description: book.description,
+            published_year: book.published_year,
+            average_rating: book.average_rating,
+            num_pages: book.num_pages,
+            ratings_count: book.ratings_count,
+            available: true, // Set book as available
           },
-          upsert: true
-        }
-      }));
+          $push: book.comments ? { comments: { $each: book.comments } } : {}
+        },
+        upsert: true
+      }
+    }));
 
+    try {
       // Execute bulkWrite operation for the current chunk
       await BookModel.bulkWrite(operations);
+    } catch (err) {
+      // Log the error for the current chunk and proceed to the next one
+      logger.error('Error processing chunk:', err);
     }
-  } catch (err) {
-    logger.error('Error in bulk save:', err);
-    throw new Error('Failed to save books');
   }
+  await logAuditEvent.logAuditEvent('BOOKS_UPDATED', 'CDB', { count: books.length });
 };

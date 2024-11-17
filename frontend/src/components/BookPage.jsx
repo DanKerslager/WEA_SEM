@@ -14,17 +14,22 @@ import { useAuth } from '../providers/AuthProvider';
 
 const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
+  const onFavorites = localStorage.getItem('onFavorites');
+  const lastIsbn = localStorage.getItem('lastIsbn');
+  const lastAuthors = localStorage.getItem('lastAuthors');
+  const lastCategories = localStorage.getItem('lastCategories');
+  const lastTitle = localStorage.getItem('lastTitle');
   // Filtering variables for the book fetch.
   const [books, setBooks] = useState([]);
   const [page, setPage] = useState(lastPage || 1);
   const [totalPages, setTotalPages] = useState(1);
-  const [isbn, setIsbn] = useState('');
-  const [authors, setAuthors] = useState('');
-  const [categories, setCategories] = useState('');
-  const [title, setTitle] = useState('');
-  const [showFavorites, setShowFavorites] = useState(false);
+  const [isbn, setIsbn] = useState(lastIsbn || '');
+  const [authors, setAuthors] = useState(lastAuthors || '');
+  const [categories, setCategories] = useState(lastCategories || '');
+  const [title, setTitle] = useState(lastTitle || '');
+  const [showFavorites, setShowFavorites] = useState(onFavorites ||false);
   const [showHidden, setShowHidden] = useState(false);
-
+  const [isTesting, setIsTesting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { user, setUser, isAuthenticated } = useAuth();
@@ -50,6 +55,10 @@ const BookPage = ({ setBookId, setBookDetail }) => {
         showHidden,
       });
       localStorage.setItem('lastPage', page);
+      //localStorage.setItem('onFavorites', showFavorites);
+      localStorage.setItem('lastAuthors', authors);
+      localStorage.setItem('lastCategories', categories);
+      localStorage.setItem('lastTitle', title);
       setBooks(data.bookArray);
       setTotalPages(data.totalPages);
     } catch (err) {
@@ -66,20 +75,32 @@ const BookPage = ({ setBookId, setBookDetail }) => {
     <div id="book-page">
       <Box id="filters" bg={colorMode}>
         <Filter
+          isbn={isbn}
+          authors={authors}
+          categories={categories}
+          title={title}
           onIsbnChange={onIsbnOnChange((e) => {
-            setIsbn(e?.target?.value);
+            const newValue = e?.target?.value;
+            localStorage.setItem('lastIsbn', newValue);
+            setIsbn(newValue);
             setPage(1);
           })}
           onTitleChange={onTitleOnChange((e) => {
-            setTitle(e?.target?.value);
+            const newValue = e?.target?.value;
+            localStorage.setItem('lastTitle', newValue);
+            setTitle(newValue);
             setPage(1);
           })}
           onAuthorChange={onAuthorsOnChange((e) => {
-            setAuthors(e?.target?.value);
+            const newValue = e?.target?.value;
+            localStorage.setItem('lastAuthors', newValue);
+            setAuthors(newValue);
             setPage(1);
           })}
           onCategoriesChange={onCategoriesOnChange((e) => {
-            setCategories(e?.target?.value);
+            const newValue = e?.target?.value;
+            localStorage.setItem('lastCategories', newValue);
+            setCategories(newValue);
             setPage(1);
           })}
         />
@@ -90,12 +111,14 @@ const BookPage = ({ setBookId, setBookDetail }) => {
             <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return } setShowFavorites(true); setShowHidden(true); setPage(1); }}>
               {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
             </Button>
-            <Button colorScheme='teal' onClick={() => { setShowHidden(!showHidden); setPage(1); }} disabled={showFavorites === true}>
+            {isTesting && (
+              <Button colorScheme='teal' onClick={() => { setShowHidden(!showHidden); setPage(1); }} disabled={showFavorites === true}>
               {showHidden ? 'Show Available' : 'Show Hidden'}
-            </Button>
+              </Button>
+            )}
+            
           </div>
         )}
-
         {showFavorites && favorites.length === 0 ? (
           <Center>No book has been favorited yet.</Center>
         ) : (
