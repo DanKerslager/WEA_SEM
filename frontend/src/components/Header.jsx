@@ -60,8 +60,6 @@ const Header = () => {
               </Button>
             )}
           </Flex>
-
-            
             <Flex alignItems={'center'}>
 
               <Stack direction={'row'} spacing={7}>
