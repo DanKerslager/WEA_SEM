@@ -100,16 +100,16 @@
  *                   example: "Database error details here"
  */
 const express = require('express');
-const bookController = require('../controllers/bookController'); // Import the controller
+const bookController = require('../controllers/bookUserController'); // Import the controller
 const logger = require('../logger');
 
 const router = express.Router();
 
 router.post('/:id/ratings', (req, res) => {
-  logger.info(`/books/${req.params.id}/ratings endpoint was hit`);
+  logger.info(`/books/${req.params.id}/ratings endpoint was hit with`);
 
   const { id } = req.params;
-  const { rating, user } = req.body;
+  const { user, rating } = req.body;
 
   // Validate required fields
   if (rating === null || !user) {

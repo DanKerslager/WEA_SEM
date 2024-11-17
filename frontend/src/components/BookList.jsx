@@ -41,7 +41,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
   const giveStarRating = async (nextValue, bookId) => {
     try {
       setRating(nextValue);
-      await rateBook({ user: user.username, bookId, rating: nextValue });
+      await rateBook({ user: user.userId, bookId, rating: nextValue });
     } catch (error) {
       console.error("Failed to update rating:", error);
     }

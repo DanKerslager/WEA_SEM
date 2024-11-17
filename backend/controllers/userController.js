@@ -51,6 +51,7 @@ const loginUser = async (email, password) => {
       email: user.email,
       username: user.username,
       favorites: user.favoriteBooks, // Assuming 'favoriteBooks' is an array in the user schema
+      ratedBooks: user.ratings, // Assuming 'ratedBooks' is an array in the user schema
     },
   };
 };
