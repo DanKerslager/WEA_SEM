@@ -21,7 +21,7 @@ const registerUser = async (username, email, password) => {
   await newUser.save();
 
   // Log the user registration event
-  //await logAuditEvent('user_registration', username, { email });
+  await logAuditEvent.logAuditEvent('user_registration', user.username, { email });
 
   return { message: 'User registered successfully' };
 };
@@ -41,7 +41,7 @@ const loginUser = async (email, password) => {
   }
 
   // Log the user login event
-  //await logAuditEvent('user_login', user.username, { email });
+  await logAuditEvent.logAuditEvent('user_login', user.username, { email });
 
   // Return the user data with favorites and user ID
   return {
