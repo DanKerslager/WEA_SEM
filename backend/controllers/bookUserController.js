@@ -1,21 +1,18 @@
-const User = require('../models/Users'); // Assuming your User model is in the models folder
-const BookModel = require('../models/Books'); // Import the Book model
-const mongoose = require("mongoose");
-const logger = require('../logger'); // Import the logger
+const User = require('../models/Users'); // Import User model
+const BookModel = require('../models/Books'); // Import Book model
+const logger = require('../logger'); // Import logger
 
 exports.addRatingToBook = async (req, res) => {
   const { id } = req.params; // Book ID
   const { user, rating } = req.body; // User ID and rating value
 
-  // Start the session for the update operation
-  const session = await mongoose.startSession();
-
   try {
-    // Find the book and user by ID (no session for reads)
+    // Find the book and user by their IDs
     logger.info(`Finding book and user by ID: Book ID: ${id}, User ID: ${user}`);
     const book = await BookModel.findById(id);
     const userDoc = await User.findById(user);
 
+    // Check if book and user exist
     if (!book || !userDoc) {
       logger.warn(`Book or User not found: Book ID: ${id}, User ID: ${user}`);
       return res.status(404).json({ message: 'Book or User not found' });
@@ -23,45 +20,57 @@ exports.addRatingToBook = async (req, res) => {
 
     logger.info(`Book and User found: Book ID: ${id}, User ID: ${user}`);
 
-    // Start the transaction
-    session.startTransaction();
-
-    // Check if the user already has a rating for this book in the book document
+    // Check if the user has already rated this book
     const existingBookRating = book.user_ratings.find(r => r.user.toString() === user);
     const existingUserRating = userDoc.ratings.find(r => r.book.toString() === id);
 
+    // Update or add the rating in the book document
     if (existingBookRating) {
-      // Update the book rating
       existingBookRating.rating = rating;
       existingBookRating.createdAt = new Date();
+      logger.info(`Updated existing book rating for User ID: ${user}`);
     } else {
-      // Add a new rating to the book
       book.user_ratings.push({ user, rating, createdAt: new Date() });
+      logger.info(`Added new book rating for User ID: ${user}`);
     }
 
+    // Update or add the rating in the user document
     if (existingUserRating) {
-      // Update the user rating
       existingUserRating.rating = rating;
       existingUserRating.createdAt = new Date();
+      logger.info(`Updated existing user rating for Book ID: ${id}`);
     } else {
-      // Add a new rating to the user
       userDoc.ratings.push({ book: id, rating, createdAt: new Date() });
+      logger.info(`Added new user rating for Book ID: ${id}`);
     }
 
-    // Save the book and user documents within the session
-    await Promise.all([book.save({ session }), userDoc.save({ session })]);
+    // Perform updates with manual rollback logic
+    let bookSaveSuccess = false;
+    let userSaveSuccess = false;
 
-    // Commit the transaction
-    await session.commitTransaction();
-    session.endSession();
+    try {
+      await book.save(); // Save book first
+      bookSaveSuccess = true;
 
-    // Return the updated book and user data
-    res.status(201).json({ book, userDoc });
+      await userDoc.save(); // Save user next
+      userSaveSuccess = true;
+
+      logger.info(`Successfully updated ratings for Book ID: ${id}, User ID: ${user}`);
+      res.status(201).json({ book, userDoc });
+    } catch (error) {
+      logger.error(`Error while saving book or user: ${error.message}`);
+
+      // Rollback logic
+      if (bookSaveSuccess && !userSaveSuccess) {
+        logger.warn(`Rolling back book changes for Book ID: ${id}`);
+        const rollbackBook = await BookModel.findById(id);
+        rollbackBook.user_ratings = book.user_ratings.filter(r => r.user.toString() !== user);
+        await rollbackBook.save();
+      }
+
+      throw error; // Re-throw the error to handle it in the catch block below
+    }
   } catch (error) {
-    // Rollback the transaction on error
-    await session.abortTransaction();
-    session.endSession();
-
     logger.error('Error in addRatingToBook controller:', error.message);
     res.status(500).json({ message: 'Failed to add or update rating', details: error.message });
   }
