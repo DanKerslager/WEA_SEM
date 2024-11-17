@@ -3,6 +3,7 @@ const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger'); // Import the logger
 const e = require('express');
 const { chunkArray, makeFilterObject } = require('./utils');
+const logAuditEvent = require('./AuditLogController'); // Import the audit log controller
 
 // Controller funkce pro přidání komentáře ke konkrétní knize
 exports.addCommentToBook = async (req, res) => {
@@ -126,4 +127,5 @@ exports.addOrUpdateBooks = async (books) => {
       logger.error('Error processing chunk:', err);
     }
   }
+  await logAuditEvent.logAuditEvent('BOOKS_UPDATED', 'CDB', { count: books.length });
 };

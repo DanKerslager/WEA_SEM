@@ -21,7 +21,7 @@ const registerUser = async (username, email, password) => {
   await newUser.save();
 
   // Log the user registration event
-  await logAuditEvent.logAuditEvent('user_registration', username, { email });
+  await logAuditEvent.logAuditEvent('user_registration', user.username, { email });
 
   return { message: 'User registered successfully' };
 };
