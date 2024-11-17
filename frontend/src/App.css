@@ -210,3 +210,57 @@ footer {
   justify-content: center;
   align-items: center;
 }
+
+#user-detail-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  border-radius: 8px;
+}
+
+#user-detail-form-content {
+  display: flex;
+  columns: 2;
+} 
+
+.user-detail-h2{
+  font-size: larger;
+}
+
+#user-detail-x-button {
+  margin: 15px 15px 0px 0px;
+}
+
+#user-detail-submit-button {
+  margin: 0px 0px 15px 15px;
+}
+
+#personal-address {
+  margin-left: 10px;
+  width: 33%;
+  columns: 1;
+}
+
+#billing-address {
+  margin-left: 10px;
+  width: 33%;
+  columns: 1;
+}
+
+#personal-information {
+  margin-left: 10px;
+  width: 33%;
+  columns: 1;
+}
+
+.user-detail-input {
+  margin: 0px 15px 15px 15px;
+}
+
+.user-detail-label {
+  margin-left: 10px;
+}
+
+.user-detail-checkbox {
+  margin-right: 10px;
+}
