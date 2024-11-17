@@ -23,6 +23,11 @@ const AddressSchema = new mongoose.Schema({
     required: true,
   },
 });
+const ratingSchema = new mongoose.Schema({
+  rating: { type: Number, required: true, min: 1, max: 5 },
+  user: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
 
 // User schema, users are defined by their email and nickname
 const UserSchema = new mongoose.Schema({
@@ -49,6 +54,8 @@ const UserSchema = new mongoose.Schema({
       ref: "books", // Reference to Book model
     },
   ],
+  // User-specific ratings
+  user_ratings: [ratingSchema],
   personalAddress: AddressSchema, // Embeds personal address
   billingAddress: {
     type: AddressSchema, // Embeds billing address
@@ -86,9 +93,9 @@ const UserSchema = new mongoose.Schema({
     referenceSource: {
       type: String, // Where did the user find this platform?
     },
+    
   },
 });
-
 // Vytvoření modelu
 const UserModel = mongoose.model("users", UserSchema);
 module.exports = UserModel;

@@ -21,7 +21,7 @@ const registerUser = async (username, email, password) => {
   await newUser.save();
 
   // Log the user registration event
-  await logAuditEvent('user_registration', username, { email });
+  await logAuditEvent.logAuditEvent('user_registration', username, { email });
 
   return { message: 'User registered successfully' };
 };
@@ -41,7 +41,7 @@ const loginUser = async (email, password) => {
   }
 
   // Log the user login event
-  await logAuditEvent('user_login', user.username, { email });
+  await logAuditEvent.logAuditEvent('user_login', user.username, { email });
 
   // Return the user data with favorites and user ID
   return {
@@ -54,7 +54,6 @@ const loginUser = async (email, password) => {
     },
   };
 };
-
 
 // Function to set or unset a favorite book for a user and return the updated favorites
 const setFavBook = async (userId, bookId, isFavorite) => {
