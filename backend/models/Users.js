@@ -23,6 +23,11 @@ const AddressSchema = new mongoose.Schema({
     required: true,
   },
 });
+const ratingSchema = new mongoose.Schema({
+  rating: { type: Number, required: true, min: 1, max: 5 },
+  user: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
 
 const userRatingSchema = new mongoose.Schema({
   book: { type: mongoose.Schema.Types.ObjectId, ref: "Book", required: true },
@@ -94,9 +99,9 @@ const UserSchema = new mongoose.Schema({
     referenceSource: {
       type: String, // Where did the user find this platform?
     },
+    
   },
 });
-
 // Vytvoření modelu
 const UserModel = mongoose.model("users", UserSchema);
 module.exports = UserModel;

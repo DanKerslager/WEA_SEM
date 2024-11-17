@@ -29,8 +29,7 @@ const BookSchema = new mongoose.Schema({
   num_pages: Number,
   available: { type: Boolean, default: false },
   comments: [commentSchema],
-  // User-specific ratings
-  user_ratings: [ratingSchema]
+
 });
 
 // Function to calculate the combined average rating and total ratings count
