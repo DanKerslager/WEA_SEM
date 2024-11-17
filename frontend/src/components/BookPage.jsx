@@ -56,9 +56,6 @@ const BookPage = ({ setBookId, setBookDetail }) => {
       });
       localStorage.setItem('lastPage', page);
       //localStorage.setItem('onFavorites', showFavorites);
-      localStorage.setItem('lastAuthors', authors);
-      localStorage.setItem('lastCategories', categories);
-      localStorage.setItem('lastTitle', title);
       setBooks(data.bookArray);
       setTotalPages(data.totalPages);
     } catch (err) {

@@ -125,3 +125,41 @@ export const rateBook = async(userParams) => {
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
 }
+
+export const updatePersonalInfo = async(userParams) => {
+  const { userId, firstName, lastName, gender, age, favoriteGenres, referenceSource } = userParams;
+  let link = `${BASE_URL}/user/${userId}/personal-info`;
+  try {
+    const response = await axios.put(link, {
+      firstName,
+      lastName,
+      gender,
+      age,
+      favoriteGenres,
+      referenceSource
+    });
+    // Vrátíme response data
+    return response.data;
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during updating user's personal info:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
+}
+export const updateAddressInfo = async(userParams) => {
+  const { userId, personalAddress, billingAddress, sameAsPersonalAddress } = userParams;
+  let link = `${BASE_URL}/user/${userId}/address`;
+  try {
+    const response = await axios.put(link, {
+      personalAddress,
+      billingAddress,
+      sameAsPersonalAddress
+    });
+    // Vrátíme response data
+    return response.data;
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during updating user's address:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
+}
