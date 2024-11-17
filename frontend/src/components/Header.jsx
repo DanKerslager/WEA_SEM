@@ -33,7 +33,7 @@ import { useAuth } from '../providers/AuthProvider';
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, setUser, setShowUserDetail} = useAuth();
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
   const cMode = useColorModeValue('gray.100', 'gray.900');
@@ -55,7 +55,7 @@ const Header = () => {
               <h1>BookStock Catalog</h1>
             </Box>
             {isAuthenticated && (
-              <Button ml={5} colorScheme="green" onClick={() =>{}}>
+              <Button ml={5} colorScheme="green" onClick={() => setShowUserDetail(true)}>
                 User Detail
               </Button>
             )}

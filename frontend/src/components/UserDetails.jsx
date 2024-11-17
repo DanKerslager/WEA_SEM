@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { getLogin, updatePersonalInfo, updateAddressInfo } from '../api';
 const UserDetails = ({ userId }) => {
+  
   const {
     control,
     register,
@@ -42,20 +43,14 @@ const UserDetails = ({ userId }) => {
 
   const sameAsPersonalAddress = watch("sameAsPersonalAddress");
 
-  // Fetch user details on mount
-  useEffect(() => {
-    axios.get(`/api/user/details/${userId}`).then(({ data }) => {
-      reset(data);
-    });
-  }, [userId, reset]);
-
+ 
   // Copy personalAddress to billingAddress if `sameAsPersonalAddress` is checked
   useEffect(() => {
     if (sameAsPersonalAddress) {
       const personalAddress = watch("personalAddress");
       setValue("billingAddress", personalAddress);
     }
-  }, [sameAsPersonalAddress, watch, setValue]);
+  }, [userId, sameAsPersonalAddress, watch, setValue]);
 
   const onSubmit = async (data) => {
     console.log(data);
