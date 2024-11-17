@@ -5,7 +5,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // AKA isLoggedIn
-
+  const [showUserDetail, setShowUserDetail] = useState(false);
   // Simulate loading user data from local storage or an API on mount
   useEffect(() => {
     const loadUserData = async () => {
@@ -34,6 +34,8 @@ export const AuthProvider = ({ children }) => {
     user,
     setUser,
     isAuthenticated,
+    showUserDetail,
+    setShowUserDetail,
     login,
     logout,
   };

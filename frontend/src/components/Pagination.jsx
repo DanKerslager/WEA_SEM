@@ -48,7 +48,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
                     colorScheme='teal'
                     key={page}
                     onClick={() => onPageChange(page)}
-                    disabled={currentPage === page}
+                    disabled={page === currentPage}
                 >
                     {page}
                 </Button>

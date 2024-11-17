@@ -27,6 +27,7 @@ const RegisterForm = ({ setShowRegister }) => {
     let email = data.email;
     let password = data.password;
     const postData = await postRegister({ username, email, password });
+    
     if (postData?.status === 201) {
       setError(null);
       setSuccess(postData.data.message);

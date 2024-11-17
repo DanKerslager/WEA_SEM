@@ -6,6 +6,7 @@ import {
   Flex,
   Avatar,
   Text,
+  HStack,
   Button,
   Menu,
   MenuButton,
@@ -27,26 +28,40 @@ import RegisterForm from './RegisterForm';
 import { useAuth } from '../providers/AuthProvider';
 // React component that renders the header of the app.
 
+
+
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const {user, isAuthenticated, logout} = useAuth();
+  const { user, isAuthenticated, logout, setUser, setShowUserDetail} = useAuth();
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
+  const cMode = useColorModeValue('gray.100', 'gray.900');
+  const cMode2 = useColorModeValue('gray.200', 'gray.700')
 
   return (
     <>
       {showLogin && (
-        <LoginForm setShowLogin={setShowLogin}/>
+        <LoginForm setShowLogin={setShowLogin} />
       )}
       {showRegister && (
         <RegisterForm setShowRegister={setShowRegister} />
       )}
       <nav id='navbar'>
-        <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+        <Box bg={cMode} px={4}>
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-            <Box><h1>BookStock Catalog</h1></Box>
+          <Flex alignItems={'center'}>
+            <Box>
+              <h1>BookStock Catalog</h1>
+            </Box>
+            {isAuthenticated && (
+              <Button ml={5} colorScheme="green" onClick={() => setShowUserDetail(true)}>
+                User Detail
+              </Button>
+            )}
+          </Flex>
             <Flex alignItems={'center'}>
+
               <Stack direction={'row'} spacing={7}>
                 <LanguageSwitcher />
                 <Button onClick={toggleColorMode}>
@@ -54,42 +69,46 @@ const Header = () => {
                 </Button>
 
                 {(isAuthenticated) ? (
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      rounded={'full'}
-                      variant={'link'}
-                      cursor={'pointer'}
-                      minW={0}>
-                      <Avatar
-                        size={'sm'}
-                        src={'https://avatars.dicebear.com/api/male/username.svg'}
-                      />
-                    </MenuButton>
-                    <MenuList alignItems={'center'}>
-                      <br />
-                      <Center>
+                  <>
+
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        rounded={'full'}
+                        variant={'link'}
+                        cursor={'pointer'}
+                        minW={0}>
                         <Avatar
-                          size={'2xl'}
+                          size={'sm'}
                           src={'https://avatars.dicebear.com/api/male/username.svg'}
                         />
-                      </Center>
-                      <br />
-                      <Center>
-                        <p>{user?.username}</p>
-                      </Center>
-                      <Center>
-                        <p>{user?.email}</p>
-                      </Center>
-                      <br />
-                      <MenuDivider />
-                      <MenuItem onClick={() => {
-                        logout();
-                      }}>
-                        {t('logout')}
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>) : (
+                      </MenuButton>
+                      <MenuList alignItems={'center'}>
+                        <br />
+                        <Center>
+                          <Avatar
+                            size={'2xl'}
+                            src={'https://avatars.dicebear.com/api/male/username.svg'}
+                          />
+                        </Center>
+                        <br />
+                        <Center>
+                          <p>{user?.username}</p>
+                        </Center>
+                        <Center>
+                          <p>{user?.email}</p>
+                        </Center>
+                        <br />
+                        <MenuDivider />
+                        <MenuItem onClick={() => {
+                          logout();
+                        }}>
+                          {t('logout')}
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </>
+                ) : (
                   <>
                     <Button onClick={() => setShowLogin(true)}>
                       {t('login')}
