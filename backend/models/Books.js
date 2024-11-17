@@ -7,11 +7,10 @@ const commentSchema = new mongoose.Schema({
 });
 
 const ratingSchema = new mongoose.Schema({
-  rating: { type: Number, required: true, min: 1, max: 5 },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  rating: { type: Number, required: true, min: 1, max: 5 },
   createdAt: { type: Date, default: Date.now }
 });
-
 
 const BookSchema = new mongoose.Schema({
   isbn13: { type: String, required: true, minlength: 13, maxlength: 13, unique: true },
@@ -29,7 +28,7 @@ const BookSchema = new mongoose.Schema({
   num_pages: Number,
   available: { type: Boolean, default: false },
   comments: [commentSchema],
-
+  user_ratings: [ratingSchema]
 });
 
 // Function to calculate the combined average rating and total ratings count

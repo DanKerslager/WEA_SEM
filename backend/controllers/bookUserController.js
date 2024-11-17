@@ -36,7 +36,7 @@ exports.addRatingToBook = async (req, res) => {
       existingBookRating.createdAt = new Date();
     } else {
       // Add a new rating to the book
-      book.user_ratings.push({ rating, user, createdAt: new Date() });
+      book.user_ratings.push({ user, rating, createdAt: new Date() });
     }
 
     if (existingUserRating) {
