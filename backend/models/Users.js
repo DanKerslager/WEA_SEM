@@ -24,6 +24,13 @@ const AddressSchema = new mongoose.Schema({
   },
 });
 
+const userRatingSchema = new mongoose.Schema({
+  book: { type: mongoose.Schema.Types.ObjectId, ref: "Book", required: true },
+  rating: { type: Number, required: true, min: 1, max: 5 },
+  createdAt: { type: Date, default: Date.now }
+});
+
+
 // User schema, users are defined by their email and nickname
 const UserSchema = new mongoose.Schema({
   email: {
@@ -49,6 +56,7 @@ const UserSchema = new mongoose.Schema({
       ref: "books", // Reference to Book model
     },
   ],
+  ratings: [userRatingSchema],
   personalAddress: AddressSchema, // Embeds personal address
   billingAddress: {
     type: AddressSchema, // Embeds billing address
