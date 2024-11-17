@@ -36,12 +36,12 @@ const LoginForm = ({ setShowLogin }) => {
     const favoriteGenres = 'test';
     const referenceSource = 'test';
 
-    const testPersonal = updatePersonalInfo({ userId: loginData.data.user.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource})
+    const testPersonal = await updatePersonalInfo({ userId: loginData.data.user.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource})
     console.log(testPersonal)
-    const personalAddress = { street: 'droga', city: 'Mesto', zipCode: 'test', country: 'bigCountry' };
-    const billingAddress =  { street: 'droga', city: 'newMesto', zipCode: 'asdasd', country: 'NewCountry' };
+    const personalAddress = { street: 'droga', city: 'Mesto', state: "California", zipCode: 'test', country: 'bigCountry' };
+    const billingAddress =  { street: 'droga', city: 'newMesto', state: "California", zipCode: 'asdasd', country: 'NewCountry' };
     const sameAsPersonalAddress = true;
-    const testAddress = updateAddressInfo({ userId: loginData.data.user.userId, personalAddress, billingAddress, sameAsPersonalAddress})
+    const testAddress = await updateAddressInfo({ userId: loginData.data.user.userId, personalAddress, billingAddress, sameAsPersonalAddress})
     console.log(testAddress)
     //get user data
     let user = loginData.data.user;
