@@ -15,6 +15,8 @@ import { useAuth } from '../providers/AuthProvider';
 const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
   const onFavorites = localStorage.getItem('onFavorites');
+  const favoriteBooks = localStorage.getItem('favoriteBooks');
+
   const lastIsbn = localStorage.getItem('lastIsbn');
   const lastAuthors = localStorage.getItem('lastAuthors');
   const lastCategories = localStorage.getItem('lastCategories');
@@ -27,14 +29,16 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const [authors, setAuthors] = useState(lastAuthors || '');
   const [categories, setCategories] = useState(lastCategories || '');
   const [title, setTitle] = useState(lastTitle || '');
-  const [showFavorites, setShowFavorites] = useState(onFavorites ||false);
+  const [showFavorites, setShowFavorites] = useState(onFavorites || false);
+  const [showRated, setShowRated] = useState(false);
+
   const [showHidden, setShowHidden] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { user, setUser, isAuthenticated } = useAuth();
-
-  const favorites = showFavorites ? user?.favorites : [];
+  console.log(favoriteBooks);
+  const favorites = showFavorites ? user?.favoriteBooks : [];
   const limit = 10;
   const colorMode = useColorModeValue('green.300', 'green.800');
 
@@ -53,9 +57,12 @@ const BookPage = ({ setBookId, setBookDetail }) => {
         limit,
         favorites,
         showHidden,
+        showRated,
+        userId: user?._id,
       });
       localStorage.setItem('lastPage', page);
-      //localStorage.setItem('onFavorites', showFavorites);
+      localStorage.setItem('onFavorites', showFavorites);
+
       setBooks(data.bookArray);
       setTotalPages(data.totalPages);
     } catch (err) {
@@ -66,7 +73,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   };
   useEffect(() => {
     loadBooksData();
-  }, [isbn, authors, categories, title, page, showFavorites, showHidden]);
+  }, [isbn, authors, categories, title, page, showFavorites, showHidden, showRated]);
 
   return (
     <div id="book-page">
@@ -108,15 +115,17 @@ const BookPage = ({ setBookId, setBookDetail }) => {
             <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return } setShowFavorites(true); setShowHidden(true); setPage(1); }}>
               {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
             </Button>
+            <Button mr={6} colorScheme='teal' onClick={() => { setShowRated(!showRated); setPage(1); }}>
+              {showRated ? 'Show All Books' : 'Show Rated Books Only'}
+            </Button>
             {isTesting && (
               <Button colorScheme='teal' onClick={() => { setShowHidden(!showHidden); setPage(1); }} disabled={showFavorites === true}>
               {showHidden ? 'Show Available' : 'Show Hidden'}
               </Button>
             )}
-            
           </div>
         )}
-        {showFavorites && favorites.length === 0 ? (
+        {showFavorites && favorites?.length === 0 ? (
           <Center>No book has been favorited yet.</Center>
         ) : (
           <BookList

@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { getLogin, updatePersonalInfo, updateAddressInfo } from '../api';
 const UserDetails = ({ userId }) => {
-  
+
   const {
     control,
     register,
@@ -55,10 +55,10 @@ const UserDetails = ({ userId }) => {
   const onSubmit = async (data) => {
     console.log(data);
     const { personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing } = data;
-    const testPersonal = await updatePersonalInfo({ userId, ...personalInfo }); 
-    console.log(testPersonal)
-    const testAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress})
-    console.log(testAddress)
+    const changePersonalInfo = await updatePersonalInfo({ userId, ...personalInfo }); 
+    console.log(changePersonalInfo)
+    const changeAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress})
+    console.log(changeAddress)
 
   };
 
@@ -72,7 +72,7 @@ const UserDetails = ({ userId }) => {
       </div>
       <div>
         <label>City</label>
-        <input {...register("personalAddress.city", { required: "City is required" })} />
+        <input  {...register("personalAddress.city", { required: "City is required" })} />
         {errors.personalAddress?.city && <p>{errors.personalAddress.city.message}</p>}
       </div>
       <div>

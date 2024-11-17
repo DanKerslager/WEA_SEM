@@ -70,7 +70,6 @@ const Header = () => {
 
                 {(isAuthenticated) ? (
                   <>
-
                     <Menu>
                       <MenuButton
                         as={Button}

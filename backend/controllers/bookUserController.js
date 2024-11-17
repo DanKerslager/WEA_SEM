@@ -56,7 +56,7 @@ exports.addRatingToBook = async (req, res) => {
       userSaveSuccess = true;
 
       logger.info(`Successfully updated ratings for Book ID: ${id}, User ID: ${user}`);
-      res.status(201).json({ book, userDoc });
+      res.status(201).json({ book });
     } catch (error) {
       logger.error(`Error while saving book or user: ${error.message}`);
 

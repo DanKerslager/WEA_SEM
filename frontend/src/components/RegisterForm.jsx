@@ -11,7 +11,7 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { postRegister } from '../api';
+import { postRegister, updatePersonalInfo, updateAddressInfo } from '../api';
 
 const RegisterForm = ({ setShowRegister }) => {
   const [error, setError] = useState(null);
@@ -27,7 +27,20 @@ const RegisterForm = ({ setShowRegister }) => {
     let email = data.email;
     let password = data.password;
     const postData = await postRegister({ username, email, password });
-    
+    //init values
+    const firstName = 'test';
+    const lastName = 'test';
+    const gender = 'Male';
+    const age = 25;
+    const favoriteGenres = 'test';
+    const referenceSource = 'test';
+    const testPersonal = await updatePersonalInfo({ userId: postData.data.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource})
+    console.log(testPersonal)
+    const personalAddress = { street: 'Please change', city: 'Please change', state: 'Please change', zipCode: 'Please change', country: 'Please change' };
+    const billingAddress =  { street: 'Please change', city: 'Please change', state: 'Please change', zipCode: 'Please change', country: 'Please change' };
+    const sameAsPersonalAddress = false;
+    const testAddress = await updateAddressInfo({ userId: postData.data.userId, personalAddress, billingAddress, sameAsPersonalAddress})
+    console.log(testAddress)
     if (postData?.status === 201) {
       setError(null);
       setSuccess(postData.data.message);

@@ -15,6 +15,8 @@ function makeFilterObject(requestQuery) {
   let title = requestQuery.title;
   let favorites = requestQuery.favorites;
   let showHidden = requestQuery.showHidden;
+  let showRated = requestQuery.showRated;
+  let userId = requestQuery.userId;
   // Filter parameter object carrying the filter values
   let filter = {};
   if (isbn) {
@@ -38,7 +40,17 @@ function makeFilterObject(requestQuery) {
     if(parsedShowHidden === false){
       filter.available = true;
     }
-  } 
+  }
+  if(showRated){
+    let parsedShowRated = JSON.parse(showRated);
+    let parsedUserId = JSON.parse(userId);
+    console.log(parsedShowRated)
+    if(parsedShowRated === true && userId){
+      filter.user_rating = {
+        $elemMatch: { user: parsedUserId }, // MongoDB query for an array match
+      };
+    }
+  }
 return filter;
 }
 

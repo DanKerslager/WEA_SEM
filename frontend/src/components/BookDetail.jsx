@@ -28,7 +28,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
   const colorMode = useColorModeValue('gray.100', 'gray.700');
   //Get data from Cookies
   const { isAuthenticated, user } = useAuth();
-  const isFavorited = user?.favorites?.find(favoriteId => favoriteId === bookId);
+  const isFavorited = user?.favoriteBooks?.find(favoriteId => favoriteId === bookId);
   const loadBookDetailData = async () => {
     setError(null);
     try {
