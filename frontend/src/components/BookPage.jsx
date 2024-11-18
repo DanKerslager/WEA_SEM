@@ -30,7 +30,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const [categories, setCategories] = useState(lastCategories || '');
   const [title, setTitle] = useState(lastTitle || '');
   const [showFavorites, setShowFavorites] = useState(onFavorites || false);
-  const [showRated, setShowRated] = useState(onRated || false);
+  const [showRated, setShowRated] = useState(onRated === 'true' || false);
 
   const [showHidden, setShowHidden] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
