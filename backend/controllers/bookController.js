@@ -2,7 +2,7 @@
 const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger'); // Import the logger
 const e = require('express');
-const { chunkArray, makeFilterObject } = require('./utils');
+const { chunkArray, makeFilterObject, createOperation } = require('./utils');
 const logAuditEvent = require('./AuditLogController'); // Import the audit log controller
 
 // Controller funkce pro přidání komentáře ke konkrétní knize
@@ -95,30 +95,7 @@ exports.addOrUpdateBooks = async (books) => {
 
   // Iterate over each chunk (assuming books are already chunked)
   for (const chunk of bookChunks) {
-    const operations = chunk.map(book => ({
-      updateOne: {
-        filter: { isbn13: book.isbn13 }, // Use isbn13 as unique identifier
-        update: {
-          $set: {
-            isbn10: book.isbn10,
-            title: book.title,
-            categories: book.categories,
-            subtitle: book.subtitle,
-            authors: book.authors,
-            thumbnail: book.thumbnail,
-            description: book.description,
-            published_year: book.published_year,
-            average_rating: book.average_rating,
-            num_pages: book.num_pages,
-            ratings_count: book.ratings_count,
-            available: true, // Set book as available
-          },
-          $push: book.comments ? { comments: { $each: book.comments } } : {}
-        },
-        upsert: true
-      }
-    }));
-
+    const operations = createOperation(chunk);
     try {
       // Execute bulkWrite operation for the current chunk
       await BookModel.bulkWrite(operations);
