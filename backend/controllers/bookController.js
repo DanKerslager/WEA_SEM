@@ -3,7 +3,7 @@ const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger'); // Import the logger
 const e = require('express');
 const { chunkArray, makeFilterObject, createOperation } = require('./utils');
-const logAuditEvent = require('./AuditLogController'); // Import the audit log controller
+const {logAuditEvent, logBookDiff } = require('./AuditLogController'); // Import the audit log controller
 
 // Controller funkce pro přidání komentáře ke konkrétní knize
 exports.addCommentToBook = async (req, res) => {
@@ -82,6 +82,16 @@ exports.getBooks = async (req, res) => {
 
 // Add or update books in the database
 exports.addOrUpdateBooks = async (books) => {
+  // Fetch the current list of available books
+  let beforeAvailableBooks = [];
+  try {
+    beforeAvailableBooks = await BookModel.find({ available: true }, '_id title').lean();
+  } catch (err) {
+    logger.error('Error fetching current available books:', err);
+    throw new Error('Failed to fetch currently available books');
+  }
+
+  // Set all books as unavailable
   try {
     await BookModel.updateMany({}, { $set: { available: false } });
   } catch (err) {
@@ -104,5 +114,23 @@ exports.addOrUpdateBooks = async (books) => {
       logger.error('Error processing chunk:', err);
     }
   }
-  await logAuditEvent.logAuditEvent('BOOKS_UPDATED', 'CDB', { count: books.length });
+
+  // Fetch the updated list of available books
+  let afterAvailableBooks = [];
+  try {
+    afterAvailableBooks = await BookModel.find({ available: true }, '_id title').lean();
+  } catch (err) {
+    logger.error('Error fetching updated available books:', err);
+    throw new Error('Failed to fetch updated available books');
+  }
+
+  // Create sets of book IDs and titles for comparison
+  const beforeSet = new Map(beforeAvailableBooks.map(book => [book._id.toString(), book.title]));
+  const afterSet = new Map(afterAvailableBooks.map(book => [book._id.toString(), book.title]));
+
+  // Log the differences in the book sets
+  await logBookDiff(beforeSet, afterSet);
+
+  // Log the overall operation
+  await logAuditEvent('BOOKS_UPDATED', 'CDB', { count: books.length });
 };
