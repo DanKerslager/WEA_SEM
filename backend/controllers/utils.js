@@ -60,6 +60,7 @@ function createOperation(chunk){
           num_pages: book.num_pages,
           ratings_count: book.ratings_count,
           available: true, // Set book as available
+          price: book.price !== undefined && book.price !== null ? book.price : null // Pouze aktualizace ceny
         },
         $push: book.comments ? { comments: { $each: book.comments } } : {}
       },
