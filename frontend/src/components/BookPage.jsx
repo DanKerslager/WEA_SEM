@@ -122,11 +122,11 @@ const BookPage = ({ setBookId, setBookDetail }) => {
               {showFavorites ? t('show_all_books') : t('show_favorites_only')}
             </Button>
             <Button mr={6} colorScheme='teal' onClick={() => { setShowRated(!showRated); setPage(1); }}>
-              {showRated ? 'Show All Books' : 'Show Rated Books Only'}
+              {showRated ? t('show_all_books') : t('show_rated_books_only')}
             </Button>
             {isTesting && (
               <Button colorScheme='teal' onClick={() => { setShowHidden(!showHidden); setPage(1); }} disabled={showFavorites === true}>
-                {showHidden ? 'Show Available' : 'Show Hidden'}
+                {showHidden ? t('show_availible') : t('show_hidden')}
               </Button>
             )}
           </div>
