@@ -15,7 +15,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
   const onFavorites = localStorage.getItem('onFavorites');
   const onRated = localStorage.getItem('onRated');
-  const favoriteBooks = localStorage.getItem('favoriteBooks');
+  const storedFavoriteBooks = localStorage.getItem('favoriteBooks');
 
   const lastIsbn = localStorage.getItem('lastIsbn');
   const lastAuthors = localStorage.getItem('lastAuthors');
@@ -37,16 +37,19 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { user, setUser, isAuthenticated } = useAuth();
-  console.log(favoriteBooks);
-  const favorites = showFavorites ? user?.favoriteBooks : [];
+  //const favorites = showFavorites ? user?.favoriteBooks : [];
+  const [favorites, setFavorites] = useState(storedFavoriteBooks || []);
   const limit = 10;
   const colorMode = useColorModeValue('green.300', 'green.800');
+
+  // Sync user favorites with local storage
+  
+
 
   // Function to fetch books data from the backend.
   const loadBooksData = async () => {
     setLoading(true);
     setError(null);
-    
     try {
       const data = await fetchBooks({
         isbn,
@@ -62,8 +65,9 @@ const BookPage = ({ setBookId, setBookDetail }) => {
       });
       localStorage.setItem('lastPage', page);
       localStorage.setItem('onFavorites', showFavorites);
+      localStorage.setItem('favoriteBooks', favorites);
       localStorage.setItem('onRated', showRated);
-      
+
       setBooks(data.bookArray);
       setTotalPages(data.totalPages);
     } catch (err) {
@@ -121,7 +125,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
             </Button>
             {isTesting && (
               <Button colorScheme='teal' onClick={() => { setShowHidden(!showHidden); setPage(1); }} disabled={showFavorites === true}>
-              {showHidden ? 'Show Available' : 'Show Hidden'}
+                {showHidden ? 'Show Available' : 'Show Hidden'}
               </Button>
             )}
           </div>

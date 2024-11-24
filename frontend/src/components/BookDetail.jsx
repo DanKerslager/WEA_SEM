@@ -84,7 +84,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
                     {t('published_year')}: {book.published_year}
                   </Text>
                   <Text>
-                    {t('average_rating')}: {book.average_rating}
+                    {t('average_rating')}: {book?.average_rating?.toFixed(2)}
                   </Text>
                   <Text>
                     {t('num_pages')}: {book.num_pages}

@@ -28,19 +28,19 @@ const RegisterForm = ({ setShowRegister }) => {
     let password = data.password;
     const postData = await postRegister({ username, email, password });
     //init values
-    const firstName = 'test';
-    const lastName = 'test';
+    const firstName = '';
+    const lastName = '';
     const gender = 'Male';
-    const age = 25;
-    const favoriteGenres = 'test';
-    const referenceSource = 'test';
-    const testPersonal = await updatePersonalInfo({ userId: postData.data.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource})
-    console.log(testPersonal)
-    const personalAddress = { street: 'Please change', city: 'Please change', state: 'Please change', zipCode: 'Please change', country: 'Please change' };
-    const billingAddress =  { street: 'Please change', city: 'Please change', state: 'Please change', zipCode: 'Please change', country: 'Please change' };
+    const age = 0;
+    const favoriteGenres = '';
+    const referenceSource = '';
+    const personalAddress = { street: '', city: '', state: '', zipCode: '', country: '' };
+    const billingAddress =  { street: '', city: '', state: '', zipCode: '', country: '' };
     const sameAsPersonalAddress = false;
-    const testAddress = await updateAddressInfo({ userId: postData.data.userId, personalAddress, billingAddress, sameAsPersonalAddress})
-    console.log(testAddress)
+    const personalInfo = await updatePersonalInfo({ userId: postData.data.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource})
+    console.log(personalInfo)
+    const addressInfo = await updateAddressInfo({ userId: postData.data.userId, personalAddress, billingAddress, sameAsPersonalAddress})
+    console.log(addressInfo)
     if (postData?.status === 201) {
       setError(null);
       setSuccess(postData.data.message);
