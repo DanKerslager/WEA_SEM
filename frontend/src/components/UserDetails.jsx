@@ -39,7 +39,7 @@ const UserDetails = ({ userId }) => {
   } = useForm({
     defaultValues: {
       personalAddress: {
-        street: "",
+        street:  "",
         city: "",
         state: "",
         zipCode: "",
@@ -67,7 +67,36 @@ const UserDetails = ({ userId }) => {
 
   const sameAsPersonalAddress = watch("sameAsPersonalAddress");
 
-
+  useEffect(() => {
+    if (user) {
+      reset({
+        personalAddress: {
+          street: user.personalAddress?.street || "",
+          city: user.personalAddress?.city || "",
+          state: user.personalAddress?.state || "",
+          zipCode: user.personalAddress?.zipCode || "",
+          country: user.personalAddress?.country || "",
+        },
+        billingAddress: {
+          street: user.billingAddress?.street || "",
+          city: user.billingAddress?.city || "",
+          state: user.billingAddress?.state || "",
+          zipCode: user.billingAddress?.zipCode || "",
+          country: user.billingAddress?.country || "",
+        },
+        sameAsPersonalAddress: user.sameAsPersonalAddress || false,
+        consentToDataProcessing: user.consentToDataProcessing || false,
+        personalInfo: {
+          firstName: user.personalInfo?.firstName || "",
+          lastName: user.personalInfo?.lastName || "",
+          gender: user.personalInfo?.gender || "",
+          age: user.personalInfo?.age || "",
+          favoriteGenres: user.personalInfo?.favoriteGenres || [],
+          referenceSource: user.personalInfo?.referenceSource || "",
+        },
+      });
+    }
+  }, [user, reset]);
   // Copy personalAddress to billingAddress if `sameAsPersonalAddress` is checked
   useEffect(() => {
     if (sameAsPersonalAddress) {
@@ -79,11 +108,12 @@ const UserDetails = ({ userId }) => {
   const onSubmit = async (data) => {
     console.log(data);
     const { personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing } = data;
-    const testPersonal = await updatePersonalInfo({ userId, ...personalInfo });
-    console.log(testPersonal)
-    const testAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress })
-    console.log(testAddress)
-
+    const changePersonalInfo = await updatePersonalInfo({ userId, ...personalInfo }); 
+    console.log(changePersonalInfo)
+    const changeAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress})
+    console.log(changeAddress)
+    setUser( { ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing });
+    localStorage.setItem('user', JSON.stringify({ ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing }));
   };
 
   return (

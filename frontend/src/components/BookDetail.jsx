@@ -28,7 +28,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
   const colorMode = useColorModeValue('gray.100', 'gray.700');
   //Get data from Cookies
   const { isAuthenticated, user } = useAuth();
-  const isFavorited = user?.favorites?.find(favoriteId => favoriteId === bookId);
+  const isFavorited = user?.favoriteBooks?.find(favoriteId => favoriteId === bookId);
   const loadBookDetailData = async () => {
     setError(null);
     try {
@@ -84,7 +84,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
                     {t('published_year')}: {book.published_year}
                   </Text>
                   <Text>
-                    {t('average_rating')}: {book.average_rating}
+                    {t('average_rating')}: {book?.average_rating?.toFixed(2)}
                   </Text>
                   <Text>
                     {t('num_pages')}: {book.num_pages}

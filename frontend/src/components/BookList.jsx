@@ -23,13 +23,13 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
   const [rating, setRating] = useState(0)
   const setFavorites = async (bookId, isFavourite) => {
     try {
-      const response = await setFavorite({ userId: user.userId, bookId, isFavorite: isFavourite });
+      const response = await setFavorite({ userId: user._id, bookId, isFavorite: isFavourite });
       setUser((prevUser) => {
         const updatedFavorites = isFavourite
-          ? [...prevUser.favorites, bookId]
-          : prevUser.favorites.filter(favId => favId !== bookId);
+          ? [...prevUser.favoriteBooks, bookId]
+          : prevUser.favoriteBooks.filter(favId => favId !== bookId);
 
-        const updatedUser = { ...prevUser, favorites: updatedFavorites };
+        const updatedUser = { ...prevUser, favoriteBooks: updatedFavorites };
         // Update local storage after updating the user
         localStorage.setItem('user', JSON.stringify(updatedUser));
         return updatedUser;
@@ -41,11 +41,17 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
   const giveStarRating = async (nextValue, bookId) => {
     try {
       setRating(nextValue);
-      await rateBook({ user: user.userId, bookId, rating: nextValue });
+      const rating = await rateBook({ user: user._id, bookId, rating: nextValue });
+      console.log(user);
+      console.log(bookId);
+      console.log(nextValue );
+
+      console.log(rating);
     } catch (error) {
       console.error("Failed to update rating:", error);
     }
   }
+  
   useEffect(() => {
   }
     , [rating]);
@@ -112,7 +118,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                     }}
                   >
                     <Rating
-                      initialValue={book?.user_ratings?.find((userRating) => userRating?.user === user?.username)?.rating}
+                      initialValue={book?.user_ratings?.find((userRating) => userRating?.user === user?._id)?.rating}
                       fillColorArray={[
                         '#f14f45',
                         '#f16c45',
@@ -127,7 +133,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                 )}
                 {isAuthenticated && (
                   <>
-                    {user?.favorites?.includes(book._id) ? (
+                    {user?.favoriteBooks?.includes(book._id) ? (
                       <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => {
                         await setFavorites(book._id, false);
                       }}>{t('remove')}</Button>

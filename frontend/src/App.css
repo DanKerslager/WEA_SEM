@@ -181,12 +181,10 @@ img {
   flex-direction: column;
   margin-left: 20px;
 }
-
 #title-and-back-button {
   display: flex;
   justify-content: space-between;
 }
-
 footer {
   display: flex;
   flex-direction: column;
@@ -210,27 +208,27 @@ footer {
   justify-content: center;
   align-items: center;
 }
-
-#user-detail-wrapper {
+#user-detail-button-box{
   display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-  border-radius: 8px;
+  justify-content: right;
+  align-items: center;
 }
-
-#user-detail-form-content {
-  display: flex;
-  columns: 2;
-} 
-
 .user-detail-h2{
   font-size: larger;
 }
-
+#user-detail-form-content{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
+  justify-items: center;
+}
+#personal-address > div, #billing-address > div, #personal-information > div{
+  display: flex;
+  flex-direction: column;
+}
 #user-detail-x-button {
   margin: 15px 15px 0px 0px;
 }
-
 #user-detail-submit-button {
   margin: 0px 0px 15px 15px;
 }
@@ -256,11 +254,9 @@ footer {
 .user-detail-input {
   margin: 0px 15px 15px 15px;
 }
-
 .user-detail-label {
   margin-left: 10px;
 }
-
 .user-detail-checkbox {
   margin-right: 10px;
 }
