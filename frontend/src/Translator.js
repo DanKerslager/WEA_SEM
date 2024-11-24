@@ -54,6 +54,17 @@ const resources = {
       save_changes: 'Save Changes',
       country: 'Country',
       required_field: 'This field is required',
+      remove: 'Remove',
+      add_to_favorites: 'Add to favorites',
+      user_detail: 'User Detail',
+      show_all_books: 'Show All Books',
+      show_favorites_only: 'Show Favorites Only',
+      show_availible: 'Show Availible',
+      show_hidden: 'Show Hidden',
+      no_favorite_book: 'No book has been added to favorites yet',
+      book_is: 'Book is ',
+      available: 'Available',
+      unavailable: 'Unavailable',
     }
   },
   cs: {
@@ -105,6 +116,17 @@ const resources = {
       save_changes: 'Uložit změny',
       country: 'Země',
       required_field: 'Toto pole je povinné',
+      remove: 'Odstranit',
+      add_to_favorites: 'Přidat do oblíbených',
+      user_detail: 'Detail uživatele',
+      show_all_books: 'Zobrazit všechny knihy',
+      show_favorites_only: 'Zobrazit pouze oblíbené',
+      show_availible: 'Zobrazit dostupné',
+      show_hidden: 'Zobrazit skryté',
+      no_favorite_book: 'Do oblíbených ještě nebyla přidána žádná kniha',
+      book_is: 'Kniha je ',
+      available: 'dostupná',
+      unavailable: 'nedostupná',
     }
   }
 };

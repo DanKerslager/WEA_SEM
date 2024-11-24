@@ -98,27 +98,27 @@ const UserDetails = ({ userId }) => {
           <Box id="user-detail-form-content">
             <Box id="personal-address">
               <h2 class="user-detail-h2">{t('personalAddress')}</h2>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('street')}</label>
                 <input class="user-detail-input" {...register("personalAddress.street", { required: "Street is required" })} />
                 {errors.personalAddress?.street && <p>{errors.personalAddress.street.message}</p>}
               </div>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('city')}</label>
                 <input class="user-detail-input" {...register("personalAddress.city", { required: "City is required" })} />
                 {errors.personalAddress?.city && <p>{errors.personalAddress.city.message}</p>}
               </div>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('state')}</label>
                 <input class="user-detail-input" {...register("personalAddress.state", { required: "State is required" })} />
                 {errors.personalAddress?.state && <p>{errors.personalAddress.state.message}</p>}
               </div>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('zip_code')}</label>
                 <input class="user-detail-input" {...register("personalAddress.zipCode", { required: "ZIP Code is required" })} />
                 {errors.personalAddress?.zipCode && <p>{errors.personalAddress.zipCode.message}</p>}
               </div>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('country')}</label>
                 <input class="user-detail-input" {...register("personalAddress.country", { required: "Country is required" })} />
                 {errors.personalAddress?.country && <p>{errors.personalAddress.country.message}</p>}
@@ -127,7 +127,7 @@ const UserDetails = ({ userId }) => {
 
             <Box id="billing-address">
               <h2 class="user-detail-h2">{t('billing_address')}</h2>
-              <div>
+              <div class="label-and-input">
                 <label>
                   <input
                     class="user-detail-checkbox"
@@ -139,23 +139,23 @@ const UserDetails = ({ userId }) => {
               </div>
               {!sameAsPersonalAddress && (
                 <>
-                  <div>
+                  <div class="label-and-input">
                     <label class="user-detail-label">{t('street')}</label>
                     <input class="user-detail-input" {...register("billingAddress.street")} />
                   </div>
-                  <div>
+                  <div class="label-and-input">
                     <label class="user-detail-label">{t('city')}</label>
                     <input class="user-detail-input" {...register("billingAddress.city")} />
                   </div>
-                  <div>
+                  <div class="label-and-input">
                     <label class="user-detail-label">{t('state')}</label>
                     <input class="user-detail-input" {...register("billingAddress.state")} />
                   </div>
-                  <div>
+                  <div class="label-and-input">
                     <label class="user-detail-label">{t('zip_code')}</label>
                     <input class="user-detail-input" {...register("billingAddress.zipCode")} />
                   </div>
-                  <div>
+                  <div class="label-and-input">
                     <label class="user-detail-label">{t('country')}</label>
                     <input class="user-detail-input" {...register("billingAddress.country")} />
                   </div>
@@ -164,17 +164,17 @@ const UserDetails = ({ userId }) => {
             </Box>
             <Box id="personal-information">
               <h2 class="user-detail-h2">{t('personal_information')}</h2>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('first_name')}</label>
                 <input class="user-detail-input" {...register("personalInfo.firstName", { required: "First Name is required" })} />
                 {errors.personalInfo?.firstName && <p>{errors.personalInfo.firstName.message}</p>}
               </div>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('last_name')}</label>
                 <input class="user-detail-input" {...register("personalInfo.lastName", { required: "Last Name is required" })} />
                 {errors.personalInfo?.lastName && <p>{errors.personalInfo.lastName.message}</p>}
               </div>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('gender')}</label>
                 <select class="user-detail-input" {...register("personalInfo.gender", { required: "Gender is required" })}>
                   <option value="">{t('select')}</option>
@@ -185,11 +185,11 @@ const UserDetails = ({ userId }) => {
                 </select>
                 {errors.personalInfo?.gender && <p>{errors.personalInfo.gender.message}</p>}
               </div>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('age')}</label>
                 <input class="user-detail-input" type="number" {...register("personalInfo.age", { valueAsNumber: true })} />
               </div>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('favorite_genres')}</label>
                 <Controller
                   name="personalInfo.favoriteGenres"
@@ -204,13 +204,13 @@ const UserDetails = ({ userId }) => {
                   )}
                 />
               </div>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">{t('where_did_you_find')}</label>
                 <input class="user-detail-input" {...register("personalInfo.referenceSource")} />
               </div>
 
               <h2>{t('consent')}</h2>
-              <div>
+              <div class="label-and-input">
                 <label class="user-detail-label">
                   <input
                     class="user-detail-checkbox"

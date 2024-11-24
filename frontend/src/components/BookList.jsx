@@ -98,7 +98,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
 
                 </div>
               </Box>
-              <Text style={{ textAlign: 'center' }}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
+              <Text style={{ textAlign: 'center' }}> {t('book_is')} {book.available ?  t('available'): t('unvaillable')}</Text>
 
               <div id='favorite-rating'>
                 {isAuthenticated && book.available && (
@@ -130,11 +130,11 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                     {user?.favorites?.includes(book._id) ? (
                       <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => {
                         await setFavorites(book._id, false);
-                      }}>Remove</Button>
+                      }}>{t('remove')}</Button>
                     ) : (
                       <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => {
                         await setFavorites(book._id, true);
-                      }}>Add to favourite</Button>
+                      }}>{t('add_to_favorites')}</Button>
                     )}
                   </>
                 )}

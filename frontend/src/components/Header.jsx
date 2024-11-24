@@ -56,7 +56,7 @@ const Header = () => {
             </Box>
             {isAuthenticated && (
               <Button ml={5} colorScheme="green" onClick={() => setShowUserDetail(true)}>
-                User Detail
+                {t('user_detail')}
               </Button>
             )}
           </Flex>

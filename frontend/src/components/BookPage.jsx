@@ -10,6 +10,8 @@ import {
   onIsbnOnChange,
 } from '../filter';
 import { useAuth } from '../providers/AuthProvider';
+import { useTranslation } from 'react-i18next';
+
 
 
 const BookPage = ({ setBookId, setBookDetail }) => {
@@ -37,6 +39,8 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const favorites = showFavorites ? user?.favorites : [];
   const limit = 10;
   const colorMode = useColorModeValue('green.300', 'green.800');
+  const { t } = useTranslation();
+
 
   // Function to fetch books data from the backend.
   const loadBooksData = async () => {
@@ -106,7 +110,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
         {isAuthenticated && (
           <div id="filter-buttons">
             <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return } setShowFavorites(true); setShowHidden(true); setPage(1); }}>
-              {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
+              {showFavorites ? t('show_all_books') : t('show_favorites_only')}
             </Button>
             {isTesting && (
               <Button colorScheme='teal' onClick={() => { setShowHidden(!showHidden); setPage(1); }} disabled={showFavorites === true}>
@@ -117,7 +121,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
           </div>
         )}
         {showFavorites && favorites.length === 0 ? (
-          <Center>No book has been favorited yet.</Center>
+          <Center>{t('no_favorite_book')}</Center>
         ) : (
           <BookList
             setBookId={setBookId}
