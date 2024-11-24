@@ -66,6 +66,7 @@ const resources = {
       book_is: 'Book is ',
       available: 'Available',
       unavailable: 'Unavailable',
+      price: 'Price',
     }
   },
   cs: {
@@ -129,6 +130,7 @@ const resources = {
       book_is: 'Kniha je ',
       available: 'dostupná',
       unavailable: 'nedostupná',
+      price: 'Cena',
     }
   }
 };

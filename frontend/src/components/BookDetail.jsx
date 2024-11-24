@@ -19,6 +19,7 @@ import Cookies from 'js-cookie';
 import { fetchBookDetail } from '../api';
 import Comments from './Comments';
 import { useAuth } from '../providers/AuthProvider';
+import { addToCart, removeFromCart } from '../utils'
 
 const BookDetail = ({ bookId, setBookDetail }) => {
   const [commentCreated, setCommentCreated] = useState(false);
@@ -26,6 +27,9 @@ const BookDetail = ({ bookId, setBookDetail }) => {
   const [error, setError] = useState(null);
   const { t } = useTranslation();
   const colorMode = useColorModeValue('gray.100', 'gray.700');
+  const [shoppingCart, setShoppingCart] = useState(() => {
+    return JSON.parse(sessionStorage.getItem('shoppingCart')) || [];
+  });
   //Get data from Cookies
   const { isAuthenticated, user } = useAuth();
   const isFavorited = user?.favoriteBooks?.find(favoriteId => favoriteId === bookId);
@@ -92,7 +96,15 @@ const BookDetail = ({ bookId, setBookDetail }) => {
                   <Text>
                     {t('ratings_count')}: {book.ratings_count}
                   </Text>
+                  <Text>
+                    {t('price')}: {book.price}
+                  </Text>
                 </Box>
+                {shoppingCart.find((cartBook) => cartBook._id === book._id) ? (
+                      <Button id='view' p={5} colorScheme="red" size="sm" onClick={async() => await removeFromCart(book._id, setShoppingCart)}>Remove from cart</Button>
+                    ) : (
+                      <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async() => await addToCart(book, setShoppingCart)}>Add to cart</Button>
+                    )}
               </Box>
               <br />
               <Text>{t('description')}:</Text>
