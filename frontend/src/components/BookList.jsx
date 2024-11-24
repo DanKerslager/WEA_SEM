@@ -56,8 +56,10 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
   }
   
   useEffect(() => {
+    if(!(sessionStorage.getItem('shoppingCart')))
+      setShoppingCart([]);
   }
-    , [rating]);
+    , [rating, isAuthenticated]);
 
 
   if (loading) {

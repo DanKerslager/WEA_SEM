@@ -27,11 +27,15 @@ const BookDetail = ({ bookId, setBookDetail }) => {
   const [error, setError] = useState(null);
   const { t } = useTranslation();
   const colorMode = useColorModeValue('gray.100', 'gray.700');
+  const { isAuthenticated, user } = useAuth();
   const [shoppingCart, setShoppingCart] = useState(() => {
+    if(!isAuthenticated){
+      setShoppingCart([]);
+      return;
+    }
     return JSON.parse(sessionStorage.getItem('shoppingCart')) || [];
   });
   //Get data from Cookies
-  const { isAuthenticated, user } = useAuth();
   const isFavorited = user?.favoriteBooks?.find(favoriteId => favoriteId === bookId);
   const loadBookDetailData = async () => {
     setError(null);
