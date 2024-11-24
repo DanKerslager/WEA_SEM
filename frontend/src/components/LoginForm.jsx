@@ -33,6 +33,8 @@ const LoginForm = ({ setShowLogin }) => {
     let user = loginData.data.user;
     if (loginData?.status === 200) {
       login(user);
+      let shoppingCart = [];
+      sessionStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
       setShowLogin(false);
     } else {
       setError(loginData.message);

@@ -54,6 +54,7 @@ const resources = {
       save_changes: 'Save Changes',
       country: 'Country',
       required_field: 'This field is required',
+      price: 'Price',
     }
   },
   cs: {
@@ -105,6 +106,7 @@ const resources = {
       save_changes: 'Uložit změny',
       country: 'Země',
       required_field: 'Toto pole je povinné',
+      price: 'Cena',
     }
   }
 };

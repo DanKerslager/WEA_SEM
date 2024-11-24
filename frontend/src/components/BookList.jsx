@@ -15,12 +15,15 @@ import { setFavorite } from '../api';
 import { useAuth } from '../providers/AuthProvider';
 import { useState, useEffect } from 'react';
 import { rateBook } from '../api';
+import { addToCart, removeFromCart } from '../utils'
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages, page, setPage }) => {
   const { t } = useTranslation();
   const { user, setUser, isAuthenticated } = useAuth();
-  //test
   const [rating, setRating] = useState(0)
+  const [shoppingCart, setShoppingCart] = useState(() => {
+    return JSON.parse(sessionStorage.getItem('shoppingCart')) || [];
+  });
   const setFavorites = async (bookId, isFavourite) => {
     try {
       const response = await setFavorite({ userId: user._id, bookId, isFavorite: isFavourite });
@@ -45,7 +48,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
       console.log(user);
       console.log(bookId);
       console.log(nextValue );
-
+      
       console.log(rating);
     } catch (error) {
       console.error("Failed to update rating:", error);
@@ -86,7 +89,6 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                 }}
                 id="book-card"
                 //borderWidth="1px"
-
                 overflow="hidden"
                 key={book._id}
               >
@@ -101,7 +103,8 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                   <Text>{book.subtitle}</Text>
                   <Text>{t('authors')}: {book.authors}</Text>
                   <Text>{t('categories')}: {book.categories}</Text>
-
+                  <Text>{t('average_rating')}: {book?.average_rating?.toFixed(2)}</Text>
+                  <Text>{t('price')}: {book.price}</Text>
                 </div>
               </Box>
               <Text style={{ textAlign: 'center' }}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
@@ -141,6 +144,11 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                       <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => {
                         await setFavorites(book._id, true);
                       }}>Add to favourite</Button>
+                    )}
+                    {shoppingCart.find((cartBook) => cartBook._id === book._id) ? (
+                      <Button id='view' p={5} colorScheme="red" size="sm" onClick={async() => await removeFromCart(book._id, setShoppingCart)}>Remove from cart</Button>
+                    ) : (
+                      <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async() => await addToCart(book, setShoppingCart)}>Add to cart</Button>
                     )}
                   </>
                 )}

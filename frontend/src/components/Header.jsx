@@ -1,5 +1,6 @@
 //import './Header.css';
 import { useState, useEffect } from 'react';
+import ShoppingCardIcon from '../img/shopping-cart.png';
 import Cookies from 'js-cookie';
 import {
   Box,
@@ -20,7 +21,7 @@ import {
   Center,
 } from '@chakra-ui/react';
 import '../';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon, Icon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 import LoginForm from './LoginForm';
@@ -33,7 +34,7 @@ import { useAuth } from '../providers/AuthProvider';
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const { user, isAuthenticated, logout, setUser, setShowUserDetail} = useAuth();
+  const { user, isAuthenticated, logout, setUser, setShowUserDetail, setShowShoppingCart} = useAuth();
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
   const cMode = useColorModeValue('gray.100', 'gray.900');
@@ -55,9 +56,14 @@ const Header = () => {
               <h1>BookStock Catalog</h1>
             </Box>
             {isAuthenticated && (
+              <>
               <Button ml={5} colorScheme="green" onClick={() => setShowUserDetail(true)}>
                 User Detail
               </Button>
+              <Button ml={5} colorScheme="green" onClick={() => setShowShoppingCart(true)}>
+                <img src={ShoppingCardIcon} alt="Shopping Card" />
+              </Button>
+              </>
             )}
           </Flex>
             <Flex alignItems={'center'}>
@@ -100,6 +106,7 @@ const Header = () => {
                         <br />
                         <MenuDivider />
                         <MenuItem onClick={() => {
+                          sessionStorage.clear();
                           logout();
                         }}>
                           {t('logout')}

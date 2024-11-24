@@ -38,13 +38,13 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const [error, setError] = useState(null);
   const { user, setUser, isAuthenticated } = useAuth();
   //const favorites = showFavorites ? user?.favoriteBooks : [];
-  const [favorites, setFavorites] = useState(storedFavoriteBooks || []);
+  //const [favorites, setFavorites] = useState(storedFavoriteBooks || []);
   const limit = 10;
   const colorMode = useColorModeValue('green.300', 'green.800');
 
   // Sync user favorites with local storage
   
-
+  const favorites = showFavorites ? user?.favoriteBooks : [];
 
   // Function to fetch books data from the backend.
   const loadBooksData = async () => {
