@@ -52,7 +52,7 @@ const Header = () => {
         <Box bg={cMode} px={4}>
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Flex alignItems={'center'}>
-            <Box>
+            <Box onClick={() => {setShowUserDetail(false);}}>
               <h1>BookStock Catalog</h1>
             </Box>
             {isAuthenticated && (

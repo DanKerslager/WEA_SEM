@@ -148,5 +148,4 @@ const BookPage = ({ setBookId, setBookDetail }) => {
     </div>
   );
 };
-
 export default BookPage;

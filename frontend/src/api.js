@@ -18,7 +18,7 @@ export const fetchBooks = async (filterParams) => {
   if (authors !== '') link += `author=${encodedAuthors}&`;
   if (categories !== '') link += `categories=${encodedCategories}&`;
   if (title !== '') link += `title=${encodedTitle}&`;
-  if (favorites.length > 0) link += `favorites=${JSON.stringify(favorites)}&`;
+  if (favorites && favorites.length > 0) link += `favorites=${JSON.stringify(favorites)}&`;
   if (showHidden !== '') link += `showHidden=${JSON.stringify(showHidden)}&`;
   if (showRated !== '') link += `showRated=${JSON.stringify(showRated)}&`;
   if (userId !== '') link += `userId=${JSON.stringify(userId)}&`;

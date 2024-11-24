@@ -47,20 +47,19 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
       const rating = await rateBook({ user: user._id, bookId, rating: nextValue });
       console.log(user);
       console.log(bookId);
-      console.log(nextValue );
-      
+      console.log(nextValue);
+
       console.log(rating);
     } catch (error) {
       console.error("Failed to update rating:", error);
     }
   }
-  
+
   useEffect(() => {
-    if(!(sessionStorage.getItem('shoppingCart')))
+    if (!(sessionStorage.getItem('shoppingCart')))
       setShoppingCart([]);
   }
     , [rating, isAuthenticated]);
-
 
   if (loading) {
     return (
@@ -82,80 +81,84 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
         {!loading &&
           !error &&
           books.map((book) => (
-            <Box borderRadius="lg" borderWidth="1px">
-              <Box
-                onClick={() => {
-                  setBookDetail(true);
-                  setBookId(book._id);
-                  localStorage.setItem('bookId', book._id);
-                }}
-                id="book-card"
-                //borderWidth="1px"
-                overflow="hidden"
-                key={book._id}
-              >
-                <Image
-                  objectFit="cover"
-                  maxW={{ base: '100%', sm: '200px' }}
-                  src={book.thumbnail}
-                  alt={`${book.title} cover`}
-                />
-                <div>
-                  <Heading size="md">{book.title}</Heading>
-                  <Text>{book.subtitle}</Text>
-                  <Text>{t('authors')}: {book.authors}</Text>
-                  <Text>{t('categories')}: {book.categories}</Text>
-                  <Text>{t('average_rating')}: {book?.average_rating?.toFixed(2)}</Text>
-                  <Text>{t('price')}: {book.price}</Text>
-                </div>
-              </Box>
-              <Text style={{ textAlign: 'center' }}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
-
-              <div id='favorite-rating'>
-                {isAuthenticated && book.available && (
-                  <div
-                    style={{
-                      display: 'inline-block',
-                      textAlign: 'center',
-                      direction: 'ltr',
-                      fontFamily: 'sans-serif',
-                      touchAction: 'none'
+            <>
+              {(book?.price && book?.price > 0) && (
+                <Box borderRadius="lg" borderWidth="1px">
+                  <Box
+                    onClick={() => {
+                      setBookDetail(true);
+                      setBookId(book._id);
+                      localStorage.setItem('bookId', book._id);
                     }}
+                    id="book-card"
+                    //borderWidth="1px"
+                    overflow="hidden"
+                    key={book._id}
                   >
-                    <Rating
-                      initialValue={book?.user_ratings?.find((userRating) => userRating?.user === user?._id)?.rating}
-                      fillColorArray={[
-                        '#f14f45',
-                        '#f16c45',
-                        '#f18845',
-                        '#f1b345',
-                        '#f1d045'
-                      ]}
-                      SVGstyle={{ 'display': 'inline' }}
-                      onClick={async (value) => await giveStarRating(value, book._id)}
+                    <Image
+                      objectFit="cover"
+                      maxW={{ base: '100%', sm: '200px' }}
+                      src={book.thumbnail}
+                      alt={`${book.title} cover`}
                     />
+                    <div>
+                      <Heading size="md">{book.title}</Heading>
+                      <Text>{book.subtitle}</Text>
+                      <Text>{t('authors')}: {book.authors}</Text>
+                      <Text>{t('categories')}: {book.categories}</Text>
+                      <Text>{t('average_rating')}: {book?.average_rating?.toFixed(2)}</Text>
+                      <Text>{t('price')}: {book.price} CZK</Text>
+                    </div>
+                  </Box>
+                  <Text style={{ textAlign: 'center' }}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
+
+                  <div id='favorite-rating'>
+                    {isAuthenticated && book.available && (
+                      <div
+                        style={{
+                          display: 'inline-block',
+                          textAlign: 'center',
+                          direction: 'ltr',
+                          fontFamily: 'sans-serif',
+                          touchAction: 'none'
+                        }}
+                      >
+                        <Rating
+                          initialValue={book?.user_ratings?.find((userRating) => userRating?.user === user?._id)?.rating}
+                          fillColorArray={[
+                            '#f14f45',
+                            '#f16c45',
+                            '#f18845',
+                            '#f1b345',
+                            '#f1d045'
+                          ]}
+                          SVGstyle={{ 'display': 'inline' }}
+                          onClick={async (value) => await giveStarRating(value, book._id)}
+                        />
+                      </div>
+                    )}
+                    {isAuthenticated && (
+                      <>
+                        {user?.favoriteBooks?.includes(book._id) ? (
+                          <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => {
+                            await setFavorites(book._id, false);
+                          }}>Remove</Button>
+                        ) : (
+                          <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => {
+                            await setFavorites(book._id, true);
+                          }}>Add to favourite</Button>
+                        )}
+                        {shoppingCart.find((cartBook) => cartBook._id === book._id) ? (
+                          <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => await removeFromCart(book._id, setShoppingCart)}>Remove from cart</Button>
+                        ) : (
+                          <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => await addToCart(book, setShoppingCart)}>Add to cart</Button>
+                        )}
+                      </>
+                    )}
                   </div>
-                )}
-                {isAuthenticated && (
-                  <>
-                    {user?.favoriteBooks?.includes(book._id) ? (
-                      <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => {
-                        await setFavorites(book._id, false);
-                      }}>Remove</Button>
-                    ) : (
-                      <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => {
-                        await setFavorites(book._id, true);
-                      }}>Add to favourite</Button>
-                    )}
-                    {shoppingCart.find((cartBook) => cartBook._id === book._id) ? (
-                      <Button id='view' p={5} colorScheme="red" size="sm" onClick={async() => await removeFromCart(book._id, setShoppingCart)}>Remove from cart</Button>
-                    ) : (
-                      <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async() => await addToCart(book, setShoppingCart)}>Add to cart</Button>
-                    )}
-                  </>
-                )}
-              </div>
-            </Box>
+                </Box>
+              )}
+            </>
           ))}
       </div>
       <Center id="pagination">
