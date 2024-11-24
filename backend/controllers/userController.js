@@ -105,6 +105,8 @@ const setFavBook = async (userId, bookId, isFavorite) => {
 const updateAddress = async (userId, personalAddress, billingAddress, sameAsPersonalAddress) => {
   const update = {};
 
+  update.sameAsPersonalAddress = sameAsPersonalAddress;
+  
   // Add personal address to update object
   if (personalAddress) {
     update.personalAddress = personalAddress;
