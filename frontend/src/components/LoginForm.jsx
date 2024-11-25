@@ -28,10 +28,13 @@ const LoginForm = ({ setShowLogin }) => {
     let email = data.email;
     let password = data.password;
     const loginData = await getLogin({ email, password });
+    
     //get user data
     let user = loginData.data.user;
     if (loginData?.status === 200) {
       login(user);
+      let shoppingCart = [];
+      sessionStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
       setShowLogin(false);
     } else {
       setError(loginData.message);

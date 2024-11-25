@@ -15,6 +15,8 @@ function makeFilterObject(requestQuery) {
   let title = requestQuery.title;
   let favorites = requestQuery.favorites;
   let showHidden = requestQuery.showHidden;
+  let showRated = requestQuery.showRated;
+  let userId = requestQuery.userId;
   // Filter parameter object carrying the filter values
   let filter = {};
   if (isbn) {
@@ -38,7 +40,20 @@ function makeFilterObject(requestQuery) {
     if(parsedShowHidden === false){
       filter.available = true;
     }
-  } 
+  }
+  if (showRated) {
+    try {
+      let parsedShowRated = JSON.parse(showRated);
+      let parsedUserId = JSON.parse(userId);
+      if (parsedShowRated === true && parsedUserId) {
+        filter.user_ratings = {
+          $elemMatch: { user: parsedUserId },
+        };
+      }
+    } catch (err) {
+      console.error("Invalid JSON for showRated or userId:", err);
+    }
+  }
 return filter;
 }
 

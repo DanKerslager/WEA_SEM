@@ -8,7 +8,7 @@ const BASE_URL = `${window.location.protocol}//${window.location.hostname}:8002`
  * @returns filtered books
  */
 export const fetchBooks = async (filterParams) => {
-  const { isbn, authors, categories, title, page, limit, favorites, showHidden } = filterParams;
+  const { isbn, authors, categories, title, page, limit, favorites, showHidden, showRated, userId } = filterParams;
   let link = `${BASE_URL}/getBooks?`;
   const encodedIsbn = encodeURIComponent(isbn);
   const encodedAuthors = encodeURIComponent(authors);
@@ -18,8 +18,11 @@ export const fetchBooks = async (filterParams) => {
   if (authors !== '') link += `author=${encodedAuthors}&`;
   if (categories !== '') link += `categories=${encodedCategories}&`;
   if (title !== '') link += `title=${encodedTitle}&`;
-  if (favorites.length > 0) link += `favorites=${JSON.stringify(favorites)}&`;
+  if (favorites && favorites.length > 0) link += `favorites=${JSON.stringify(favorites)}&`;
   if (showHidden !== '') link += `showHidden=${JSON.stringify(showHidden)}&`;
+  if (showRated !== '') link += `showRated=${JSON.stringify(showRated)}&`;
+  if (userId !== '') link += `userId=${JSON.stringify(userId)}&`;
+
   link += `page=${page}&limit=${limit}&`;
   try {
     const response = await axios.get(link);
@@ -122,6 +125,44 @@ export const rateBook = async(userParams) => {
   } catch (error) {
     // Vrátíme chybu, pokud k ní dojde
     console.error("Error during rating book:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
+}
+
+export const updatePersonalInfo = async(userParams) => {
+  const { userId, firstName, lastName, gender, age, favoriteGenres, referenceSource } = userParams;
+  let link = `${BASE_URL}/user/${userId}/personal-info`;
+  try {
+    const response = await axios.put(link, {
+      firstName,
+      lastName,
+      gender,
+      age,
+      favoriteGenres,
+      referenceSource
+    });
+    // Vrátíme response data
+    return response.data;
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during updating user's personal info:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
+}
+export const updateAddressInfo = async(userParams) => {
+  const { userId, personalAddress, billingAddress, sameAsPersonalAddress } = userParams;
+  let link = `${BASE_URL}/user/${userId}/address`;
+  try {
+    const response = await axios.put(link, {
+      personalAddress,
+      billingAddress,
+      sameAsPersonalAddress
+    });
+    // Vrátíme response data
+    return response.data;
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during updating user's address:", error);
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
 }

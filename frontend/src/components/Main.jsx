@@ -3,6 +3,10 @@ import { useColorModeValue, Box, Button, Center } from '@chakra-ui/react';
 import BookPage from './BookPage';
 import BookDetail from './BookDetail';
 import { usePageContext } from '../providers/AuthProvider';
+import UserDetails from './UserDetails';
+import { useAuth } from '../providers/AuthProvider';
+import ShoppingCart from './ShoppingCart';
+
 // Main react component of the app.
 
 const Main = () => {
@@ -11,6 +15,7 @@ const Main = () => {
     const savedDetail = localStorage.getItem('detail');
     return savedDetail === 'true'; // Convert string back to boolean
   });
+  const { user, setUser, isAuthenticated, showUserDetail, showShoppingCart } = useAuth();
   useEffect(() => {
     localStorage.setItem('detail', bookDetail);
     if (bookId === '') {
@@ -36,9 +41,21 @@ const Main = () => {
   }, [bookDetail]); // Přidání detail do závislostí useEffect
   return (
     <div id='main'>
-      {bookDetail ?
-        <BookDetail bookId={bookId} setBookDetail={setBookDetail} /> :
-        <BookPage setBookId={setBookId} setBookDetail={setBookDetail} />}
+      {showUserDetail ? (
+        <UserDetails userId={user?._id} />
+      )
+        : showShoppingCart ? (
+          <ShoppingCart />
+        )
+          : (
+            <>
+              {bookDetail ?
+                <BookDetail bookId={bookId} setBookDetail={setBookDetail} /> :
+                <BookPage setBookId={setBookId} setBookDetail={setBookDetail} />
+              }
+            </>
+          )}
+
     </div>
   );
 };
