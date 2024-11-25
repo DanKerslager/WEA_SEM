@@ -15,6 +15,8 @@ function makeFilterObject(requestQuery) {
   let title = requestQuery.title;
   let favorites = requestQuery.favorites;
   let showHidden = requestQuery.showHidden;
+  let showRated = requestQuery.showRated;
+  let userId = requestQuery.userId;
   // Filter parameter object carrying the filter values
   let filter = {};
   if (isbn) {
@@ -38,11 +40,53 @@ function makeFilterObject(requestQuery) {
     if(parsedShowHidden === false){
       filter.available = true;
     }
-  } 
+  }
+  if (showRated) {
+    try {
+      let parsedShowRated = JSON.parse(showRated);
+      let parsedUserId = JSON.parse(userId);
+      if (parsedShowRated === true && parsedUserId) {
+        filter.user_ratings = {
+          $elemMatch: { user: parsedUserId },
+        };
+      }
+    } catch (err) {
+      console.error("Invalid JSON for showRated or userId:", err);
+    }
+  }
 return filter;
+}
+
+function createOperation(chunk){
+  const operations = chunk.map(book => ({
+    updateOne: {
+      filter: { isbn13: book.isbn13 }, // Use isbn13 as unique identifier
+      update: {
+        $set: {
+          isbn10: book.isbn10,
+          title: book.title,
+          categories: book.categories,
+          subtitle: book.subtitle,
+          authors: book.authors,
+          thumbnail: book.thumbnail,
+          description: book.description,
+          published_year: book.published_year,
+          average_rating: book.average_rating,
+          num_pages: book.num_pages,
+          ratings_count: book.ratings_count,
+          available: true, // Set book as available
+          price: book.price !== undefined && book.price !== null ? book.price : null // Pouze aktualizace ceny
+        },
+        $push: book.comments ? { comments: { $each: book.comments } } : {}
+      },
+      upsert: true
+    }
+  }));
+  return operations;
 }
 
 module.exports = {
     chunkArray,
-    makeFilterObject
+    makeFilterObject,
+    createOperation
 };

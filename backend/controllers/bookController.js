@@ -2,8 +2,8 @@
 const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger'); // Import the logger
 const e = require('express');
-const { chunkArray, makeFilterObject } = require('./utils');
-const logAuditEvent = require('./AuditLogController'); // Import the audit log controller
+const { chunkArray, makeFilterObject, createOperation } = require('./utils');
+const {logAuditEvent, logBookDiff } = require('./AuditLogController'); // Import the audit log controller
 
 // Controller funkce pro přidání komentáře ke konkrétní knize
 exports.addCommentToBook = async (req, res) => {
@@ -82,6 +82,16 @@ exports.getBooks = async (req, res) => {
 
 // Add or update books in the database
 exports.addOrUpdateBooks = async (books) => {
+  // Fetch the current list of available books
+  let beforeAvailableBooks = [];
+  try {
+    beforeAvailableBooks = await BookModel.find({ available: true }, '_id title').lean();
+  } catch (err) {
+    logger.error('Error fetching current available books:', err);
+    throw new Error('Failed to fetch currently available books');
+  }
+
+  // Set all books as unavailable
   try {
     await BookModel.updateMany({}, { $set: { available: false } });
   } catch (err) {
@@ -95,30 +105,7 @@ exports.addOrUpdateBooks = async (books) => {
 
   // Iterate over each chunk (assuming books are already chunked)
   for (const chunk of bookChunks) {
-    const operations = chunk.map(book => ({
-      updateOne: {
-        filter: { isbn13: book.isbn13 }, // Use isbn13 as unique identifier
-        update: {
-          $set: {
-            isbn10: book.isbn10,
-            title: book.title,
-            categories: book.categories,
-            subtitle: book.subtitle,
-            authors: book.authors,
-            thumbnail: book.thumbnail,
-            description: book.description,
-            published_year: book.published_year,
-            average_rating: book.average_rating,
-            num_pages: book.num_pages,
-            ratings_count: book.ratings_count,
-            available: true, // Set book as available
-          },
-          $push: book.comments ? { comments: { $each: book.comments } } : {}
-        },
-        upsert: true
-      }
-    }));
-
+    const operations = createOperation(chunk);
     try {
       // Execute bulkWrite operation for the current chunk
       await BookModel.bulkWrite(operations);
@@ -127,5 +114,23 @@ exports.addOrUpdateBooks = async (books) => {
       logger.error('Error processing chunk:', err);
     }
   }
-  await logAuditEvent.logAuditEvent('BOOKS_UPDATED', 'CDB', { count: books.length });
+
+  // Fetch the updated list of available books
+  let afterAvailableBooks = [];
+  try {
+    afterAvailableBooks = await BookModel.find({ available: true }, '_id title').lean();
+  } catch (err) {
+    logger.error('Error fetching updated available books:', err);
+    throw new Error('Failed to fetch updated available books');
+  }
+
+  // Create sets of book IDs and titles for comparison
+  const beforeSet = new Map(beforeAvailableBooks.map(book => [book._id.toString(), book.title]));
+  const afterSet = new Map(afterAvailableBooks.map(book => [book._id.toString(), book.title]));
+
+  // Log the differences in the book sets
+  await logBookDiff(beforeSet, afterSet);
+
+  // Log the overall operation
+  await logAuditEvent('BOOKS_UPDATED', 'CDB', { count: books.length });
 };

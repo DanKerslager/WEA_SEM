@@ -5,6 +5,7 @@ import BookDetail from './BookDetail';
 import { usePageContext } from '../providers/AuthProvider';
 import UserDetails from './UserDetails';
 import { useAuth } from '../providers/AuthProvider';
+import ShoppingCart from './ShoppingCart';
 
 // Main react component of the app.
 
@@ -14,7 +15,7 @@ const Main = () => {
     const savedDetail = localStorage.getItem('detail');
     return savedDetail === 'true'; // Convert string back to boolean
   });
-  const { user, setUser, isAuthenticated, showUserDetail } = useAuth();
+  const { user, setUser, isAuthenticated, showUserDetail, showShoppingCart } = useAuth();
   useEffect(() => {
     localStorage.setItem('detail', bookDetail);
     if (bookId === '') {
@@ -41,15 +42,19 @@ const Main = () => {
   return (
     <div id='main'>
       {showUserDetail ? (
-        <UserDetails userId={user?.userId} />
-      ) : (
-        <>
-          {bookDetail ?
-            <BookDetail bookId={bookId} setBookDetail={setBookDetail} /> :
-            <BookPage setBookId={setBookId} setBookDetail={setBookDetail} />
-          }
-        </>
-      )}
+        <UserDetails userId={user?._id} />
+      )
+        : showShoppingCart ? (
+          <ShoppingCart />
+        )
+          : (
+            <>
+              {bookDetail ?
+                <BookDetail bookId={bookId} setBookDetail={setBookDetail} /> :
+                <BookPage setBookId={setBookId} setBookDetail={setBookDetail} />
+              }
+            </>
+          )}
 
     </div>
   );

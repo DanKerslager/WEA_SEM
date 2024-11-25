@@ -21,9 +21,12 @@ const registerUser = async (username, email, password) => {
   await newUser.save();
 
   // Log the user registration event
-  await logAuditEvent.logAuditEvent('user_registration', user.username, { email });
+  await logAuditEvent.logAuditEvent('user_registration', newUser.username, { email });
+  return { 
+    message: 'User registered successfully',
+    userId: newUser._id,
 
-  return { message: 'User registered successfully' };
+   };
 };
 
 // Function to log in a user
@@ -44,15 +47,10 @@ const loginUser = async (email, password) => {
   await logAuditEvent.logAuditEvent('user_login', user.username, { email });
 
   // Return the user data with favorites and user ID
+  user.password = undefined; // Remove the password from the response
   return {
     message: 'Logged in successfully',
-    user: {
-      userId: user._id,
-      email: user.email,
-      username: user.username,
-      favorites: user.favoriteBooks, // Assuming 'favoriteBooks' is an array in the user schema
-      ratedBooks: user.ratings, // Assuming 'ratedBooks' is an array in the user schema
-    },
+    user: user,
   };
 };
 
@@ -107,6 +105,8 @@ const setFavBook = async (userId, bookId, isFavorite) => {
 const updateAddress = async (userId, personalAddress, billingAddress, sameAsPersonalAddress) => {
   const update = {};
 
+  update.sameAsPersonalAddress = sameAsPersonalAddress;
+  
   // Add personal address to update object
   if (personalAddress) {
     update.personalAddress = personalAddress;

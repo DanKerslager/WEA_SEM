@@ -12,7 +12,7 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { getLogin, updatePersonalInfo, updateAddressInfo } from '../api';
+import { getLogin } from '../api';
 import { useAuth } from '../providers/AuthProvider';
 
 const LoginForm = ({ setShowLogin }) => {
@@ -28,25 +28,13 @@ const LoginForm = ({ setShowLogin }) => {
     let email = data.email;
     let password = data.password;
     const loginData = await getLogin({ email, password });
-    //test values
-    const firstName = 'test';
-    const lastName = 'test';
-    const gender = 'Male';
-    const age = 25;
-    const favoriteGenres = 'test';
-    const referenceSource = 'test';
-
-    const testPersonal = await updatePersonalInfo({ userId: loginData.data.user.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource})
-    console.log(testPersonal)
-    const personalAddress = { street: 'droga', city: 'Mesto', state: "California", zipCode: 'test', country: 'bigCountry' };
-    const billingAddress =  { street: 'droga', city: 'newMesto', state: "California", zipCode: 'asdasd', country: 'NewCountry' };
-    const sameAsPersonalAddress = true;
-    const testAddress = await updateAddressInfo({ userId: loginData.data.user.userId, personalAddress, billingAddress, sameAsPersonalAddress})
-    console.log(testAddress)
+    
     //get user data
     let user = loginData.data.user;
     if (loginData?.status === 200) {
       login(user);
+      let shoppingCart = [];
+      sessionStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
       setShowLogin(false);
     } else {
       setError(loginData.message);

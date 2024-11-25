@@ -26,6 +26,8 @@ const BookSchema = new mongoose.Schema({
   average_rating: { type: Number, required: false, default: 0 },
   ratings_count: { type: Number, required: false, default: 0 },
   num_pages: Number,
+  price: { type: Number, required: false, min: 0, set: v => Math.round(v * 100) / 100, // Zaokrouhlení na dvě desetinná místa
+  },
   available: { type: Boolean, default: false },
   comments: [commentSchema],
   user_ratings: [ratingSchema]

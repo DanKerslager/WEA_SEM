@@ -110,7 +110,6 @@ router.post('/:id/ratings', (req, res) => {
 
   const { id } = req.params;
   const { user, rating } = req.body;
-
   // Validate required fields
   if (rating === null || !user) {
     logger.warn(`Invalid input: Missing rating or user for rating on book ID ${id}`);

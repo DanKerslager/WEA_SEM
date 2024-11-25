@@ -19,6 +19,7 @@ import Cookies from 'js-cookie';
 import { fetchBookDetail } from '../api';
 import Comments from './Comments';
 import { useAuth } from '../providers/AuthProvider';
+import { addToCart, removeFromCart } from '../utils'
 
 const BookDetail = ({ bookId, setBookDetail }) => {
   const [commentCreated, setCommentCreated] = useState(false);
@@ -26,9 +27,13 @@ const BookDetail = ({ bookId, setBookDetail }) => {
   const [error, setError] = useState(null);
   const { t } = useTranslation();
   const colorMode = useColorModeValue('gray.100', 'gray.700');
-  //Get data from Cookies
   const { isAuthenticated, user } = useAuth();
-  const isFavorited = user?.favorites?.find(favoriteId => favoriteId === bookId);
+  const [shoppingCart, setShoppingCart] = useState(() => {
+    
+    return JSON.parse(sessionStorage.getItem('shoppingCart')) || [];
+  });
+  //Get data from Cookies
+  const isFavorited = user?.favoriteBooks?.find(favoriteId => favoriteId === bookId);
   const loadBookDetailData = async () => {
     setError(null);
     try {
@@ -39,8 +44,11 @@ const BookDetail = ({ bookId, setBookDetail }) => {
     }
   };
   useEffect(() => {
+    if (!(sessionStorage.getItem('shoppingCart'))){
+      setShoppingCart([]);
+    }
     loadBookDetailData();
-  }, [bookId, isAuthenticated, commentCreated]);
+  }, [bookId, isAuthenticated, commentCreated, isAuthenticated]);
   return (
     <div id="center-card">
       <Box id="book-detail-card">
@@ -84,7 +92,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
                     {t('published_year')}: {book.published_year}
                   </Text>
                   <Text>
-                    {t('average_rating')}: {book.average_rating}
+                    {t('average_rating')}: {book?.average_rating?.toFixed(2)}
                   </Text>
                   <Text>
                     {t('num_pages')}: {book.num_pages}
@@ -92,8 +100,22 @@ const BookDetail = ({ bookId, setBookDetail }) => {
                   <Text>
                     {t('ratings_count')}: {book.ratings_count}
                   </Text>
+                  <Text>
+                    {t('price')}: {book.price} CZK
+                  </Text>
                 </Box>
+                
               </Box>
+              {isAuthenticated && (
+                <>
+                {shoppingCart.find((cartBook) => cartBook._id === book._id) ? (
+                      <Button id='view' p={5} colorScheme="red" size="sm" onClick={async() => await removeFromCart(book._id, setShoppingCart)}>Remove from cart</Button>
+                    ) : (
+                      <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async() => await addToCart(book, setShoppingCart)}>Add to cart</Button>
+                    )}
+                </>
+              )}
+              
               <br />
               <Text>{t('description')}:</Text>
               <Text>{book.description}</Text>
