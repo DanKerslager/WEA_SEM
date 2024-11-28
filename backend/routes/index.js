@@ -12,6 +12,7 @@ const setFavoriteRoute = require("./setFavorite");
 const addRatingRoute = require("./addRating");
 const userAddressRoute = require("./userAddress");
 const userDetailRoute = require("./userDetail");
+const createOrderRoute = require("./createOrder");
 
 // Function to initialize all routes
 const initializeRoutes = (app) => {
@@ -25,6 +26,7 @@ const initializeRoutes = (app) => {
   app.use("/getBooks", addRatingRoute);          // Add a rating to a book
   app.use("/user", userAddressRoute);            // Add a user address
   app.use("/user", userDetailRoute);             // Get user details
+  app.use("/createOrder", createOrderRoute);     // Create an order
 };
 
 module.exports = initializeRoutes;

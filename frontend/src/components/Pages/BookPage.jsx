@@ -117,7 +117,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
       <div id="books">
         {isAuthenticated && (
           <div id="filter-buttons">
-            <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return } setShowFavorites(true); setShowHidden(true); setPage(1); }}>
+            <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return; }; setShowFavorites(true); setShowHidden(true); setPage(1); }}>
               {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
             </Button>
             <Button mr={6} colorScheme='teal' onClick={() => { setShowRated(!showRated); setPage(1); }}>

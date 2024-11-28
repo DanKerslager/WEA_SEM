@@ -57,7 +57,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
           bg={colorMode}
         >
           <Box id="title-and-back-button">
-            
+
             {(book.available ||  isFavorited) ? (<Heading>{book.title}</Heading>) : (<Text>{t('bookDetailUnavailable')}</Text>)}
             <Button
               colorScheme="red"
@@ -67,7 +67,7 @@ const BookDetail = ({ bookId, setBookDetail }) => {
               X
             </Button>
           </Box>
-          
+
           {(book.available || isFavorited) && (
             <>
               <br />

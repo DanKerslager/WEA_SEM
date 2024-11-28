@@ -86,7 +86,7 @@ function createOperation(chunk){
 }
 
 module.exports = {
-    chunkArray,
-    makeFilterObject,
-    createOperation
+  chunkArray,
+  makeFilterObject,
+  createOperation
 };

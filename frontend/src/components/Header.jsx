@@ -29,8 +29,6 @@ import RegisterForm from './Forms/RegisterForm';
 import { useAuth } from '../providers/AuthProvider';
 // React component that renders the header of the app.
 
-
-
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -38,7 +36,7 @@ const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
   const cMode = useColorModeValue('gray.100', 'gray.900');
-  const cMode2 = useColorModeValue('gray.200', 'gray.700')
+  const cMode2 = useColorModeValue('gray.200', 'gray.700');
 
   return (
     <>

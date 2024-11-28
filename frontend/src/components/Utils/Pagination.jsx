@@ -6,7 +6,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   const startPage = Math.max(2, currentPage - Math.floor(maxVisiblePages / 2));
   const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1);
   const visiblePages = [];
-  
+
   if (totalPages <= 1) {
     return (
       <div className="pagination">
@@ -20,49 +20,49 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     visiblePages.push(i);
   }
 
-    return (
-        <div className="pagination">
-            {/* Previous Button */}
-            <Button
-                mr={1}
-                colorScheme='teal'
-                onClick={() => onPageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-            >
-                Previous
-            </Button>
-            <Button
-                mr={1}
-                colorScheme='teal'
-                onClick={() => onPageChange(1)}
-                disabled={currentPage === 1}
-            >
-                1
-            </Button>
-            {/* Ellipsis after the first page if necessary */}
-            {startPage > 2 && <span>...</span>}
-            {/* Page Number Buttons */}
-            {visiblePages.map((page) => (
-                <Button
-                    mr={1}
-                    colorScheme='teal'
-                    key={page}
-                    onClick={() => onPageChange(page)}
-                    disabled={page === currentPage}
-                >
-                    {page}
-                </Button>
-            ))}
+  return (
+    <div className="pagination">
+      {/* Previous Button */}
+      <Button
+        mr={1}
+        colorScheme='teal'
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+      Previous
+      </Button>
+      <Button
+        mr={1}
+        colorScheme='teal'
+        onClick={() => onPageChange(1)}
+        disabled={currentPage === 1}
+      >
+      1
+      </Button>
+      {/* Ellipsis after the first page if necessary */}
+      {startPage > 2 && <span>...</span>}
+      {/* Page Number Buttons */}
+      {visiblePages.map((page) => (
+        <Button
+          mr={1}
+          colorScheme='teal'
+          key={page}
+          onClick={() => onPageChange(page)}
+          disabled={page === currentPage}
+        >
+          {page}
+        </Button>
+      ))}
 
       {/* Ellipsis*/}
       {endPage < totalPages - 1 && <span>...</span>}
 
-            {/* Last Page Button */}
-            {endPage < totalPages && (
-                <Button ml={1} mr={1} colorScheme='teal' onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages}>
-                    {totalPages}
-                </Button>
-            )}
+      {/* Last Page Button */}
+      {endPage < totalPages && (
+        <Button ml={1} mr={1} colorScheme='teal' onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages}>
+          {totalPages}
+        </Button>
+      )}
 
       {/* Next Button */}
       <Button
