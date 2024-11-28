@@ -54,7 +54,7 @@ function makeFilterObject(requestQuery) {
       console.error("Invalid JSON for showRated or userId:", err);
     }
   }
-return filter;
+  return filter;
 }
 
 function createOperation(chunk){
@@ -86,7 +86,7 @@ function createOperation(chunk){
 }
 
 module.exports = {
-    chunkArray,
-    makeFilterObject,
-    createOperation
+  chunkArray,
+  makeFilterObject,
+  createOperation
 };

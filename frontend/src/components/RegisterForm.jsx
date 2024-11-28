@@ -37,10 +37,10 @@ const RegisterForm = ({ setShowRegister }) => {
     const personalAddress = { street: '', city: '', state: '', zipCode: '', country: '' };
     const billingAddress =  { street: '', city: '', state: '', zipCode: '', country: '' };
     const sameAsPersonalAddress = false;
-    const personalInfo = await updatePersonalInfo({ userId: postData.data.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource})
-    console.log(personalInfo)
-    const addressInfo = await updateAddressInfo({ userId: postData.data.userId, personalAddress, billingAddress, sameAsPersonalAddress})
-    console.log(addressInfo)
+    const personalInfo = await updatePersonalInfo({ userId: postData.data.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource});
+    console.log(personalInfo);
+    const addressInfo = await updateAddressInfo({ userId: postData.data.userId, personalAddress, billingAddress, sameAsPersonalAddress});
+    console.log(addressInfo);
     if (postData?.status === 201) {
       setError(null);
       setSuccess(postData.data.message);

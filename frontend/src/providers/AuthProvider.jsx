@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
     isAuthenticated,
     showUserDetail,
     setShowUserDetail,
-    showShoppingCart, 
+    showShoppingCart,
     setShowShoppingCart,
     login,
     logout,

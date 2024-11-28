@@ -127,7 +127,7 @@ export const rateBook = async(userParams) => {
     console.error("Error during rating book:", error);
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
-}
+};
 
 export const updatePersonalInfo = async(userParams) => {
   const { userId, firstName, lastName, gender, age, favoriteGenres, referenceSource } = userParams;
@@ -148,7 +148,7 @@ export const updatePersonalInfo = async(userParams) => {
     console.error("Error during updating user's personal info:", error);
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
-}
+};
 export const updateAddressInfo = async(userParams) => {
   const { userId, personalAddress, billingAddress, sameAsPersonalAddress } = userParams;
   let link = `${BASE_URL}/user/${userId}/address`;
@@ -165,4 +165,4 @@ export const updateAddressInfo = async(userParams) => {
     console.error("Error during updating user's address:", error);
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
-}
+};

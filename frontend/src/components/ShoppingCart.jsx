@@ -1,23 +1,23 @@
-import React from 'react'
+import React from 'react';
 import {
   Button,
- 
 } from '@chakra-ui/react';
 import { useAuth } from '../providers/AuthProvider';
+
 const ShoppingCart = () => {
   const { user, isAuthenticated, setShowShoppingCart } = useAuth();
   return (
     <>
-     <Button
-              colorScheme="red"
-              variant="outline"
-              onClick={() => setShowShoppingCart(false)}
-            >
-              X
-            </Button>
-            <div>ShoppingCart</div>
+      <Button
+        colorScheme="red"
+        variant="outline"
+        onClick={() => setShowShoppingCart(false)}
+      >
+      X
+      </Button>
+      <div>ShoppingCart</div>
     </>
-  )
-}
+  );
+};
 
-export default ShoppingCart
+export default ShoppingCart;

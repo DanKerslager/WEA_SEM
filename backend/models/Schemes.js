@@ -5,7 +5,7 @@ const commentSchema = new mongoose.Schema({
   user: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });
-  
+
 const ratingSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   rating: { type: Number, required: true, min: 1, max: 5 },
@@ -34,7 +34,7 @@ const AddressSchema = new mongoose.Schema({
     required: true,
   },
 });
-  
+
 const userRatingSchema = new mongoose.Schema({
   book: { type: mongoose.Schema.Types.ObjectId, ref: "Book", required: true },
   rating: { type: Number, required: true, min: 1, max: 5 },

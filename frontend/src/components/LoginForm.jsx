@@ -28,7 +28,7 @@ const LoginForm = ({ setShowLogin }) => {
     let email = data.email;
     let password = data.password;
     const loginData = await getLogin({ email, password });
-    
+
     //get user data
     let user = loginData.data.user;
     if (loginData?.status === 200) {

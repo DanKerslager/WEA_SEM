@@ -1,7 +1,7 @@
 // controllers/userController.js
 const bcrypt = require('bcrypt');
-const User = require('../models/Users'); // Assuming your User model is in the models folder
 const mongoose = require("mongoose");
+const User = require('../models/Users'); // Assuming your User model is in the models folder
 const logAuditEvent = require('./AuditLogController'); // Import the audit log controller
 
 // Function to register a new user
@@ -22,11 +22,11 @@ const registerUser = async (username, email, password) => {
 
   // Log the user registration event
   await logAuditEvent.logAuditEvent('user_registration', newUser.username, { email });
-  return { 
+  return {
     message: 'User registered successfully',
     userId: newUser._id,
 
-   };
+  };
 };
 
 // Function to log in a user
@@ -106,7 +106,7 @@ const updateAddress = async (userId, personalAddress, billingAddress, sameAsPers
   const update = {};
 
   update.sameAsPersonalAddress = sameAsPersonalAddress;
-  
+
   // Add personal address to update object
   if (personalAddress) {
     update.personalAddress = personalAddress;

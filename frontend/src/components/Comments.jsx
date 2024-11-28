@@ -109,5 +109,5 @@ const Comments = ({ bookId, comments, commentCreated, setCommentCreated }) => {
       </Box>
     </>
   );
-}
+};
 export default Comments;

@@ -8,19 +8,18 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { SemipolarSpinner } from 'react-epic-spinners';
-import { usePageContext } from '../providers/AuthProvider';
 import { Rating } from 'react-simple-star-rating';
-import Pagination from './Pagination';
-import { setFavorite } from '../api';
-import { useAuth } from '../providers/AuthProvider';
 import { useState, useEffect } from 'react';
-import { rateBook } from '../api';
-import { addToCart, removeFromCart } from '../utils'
+import { usePageContext, useAuth } from '../providers/AuthProvider';
+import Pagination from './Pagination';
+import { setFavorite, rateBook } from '../api';
+import { addToCart, removeFromCart } from '../utils';
+
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages, page, setPage }) => {
   const { t } = useTranslation();
   const { user, setUser, isAuthenticated } = useAuth();
-  const [rating, setRating] = useState(0)
+  const [rating, setRating] = useState(0);
   const [shoppingCart, setShoppingCart] = useState(() => {
     return JSON.parse(sessionStorage.getItem('shoppingCart')) || [];
   });
@@ -40,7 +39,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
     } catch (error) {
       console.error("Failed to update favorite status:", error);
     }
-  }
+  };
   const giveStarRating = async (nextValue, bookId) => {
     try {
       setRating(nextValue);
@@ -53,13 +52,13 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
     } catch (error) {
       console.error("Failed to update rating:", error);
     }
-  }
+  };
 
   useEffect(() => {
     if (!(sessionStorage.getItem('shoppingCart')))
       setShoppingCart([]);
   }
-    , [rating, isAuthenticated]);
+  , [rating, isAuthenticated]);
 
   if (loading) {
     return (

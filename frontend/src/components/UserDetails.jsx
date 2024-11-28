@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
-import { getLogin, updatePersonalInfo, updateAddressInfo } from '../api';
-import { useAuth } from '../providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
 import {
   Box,
@@ -22,6 +20,9 @@ import {
   useColorMode,
   Center,
 } from '@chakra-ui/react';
+import { useAuth } from '../providers/AuthProvider';
+import { getLogin, updatePersonalInfo, updateAddressInfo } from '../api';
+
 const UserDetails = ({ userId }) => {
 
   const { t } = useTranslation();
@@ -108,10 +109,10 @@ const UserDetails = ({ userId }) => {
   const onSubmit = async (data) => {
     console.log(data);
     const { personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing } = data;
-    const changePersonalInfo = await updatePersonalInfo({ userId, ...personalInfo }); 
-    console.log(changePersonalInfo)
-    const changeAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress})
-    console.log(changeAddress)
+    const changePersonalInfo = await updatePersonalInfo({ userId, ...personalInfo });
+    console.log(changePersonalInfo);
+    const changeAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress});
+    console.log(changeAddress);
     setUser( { ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing });
     localStorage.setItem('user', JSON.stringify({ ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing }));
   };
