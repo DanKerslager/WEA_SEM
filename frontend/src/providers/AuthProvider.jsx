@@ -3,7 +3,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const userInit = JSON.parse(localStorage.getItem('user'));
+  const [user, setUser] = useState(userInit || null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // AKA isLoggedIn
   // Simulate loading user data from local storage or an API on mount
   useEffect(() => {
