@@ -5,9 +5,6 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // AKA isLoggedIn
-  const [showUserDetail, setShowUserDetail] = useState(false);
-  const [showShoppingCart, setShowShoppingCart] = useState(false);
-  const [loading, setLoading] = useState(true);
   // Simulate loading user data from local storage or an API on mount
   useEffect(() => {
     const loadUserData = async () => {
@@ -16,7 +13,6 @@ export const AuthProvider = ({ children }) => {
         setUser(JSON.parse(savedUser));
         setIsAuthenticated(true);
       }
-      setLoading(false);
     };
     loadUserData();
   }, []);
@@ -37,13 +33,8 @@ export const AuthProvider = ({ children }) => {
     user,
     setUser,
     isAuthenticated,
-    showUserDetail,
-    setShowUserDetail,
-    showShoppingCart, 
-    setShowShoppingCart,
     login,
     logout,
-    loading,
   };
   return (
     <AuthContext.Provider value={authContextValue}>

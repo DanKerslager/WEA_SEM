@@ -14,6 +14,7 @@ import { setFavorite } from '../../api';
 import { useAuth } from '../../providers/AuthProvider';
 import { useState, useEffect } from 'react';
 import { rateBook } from '../../api';
+import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../../utils'
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages, page, setPage }) => {
@@ -93,6 +94,8 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                     //borderWidth="1px"
                     overflow="hidden"
                     key={book._id}
+                    as={Link}
+                    to={`/getBooks/${book._id}`}
                   >
                     <Image
                       objectFit="cover"

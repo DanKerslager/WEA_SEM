@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { useColorModeValue, Box, Button, Center } from '@chakra-ui/react';
 import BookPage from './Pages/BookPage';
 import BookDetail from './Details/BookDetail';
-import { usePageContext } from '../providers/AuthProvider';
 import UserDetails from './Details/UserDetails';
-import { useAuth } from '../providers/AuthProvider';
 import ShoppingCart from './Pages/ShoppingCartPage';
+import NotFound from './General/NotFound';
+import { useAuth } from '../providers/AuthProvider';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 
 // Main react component of the app.
 
@@ -41,21 +42,14 @@ const Main = () => {
   }, [bookDetail]); // Přidání detail do závislostí useEffect
   return (
     <div id='main'>
-      {showUserDetail ? (
-        <UserDetails userId={user?._id} />
-      )
-        : showShoppingCart ? (
-          <ShoppingCart />
-        )
-          : (
-            <>
-              {bookDetail ?
-                <BookDetail bookId={bookId} setBookDetail={setBookDetail} /> :
-                <BookPage setBookId={setBookId} setBookDetail={setBookDetail} />
-              }
-            </>
-          )}
-
+      
+      <Routes>
+        <Route exact path='/' element={<BookPage setBookId={setBookId} setBookDetail={setBookDetail} />} />
+        <Route path='/getBooks/:bookId' element={<BookDetail bookId={bookId} setBookDetail={setBookDetail} />} />
+        <Route path='/userDetail' element={<UserDetails userId={user?._id} />}/>
+        <Route path='/shoppingCart' element={<ShoppingCart />} />
+        <Route path='*' element={<NotFound/>} />
+      </Routes>
     </div>
   );
 };

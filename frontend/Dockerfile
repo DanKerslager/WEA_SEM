@@ -19,11 +19,14 @@ RUN npm run build
 # 7. Použití nginx serveru pro nasazení statických souborů
 FROM nginx:alpine
 
-# 8. Zkopírování build výstupu z předchozího kroku do Nginx
+# 8. Přidané kvůli react-router-dom, protože po refreshi stránky rouru ve frontendu (react-router) převezme server dříve, než klient, poté vyhodí 404 Nginx Not Found
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# 9. Zkopírování build výstupu z předchozího kroku do Nginx
 COPY --from=build /app/build /usr/share/nginx/html
 
-# 9. Exponování portu 80 pro spuštění aplikace
+# 10. Exponování portu 80 pro spuštění aplikace
 EXPOSE 80
 
-# 10. Start Nginx serveru
+# 11. Start Nginx serveru
 CMD ["nginx", "-g", "daemon off;"]

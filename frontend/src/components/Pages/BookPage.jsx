@@ -13,8 +13,8 @@ import { useAuth } from '../../providers/AuthProvider';
 
 const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
-  const onFavorites = localStorage.getItem('onFavorites');
-  const onRated = localStorage.getItem('onRated');
+  const onFavorites = JSON.parse(localStorage.getItem('onFavorites'));
+  const onRated = JSON.parse(localStorage.getItem('onRated'));
   const storedFavoriteBooks = localStorage.getItem('favoriteBooks');
 
   const lastIsbn = localStorage.getItem('lastIsbn');
@@ -30,7 +30,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const [categories, setCategories] = useState(lastCategories || '');
   const [title, setTitle] = useState(lastTitle || '');
   const [showFavorites, setShowFavorites] = useState(onFavorites || false);
-  const [showRated, setShowRated] = useState(onRated === 'true' || false);
+  const [showRated, setShowRated] = useState(onRated || false);
 
   const [showHidden, setShowHidden] = useState(false);
   const [isTesting, setIsTesting] = useState(false);

@@ -3,6 +3,7 @@ import {
   Button,
  
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../providers/AuthProvider';
 const ShoppingCartPage = () => {
   const { user, isAuthenticated, setShowShoppingCart } = useAuth();
@@ -11,7 +12,9 @@ const ShoppingCartPage = () => {
      <Button
               colorScheme="red"
               variant="outline"
-              onClick={() => setShowShoppingCart(false)}
+              as={Link}
+              to="/"
+              
             >
               X
             </Button>

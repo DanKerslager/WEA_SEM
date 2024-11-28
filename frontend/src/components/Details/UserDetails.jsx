@@ -4,6 +4,7 @@ import axios from "axios";
 import { getLogin, updatePersonalInfo, updateAddressInfo } from '../../api';
 import { useAuth } from '../../providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -119,7 +120,7 @@ const UserDetails = ({ userId }) => {
   return (
     <Box id="user-detail-wrapper" bg={colorMode}>
       <Box id="user-detail-button-box">
-        <Button id="user-detail-x-button" ml={5} colorScheme="red" variant="outline" onClick={() => setShowUserDetail(false)}>
+        <Button id="user-detail-x-button"  ml={5} colorScheme="red" variant="outline" as={Link} to="/">
           X
         </Button>
       </Box>
