@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useColorModeValue, Box, Button, Center } from '@chakra-ui/react';
-import BookPage from './BookPage';
-import BookDetail from './BookDetail';
+import BookPage from './Pages/BookPage';
+import BookDetail from './Details/BookDetail';
 import { usePageContext } from '../providers/AuthProvider';
-import UserDetails from './UserDetails';
+import UserDetails from './Details/UserDetails';
 import { useAuth } from '../providers/AuthProvider';
-import ShoppingCart from './ShoppingCart';
+import ShoppingCart from './Pages/ShoppingCartPage';
 
 // Main react component of the app.
 

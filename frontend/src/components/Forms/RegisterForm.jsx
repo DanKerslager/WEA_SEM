@@ -11,7 +11,7 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { postRegister, updatePersonalInfo, updateAddressInfo } from '../api';
+import { postRegister, updatePersonalInfo, updateAddressInfo } from '../../api';
 
 const RegisterForm = ({ setShowRegister }) => {
   const [error, setError] = useState(null);

@@ -20,12 +20,12 @@ import {
   useColorMode,
   Center,
 } from '@chakra-ui/react';
-import '../';
+import '..';
 import { MoonIcon, SunIcon, Icon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
-import LanguageSwitcher from './LanguageSwitcher';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import LanguageSwitcher from './Utils/LanguageSwitcher';
+import LoginForm from './Forms/LoginForm';
+import RegisterForm from './Forms/RegisterForm';
 import { useAuth } from '../providers/AuthProvider';
 // React component that renders the header of the app.
 

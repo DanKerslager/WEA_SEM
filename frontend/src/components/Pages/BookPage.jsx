@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useColorModeValue, Box, Button, Center } from '@chakra-ui/react';
 import Filter from './Filter';
 import BookList from './BookList';
-import { fetchBooks } from '../api';
+import { fetchBooks } from '../../api';
 import {
   onTitleOnChange,
   onAuthorsOnChange,
   onCategoriesOnChange,
   onIsbnOnChange,
-} from '../filter';
-import { useAuth } from '../providers/AuthProvider';
+} from '../../filter';
+import { useAuth } from '../../providers/AuthProvider';
 
 const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');

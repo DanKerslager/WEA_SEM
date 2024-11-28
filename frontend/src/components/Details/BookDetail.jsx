@@ -16,10 +16,10 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import Cookies from 'js-cookie';
-import { fetchBookDetail } from '../api';
-import Comments from './Comments';
-import { useAuth } from '../providers/AuthProvider';
-import { addToCart, removeFromCart } from '../utils'
+import { fetchBookDetail } from '../../api';
+import Comments from '../Utils/Comments';
+import { useAuth } from '../../providers/AuthProvider';
+import { addToCart, removeFromCart } from '../../utils'
 
 const BookDetail = ({ bookId, setBookDetail }) => {
   const [commentCreated, setCommentCreated] = useState(false);

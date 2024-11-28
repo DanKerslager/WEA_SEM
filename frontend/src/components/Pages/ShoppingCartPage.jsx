@@ -3,8 +3,8 @@ import {
   Button,
  
 } from '@chakra-ui/react';
-import { useAuth } from '../providers/AuthProvider';
-const ShoppingCart = () => {
+import { useAuth } from '../../providers/AuthProvider';
+const ShoppingCartPage = () => {
   const { user, isAuthenticated, setShowShoppingCart } = useAuth();
   return (
     <>
@@ -20,4 +20,4 @@ const ShoppingCart = () => {
   )
 }
 
-export default ShoppingCart
+export default ShoppingCartPage
