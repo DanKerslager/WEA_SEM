@@ -6,7 +6,8 @@ import UserDetails from './Details/UserDetails';
 import ShoppingCart from './Pages/ShoppingCartPage';
 import NotFound from './General/NotFound';
 import { useAuth } from '../providers/AuthProvider';
-import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
 
 // Main react component of the app.
 
@@ -46,8 +47,8 @@ const Main = () => {
       <Routes>
         <Route exact path='/' element={<BookPage setBookId={setBookId} setBookDetail={setBookDetail} />} />
         <Route path='/getBooks/:bookId' element={<BookDetail bookId={bookId} setBookDetail={setBookDetail} />} />
-        <Route path='/userDetail' element={<UserDetails userId={user?._id} />}/>
-        <Route path='/shoppingCart' element={<ShoppingCart />} />
+        <Route path='/userDetail' element={<PrivateRoute><UserDetails userId={user?._id}/></PrivateRoute>}/>
+        <Route path='/shoppingCart' element={<PrivateRoute><ShoppingCart/></PrivateRoute>} />
         <Route path='*' element={<NotFound/>} />
       </Routes>
     </div>
