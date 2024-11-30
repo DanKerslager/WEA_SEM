@@ -20,16 +20,15 @@ import {
   useColorMode,
   Center,
 } from '@chakra-ui/react';
-import '../';
+import '..';
 import { MoonIcon, SunIcon, Icon } from '@chakra-ui/icons';
 import { useTranslation } from 'react-i18next';
-import LanguageSwitcher from './LanguageSwitcher';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import LanguageSwitcher from './Utils/LanguageSwitcher';
+import LoginForm from './Forms/LoginForm';
+import RegisterForm from './Forms/RegisterForm';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
 // React component that renders the header of the app.
-
-
 
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -38,7 +37,7 @@ const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
   const cMode = useColorModeValue('gray.100', 'gray.900');
-  const cMode2 = useColorModeValue('gray.200', 'gray.700')
+  const cMode2 = useColorModeValue('gray.200', 'gray.700');
 
   return (
     <>
@@ -52,15 +51,15 @@ const Header = () => {
         <Box bg={cMode} px={4}>
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Flex alignItems={'center'}>
-            <Box onClick={() => {setShowUserDetail(false);}}>
+            <Box as={Link} to='/'>
               <h1>BookStock Catalog</h1>
             </Box>
             {isAuthenticated && (
               <>
-              <Button ml={5} colorScheme="green" onClick={() => setShowUserDetail(true)}>
+              <Button ml={5} colorScheme="green" as={Link} to='/userDetail'>
                 User Detail
               </Button>
-              <Button ml={5} colorScheme="green" onClick={() => setShowShoppingCart(true)}>
+              <Button ml={5} colorScheme="green" as={Link} to='/shoppingCart'>
                 <img src={ShoppingCardIcon} alt="Shopping Card" />
               </Button>
               </>

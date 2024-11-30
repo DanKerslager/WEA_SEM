@@ -1,7 +1,7 @@
 // controllers/userController.js
 const bcrypt = require('bcrypt');
-const User = require('../models/Users'); // Assuming your User model is in the models folder
 const mongoose = require("mongoose");
+const User = require('../models/Users'); // Assuming your User model is in the models folder
 const logAuditEvent = require('./AuditLogController'); // Import the audit log controller
 
 // Function to register a new user

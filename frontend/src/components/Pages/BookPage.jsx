@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 import { useColorModeValue, Box, Button, Center } from '@chakra-ui/react';
 import Filter from './Filter';
 import BookList from './BookList';
-import { fetchBooks } from '../api';
+import { fetchBooks } from '../../api';
 import {
   onTitleOnChange,
   onAuthorsOnChange,
   onCategoriesOnChange,
   onIsbnOnChange,
-} from '../filter';
-import { useAuth } from '../providers/AuthProvider';
+} from '../../filter';
+import { useAuth } from '../../providers/AuthProvider';
 
 const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
-  const onFavorites = localStorage.getItem('onFavorites');
-  const onRated = localStorage.getItem('onRated');
+  const onFavorites = JSON.parse(localStorage.getItem('onFavorites'));
+  const onRated = JSON.parse(localStorage.getItem('onRated'));
   const storedFavoriteBooks = localStorage.getItem('favoriteBooks');
 
   const lastIsbn = localStorage.getItem('lastIsbn');
@@ -30,7 +30,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const [categories, setCategories] = useState(lastCategories || '');
   const [title, setTitle] = useState(lastTitle || '');
   const [showFavorites, setShowFavorites] = useState(onFavorites || false);
-  const [showRated, setShowRated] = useState(onRated === 'true' || false);
+  const [showRated, setShowRated] = useState(onRated || false);
 
   const [showHidden, setShowHidden] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
@@ -117,7 +117,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
       <div id="books">
         {isAuthenticated && (
           <div id="filter-buttons">
-            <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return } setShowFavorites(true); setShowHidden(true); setPage(1); }}>
+            <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return; }; setShowFavorites(true); setShowHidden(true); setPage(1); }}>
               {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
             </Button>
             <Button mr={6} colorScheme='teal' onClick={() => { setShowRated(!showRated); setPage(1); }}>

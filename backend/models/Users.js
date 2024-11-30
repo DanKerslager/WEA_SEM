@@ -1,34 +1,5 @@
 const mongoose = require("mongoose");
-
-// Address schema for storing personal and billing addresses
-const AddressSchema = new mongoose.Schema({
-  street: {
-    type: String,
-    required: true,
-  },
-  city: {
-    type: String,
-    required: true,
-  },
-  state: {
-    type: String,
-    required: true,
-  },
-  zipCode: {
-    type: String,
-    required: true,
-  },
-  country: {
-    type: String,
-    required: true,
-  },
-});
-
-const userRatingSchema = new mongoose.Schema({
-  book: { type: mongoose.Schema.Types.ObjectId, ref: "Book", required: true },
-  rating: { type: Number, required: true, min: 1, max: 5 },
-  createdAt: { type: Date, default: Date.now }
-});
+const { AddressSchema, userRatingSchema, personal } = require("./Schemes");
 
 // User schema, users are defined by their email and nickname
 const UserSchema = new mongoose.Schema({
@@ -57,9 +28,7 @@ const UserSchema = new mongoose.Schema({
   ],
   ratings: [userRatingSchema],
   personalAddress: AddressSchema, // Embeds personal address
-  billingAddress: {
-    type: AddressSchema, // Embeds billing address
-  },
+  billingAddress: AddressSchema, // Embeds billing address
   sameAsPersonalAddress: {
     type: Boolean,
     default: false, // Flag to indicate if billing and personal addresses are the same
@@ -68,33 +37,9 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  personalInfo: {
-    firstName: {
-      type: String,
-      trim: true,
-    },
-    lastName: {
-      type: String,
-      trim: true,
-    },
-    gender: {
-      type: String,
-      enum: ["Male", "Female", "Other", "Prefer not to say"], // Options for gender
-    },
-    age: {
-      type: Number,
-      min: 0,
-    },
-    favoriteGenres: [
-      {
-        type: String,
-      },
-    ],
-    referenceSource: {
-      type: String, // Where did the user find this platform?
-    },
-  },
+  personalInfo: personal,
 });
+
 // Vytvoření modelu
 const UserModel = mongoose.model("users", UserSchema);
 module.exports = UserModel;

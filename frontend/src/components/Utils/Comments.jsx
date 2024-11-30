@@ -16,8 +16,8 @@ import {
   Textarea,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { createComment } from '../api';
-import { useAuth } from '../providers/AuthProvider';
+import { createComment } from '../../api';
+import { useAuth } from '../../providers/AuthProvider';
 
 const Comments = ({ bookId, comments, commentCreated, setCommentCreated }) => {
   const [error, setError] = useState(null);
@@ -109,5 +109,5 @@ const Comments = ({ bookId, comments, commentCreated, setCommentCreated }) => {
       </Box>
     </>
   );
-}
+};
 export default Comments;

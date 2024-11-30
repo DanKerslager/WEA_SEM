@@ -16,18 +16,19 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import Cookies from 'js-cookie';
-import { fetchBookDetail } from '../api';
-import Comments from './Comments';
-import { useAuth } from '../providers/AuthProvider';
-import { addToCart, removeFromCart } from '../utils'
+import { fetchBookDetail } from '../../api';
+import Comments from '../Utils/Comments';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../providers/AuthProvider';
+import { addToCart, removeFromCart } from '../../utils'
 
 const BookDetail = ({ bookId, setBookDetail }) => {
-  const [commentCreated, setCommentCreated] = useState(false);
   const [book, setBook] = useState({});
   const [error, setError] = useState(null);
+  const [commentCreated, setCommentCreated] = useState(false);
   const { t } = useTranslation();
-  const colorMode = useColorModeValue('gray.100', 'gray.700');
   const { isAuthenticated, user } = useAuth();
+  const colorMode = useColorModeValue('gray.100', 'gray.700');
   const [shoppingCart, setShoppingCart] = useState(() => {
     
     return JSON.parse(sessionStorage.getItem('shoppingCart')) || [];
@@ -57,17 +58,18 @@ const BookDetail = ({ bookId, setBookDetail }) => {
           bg={colorMode}
         >
           <Box id="title-and-back-button">
-            
+
             {(book.available ||  isFavorited) ? (<Heading>{book.title}</Heading>) : (<Text>{t('bookDetailUnavailable')}</Text>)}
             <Button
               colorScheme="red"
               variant="outline"
-              onClick={() => setBookDetail(false)}
+              as={Link}
+              to="/"
             >
               X
             </Button>
           </Box>
-          
+
           {(book.available || isFavorited) && (
             <>
               <br />

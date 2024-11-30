@@ -20,8 +20,8 @@ export const fetchBooks = async (filterParams) => {
   if (title !== '') link += `title=${encodedTitle}&`;
   if (favorites && favorites.length > 0) link += `favorites=${JSON.stringify(favorites)}&`;
   if (showHidden !== '') link += `showHidden=${JSON.stringify(showHidden)}&`;
-  if (showRated !== '') link += `showRated=${JSON.stringify(showRated)}&`;
-  if (userId !== '') link += `userId=${JSON.stringify(userId)}&`;
+  if (showRated) link += `showRated=${JSON.stringify(showRated)}&`;
+  if (userId) link += `userId=${JSON.stringify(userId)}&`;
 
   link += `page=${page}&limit=${limit}&`;
   try {
@@ -127,7 +127,7 @@ export const rateBook = async(userParams) => {
     console.error("Error during rating book:", error);
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
-}
+};
 
 export const updatePersonalInfo = async(userParams) => {
   const { userId, firstName, lastName, gender, age, favoriteGenres, referenceSource } = userParams;
@@ -148,7 +148,7 @@ export const updatePersonalInfo = async(userParams) => {
     console.error("Error during updating user's personal info:", error);
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
-}
+};
 export const updateAddressInfo = async(userParams) => {
   const { userId, personalAddress, billingAddress, sameAsPersonalAddress } = userParams;
   let link = `${BASE_URL}/user/${userId}/address`;
@@ -165,4 +165,4 @@ export const updateAddressInfo = async(userParams) => {
     console.error("Error during updating user's address:", error);
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
-}
+};
