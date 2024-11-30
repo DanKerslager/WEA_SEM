@@ -2,7 +2,7 @@
  * @swagger
  * /data:
  *   post:
- *     summary: Import an array of books
+ *     summary: Add or update an array of books
  *     tags: [Books]
  *     requestBody:
  *       required: true
@@ -25,10 +25,10 @@
  *                   description: The publication date of the book
  *                 isbn:
  *                   type: string
- *                   description: The ISBN number of the book
+ *                   description: The ISBN number of the book (used as a unique identifier)
  *     responses:
  *       201:
- *         description: Books added successfully
+ *         description: Books added or updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -36,7 +36,7 @@
  *               properties:
  *                 status:
  *                   type: string
- *                   example: "Books added successfully"
+ *                   example: "Books added or updated successfully"
  *                 books:
  *                   type: array
  *                   items:
@@ -62,7 +62,7 @@
  *                   type: string
  *                   example: "Input must be an array of books"
  *       500:
- *         description: Failed to save books
+ *         description: Failed to save or update books
  *         content:
  *           application/json:
  *             schema:
@@ -76,19 +76,21 @@
  *                   example: "Database error details here"
  */
 
-// /routes/dataImport.js
-
+// routes/bookRoutes.js
 const express = require('express');
-const BookModel = require('../models/Books'); // Import the Book model
+const fs = require('fs');
+const path = require('path');
 const logger = require('../logger');
+const bookController = require('../controllers/bookController'); // Import the controller
 
-// Create a new router object
 const router = express.Router();
 
 // API endpoint for receiving POST data
 router.post('/', async (req, res) => {
   const books = req.body; // Expecting an array of books
-  logger.info('Received POST data:', books);
+
+  // Log the number of books received
+  logger.info(`Received a POST request with ${books.length} books`);
 
   // Check if the input is an array
   if (!Array.isArray(books)) {
@@ -96,18 +98,26 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'Input must be an array of books' });
   }
 
+  // Write the last call's books to a file
+  const lastCallFilePath = path.join(__dirname, '../logs/lastCallBooks.json');
+  fs.writeFile(lastCallFilePath, JSON.stringify(books, null, 2), (err) => {
+    if (err) {
+      logger.error('Failed to write last call books to file:', err);
+    } else {
+      logger.info('Last call books successfully written to file');
+    }
+  });
+
+  // Delegate to the controller
   try {
-    // Remove all existing books
-    await BookModel.deleteMany({});
-
-    // Use Mongoose's insertMany method to insert multiple records at once
-    const savedBooks = await BookModel.insertMany(books);
-
-    // Respond with the saved data
-    res.status(201).json({ status: 'Books added successfully', books: savedBooks });
-  } catch (err) {
-    logger.error('Error saving books:', err);
-    res.status(500).json({ error: 'Failed to save books', details: err.message });
+    const result = await bookController.addOrUpdateBooks(books); // Pass the body to the controller
+    res.status(201).json({
+      status: 'Books added or updated successfully',
+      result,
+    });
+  } catch (error) {
+    logger.error('Error processing books:', error);
+    res.status(500).json({ error: 'Failed to save books', details: error.message });
   }
 });
 

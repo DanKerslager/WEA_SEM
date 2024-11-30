@@ -1,71 +1,57 @@
 import { useEffect, useState } from 'react';
-import {  useColorModeValue, Box} from '@chakra-ui/react';
-import Filter from './Filter';
-import BookList from './BookList';
-import { fetchBooks } from '../api';
-import { onTitleOnChange, onAuthorsOnChange, onCategoriesOnChange, onIsbnOnChange } from '../filter';
+import { useColorModeValue, Box, Button, Center } from '@chakra-ui/react';
+import BookPage from './Pages/BookPage';
+import BookDetail from './Details/BookDetail';
+import UserDetails from './Details/UserDetails';
+import ShoppingCart from './Pages/ShoppingCartPage';
+import NotFound from './General/NotFound';
+import { useAuth } from '../providers/AuthProvider';
+import { Route, Routes } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
+
 // Main react component of the app.
 
 const Main = () => {
-  const lastPage = localStorage.getItem('lastPage');
-  // Filtering variables for the book fetch.
-  const [books, setBooks] = useState([]);
-  const [page, setPage] = useState(() => { return lastPage || 1 ;});
-  const [totalPages, setTotalPages] = useState(1);
-  const [isbn, setIsbn] = useState('');
-  const [authors, setAuthors] = useState('');
-  const [categories, setCategories] = useState('');
-  const [title, setTitle] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const limit = 10;
-
-  // Function to fetch books data from the backend.
-  const loadBooksData = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const data = await fetchBooks({ isbn, authors, categories, title, page, limit });
-      localStorage.setItem('lastPage', page);
-      setBooks(data.bookArray);
-      setTotalPages(data.totalPages);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  const [bookId, setBookId] = useState('');
+  const [bookDetail, setBookDetail] = useState(() => {
+    const savedDetail = localStorage.getItem('detail');
+    return savedDetail === 'true'; // Convert string back to boolean
+  });
+  const { user, setUser, isAuthenticated, showUserDetail, showShoppingCart } = useAuth();
   useEffect(() => {
-    loadBooksData();
-  }, [isbn, authors, categories, title, page]);
+    localStorage.setItem('detail', bookDetail);
+    if (bookId === '') {
+      setBookId(localStorage.getItem('bookId'));
+    }
+    const handlePopState = (event) => {
+      if (bookDetail) {
+        setBookDetail(false); // Nastavení detail na false pouze pokud je true
+      }
+    };
+    const handleKeyDown = (event) => {
+      if (event.altKey && event.key === 'ArrowLeft' && bookDetail) {
+        setBookDetail(false); // Nastavení detail na false pouze pokud je true
+      }
+    };
+    window.addEventListener('popstate', handlePopState); // Sledování změn stavu historie
+    window.addEventListener('keydown', handleKeyDown); // Sledování stisknutí kláves
 
+    return () => {
+      window.removeEventListener('popstate', handlePopState); // Úklid
+      window.removeEventListener('keydown', handleKeyDown); // Úklid
+    };
+  }, [bookDetail]); // Přidání detail do závislostí useEffect
   return (
-    <>
-      <Box bg={useColorModeValue('green.300', 'green.800')} id="filters">
-        <Filter
-          onIsbnChange={onIsbnOnChange(e => {setIsbn(e?.target?.value); setPage(1);})}
-          onTitleChange={onTitleOnChange(e => { setTitle(e?.target?.value); setPage(1); })}
-          onAuthorChange={onAuthorsOnChange((e) => { setAuthors(e?.target?.value); setPage(1); })}
-          onCategoriesChange={onCategoriesOnChange((e) => { setCategories(e?.target?.value); setPage(1); })}
-        />
-      </Box>
-      <div id="books">
-        <BookList books={books} loading={loading} error={error} />
-        <div id="pagination">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => setPage(index + 1)}
-              disabled={page === index + 1}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
-      </div>
-    </>
+    <div id='main'>
+      
+      <Routes>
+        <Route exact path='/' element={<BookPage setBookId={setBookId} setBookDetail={setBookDetail} />} />
+        <Route path='/getBooks/:bookId' element={<BookDetail bookId={bookId} setBookDetail={setBookDetail} />} />
+        <Route path='/userDetail' element={<PrivateRoute><UserDetails userId={user?._id}/></PrivateRoute>}/>
+        <Route path='/shoppingCart' element={<PrivateRoute><ShoppingCart/></PrivateRoute>} />
+        <Route path='*' element={<NotFound/>} />
+      </Routes>
+    </div>
   );
 };
 

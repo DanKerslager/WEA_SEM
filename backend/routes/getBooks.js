@@ -69,59 +69,19 @@
  */
 
 // /routes/getBooks.js
-
 const express = require('express');
-const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger');
+const bookController = require('../controllers/bookController'); // Import the controller
 
 // Create a new router object
 const router = express.Router();
 
 // API endpoint for getting books with pagination and filtering
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
   logger.info('/getBooks endpoint was hit' + JSON.stringify(req.query));
-  try {
-    // Paging variables
-    let page = parseInt(req.query.page) || 1;
-    let limit = parseInt(req.query.limit) || 10;
 
-    // Filtration variables
-    let isbn = req.query.isbn;
-    let author = req.query.author;
-    let categories = req.query.categories;
-    let title = req.query.title;
-
-    // Filter parameter object carrying the filter values
-    let filter = {};
-    if (isbn){
-      filter.isbn13 = { $regex: isbn, $options: 'i' };
-    }
-    if (author) {
-      filter.authors = { $regex: author, $options: 'i' }; // Author filtration (case-insensitive)
-    }
-    if (categories) {
-      filter.categories = { $regex: categories, $options: 'i' }; // Categories filtration (case-insensitive)
-    }
-    if (title) {
-      filter.title = { $regex: title, $options: 'i' }; // Title filtration (case-insensitive)
-    }
-
-    // Paging calculation
-    const skip = (page - 1) * limit;
-
-    // Database query
-    let bookArray = await BookModel.find(filter).skip(skip).limit(limit);
-    // Total number of pages, gets updated by the filter
-    const totalBooks = await BookModel.find(filter).countDocuments(bookArray);
-    res.status(200).json({
-      totalBooks,
-      totalPages: Math.ceil(totalBooks / limit),
-      bookArray,
-    });
-  } catch (error) {
-    logger.error('Error in /getBooks endpoint:', error.message);
-    res.status(500).json({ message: error.message });
-  }
+  // Delegate to the controller
+  bookController.getBooks(req, res);
 });
 
 // Export the router

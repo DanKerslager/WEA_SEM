@@ -1,35 +1,43 @@
 const mongoose = require("mongoose");
+const { AddressSchema, userRatingSchema, personal } = require("./Schemes");
 
-// User schema, users are defined by their email and nickname, emain is used as a main unique identifier by the app
-
+// User schema, users are defined by their email and nickname
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
     unique: true,
+    trim: true,
   },
   username: {
     type: String,
     required: true,
     maxlength: 10,
     unique: true,
+    trim: true,
   },
   password: {
     type: String,
-    minlength: 6,
     required: true,
   },
-  name: {
-    type: String,
-    maxlength: 255,
+  favoriteBooks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "books", // Reference to Book model
+    },
+  ],
+  ratings: [userRatingSchema],
+  personalAddress: AddressSchema, // Embeds personal address
+  billingAddress: AddressSchema, // Embeds billing address
+  sameAsPersonalAddress: {
+    type: Boolean,
+    default: false, // Flag to indicate if billing and personal addresses are the same
   },
-  surname: {
-    type: String,
+  consentToDataProcessing: {
+    type: Boolean,
+    default: false,
   },
-  subtitle: {
-    type: String,
-    required: false,
-  }
+  personalInfo: personal,
 });
 
 // Vytvoření modelu
