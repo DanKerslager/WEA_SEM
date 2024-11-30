@@ -11,7 +11,6 @@ exports.createOrder = async (req, res) => {
     let total = 0;
 
     for (const item of books) {
-      console.log(item)
       const { _id, quantity } = item;
      
       // Validate quantity

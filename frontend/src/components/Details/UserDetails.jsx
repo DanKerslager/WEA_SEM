@@ -5,6 +5,8 @@ import { getLogin, updatePersonalInfo, updateAddressInfo, submitOrder } from '..
 import { useAuth } from '../../providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+
 import {
   Box,
   Button,
@@ -129,6 +131,17 @@ const UserDetails = ({ userId }) => {
       }
       const order = await submitOrder({ user, books: shoppingCart, paymentMethod });
       console.log(order);
+      toast.success(order.message, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+        });
       navigate('/');
       return;
     }
@@ -293,10 +306,10 @@ const UserDetails = ({ userId }) => {
                       />
                       Bankovní převod
                     </label>
-                    <label className={`option ${paymentMethod === "Kartou" ? "active" : ""}`}>
+                    <label className={`option ${paymentMethod === "Kartou online" ? "active" : ""}`}>
                       <input
                         type="radio"
-                        value="Kartou"
+                        value="Kartou online"
                         {...register("paymentMethod", { required: "Please select a payment method" })}
                       />
                       Kartou
