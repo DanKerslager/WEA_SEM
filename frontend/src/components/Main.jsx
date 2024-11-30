@@ -49,6 +49,7 @@ const Main = () => {
         <Route path='/getBooks/:bookId' element={<BookDetail bookId={bookId} setBookDetail={setBookDetail} />} />
         <Route path='/userDetail' element={<PrivateRoute><UserDetails userId={user?._id}/></PrivateRoute>}/>
         <Route path='/shoppingCart' element={<PrivateRoute><ShoppingCart/></PrivateRoute>} />
+        <Route path='/createOrder' element={<PrivateRoute><UserDetails userId={user?._id}/></PrivateRoute>} />
         <Route path='*' element={<NotFound/>} />
       </Routes>
     </div>

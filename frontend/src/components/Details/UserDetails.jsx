@@ -1,34 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
-import { getLogin, updatePersonalInfo, updateAddressInfo } from '../../api';
+import { getLogin, updatePersonalInfo, updateAddressInfo, submitOrder } from '../../api';
 import { useAuth } from '../../providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Box,
-  Flex,
-  Avatar,
-  Text,
-  HStack,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  useDisclosure,
   useColorModeValue,
-  Stack,
-  useColorMode,
-  Center,
 } from '@chakra-ui/react';
 const UserDetails = ({ userId }) => {
 
   const { t } = useTranslation();
   const { user, isAuthenticated, logout, setUser, setShowUserDetail } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isOrdering, setIsOrdering] = useState(() => {
+    return location.pathname === "/createOrder";
+  });
+  const [shoppingCart, setShoppingCart] = useState(() => {
+    if (isOrdering) {
+      return JSON.parse(sessionStorage.getItem('shoppingCart')) || [];
+    }
+  });
+  const fullPrice = isOrdering ?? shoppingCart.reduce((acc, book) => acc + book.price * book.quantity, 0).toFixed(2);
   const colorMode = useColorModeValue('gray.100', 'gray.700');
-
   const {
     control,
     register,
@@ -40,7 +37,7 @@ const UserDetails = ({ userId }) => {
   } = useForm({
     defaultValues: {
       personalAddress: {
-        street:  "",
+        street: "",
         city: "",
         state: "",
         zipCode: "",
@@ -67,6 +64,7 @@ const UserDetails = ({ userId }) => {
   });
 
   const sameAsPersonalAddress = watch("sameAsPersonalAddress");
+  const paymentMethod = watch("paymentMethod");
 
   useEffect(() => {
     if (user) {
@@ -97,7 +95,7 @@ const UserDetails = ({ userId }) => {
         },
       });
     }
-  }, [user, reset]);
+  }, [user, reset, isOrdering]);
   // Copy personalAddress to billingAddress if `sameAsPersonalAddress` is checked
   useEffect(() => {
     if (sameAsPersonalAddress) {
@@ -107,26 +105,46 @@ const UserDetails = ({ userId }) => {
   }, [userId, sameAsPersonalAddress, watch, setValue]);
 
   const onSubmit = async (data) => {
-    console.log(data);
     const { personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing } = data;
-    const changePersonalInfo = await updatePersonalInfo({ userId, ...personalInfo }); 
+    console.log(data);
+    const changePersonalInfo = await updatePersonalInfo({ userId, ...personalInfo });
     console.log(changePersonalInfo)
-    const changeAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress})
+    const changeAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress })
     console.log(changeAddress)
-    setUser( { ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing });
+    setUser({ ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing });
     localStorage.setItem('user', JSON.stringify({ ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing }));
+    if (isOrdering) {
+      console.log(data);
+      const user = {
+        _id: userId,
+        firstName: personalInfo.firstName,
+        lastName: personalInfo.lastName,
+        email: data.email,
+        //shippingAddress: billingAddress,
+        billingAddress,
+        shippingAddress: billingAddress,
+        personalAddress,
+        personalInfo,
+        consentToDataProcessing,
+      }
+      const order = await submitOrder({ user, books: shoppingCart, paymentMethod });
+      console.log(order);
+      navigate('/');
+      return;
+    }
   };
 
   return (
     <Box id="user-detail-wrapper" bg={colorMode}>
       <Box id="user-detail-button-box">
-        <Button id="user-detail-x-button"  ml={5} colorScheme="red" variant="outline" as={Link} to="/">
+        <Button id="user-detail-x-button" ml={5} colorScheme="red" variant="outline" as={Link} to="/">
           X
         </Button>
       </Box>
       <Box>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box id="user-detail-form-content">
+
             <Box id="personal-address">
               <h2 class="user-detail-h2">{t('personalAddress')}</h2>
               <div>
@@ -239,22 +257,74 @@ const UserDetails = ({ userId }) => {
                 <label class="user-detail-label">{t('where_did_you_find')}</label>
                 <input class="user-detail-input" {...register("personalInfo.referenceSource")} />
               </div>
-
-              <h2>{t('consent')}</h2>
-              <div>
-                <label class="user-detail-label">
-                  <input
-                    class="user-detail-checkbox"
-                    type="checkbox"
-                    {...register("consentToDataProcessing", { required: "Consent is required" })}
-                  />
-                  {t('data_consent')}
-                </label>
-                {errors.consentToDataProcessing && <p>{errors.consentToDataProcessing.message}</p>}
-              </div>
             </Box>
+            {isOrdering && (
+              <Box id="order-accept">
+                <h2 class="user-detail-h2">Your Order</h2>
+                {/* Email Field */}
+                <div className="form-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    defaultValue={user?.email}                    
+                    {...register("email", { required: "Email is required" })}
+                  />
+                  {errors.email && <p className="error">{errors.email.message}</p>}
+                </div>
+
+                {/* Payment Method */}
+                <div className="form-group">
+                  <label>Payment Method</label>
+                  <div className="payment-options">
+                    <label className={`option ${paymentMethod === "Dobírka" ? "active" : ""}`}>
+                      <input
+                        type="radio"
+                        value="Dobírka"
+                        {...register("paymentMethod", { required: "Please select a payment method" })}
+                      />
+                      Dobírka
+                    </label>
+                    <label className={`option ${paymentMethod === "Bankovní převod" ? "active" : ""}`}>
+                      <input
+                        type="radio"
+                        value="Bankovní převod"
+                        {...register("paymentMethod", { required: "Please select a payment method" })}
+                      />
+                      Bankovní převod
+                    </label>
+                    <label className={`option ${paymentMethod === "Kartou" ? "active" : ""}`}>
+                      <input
+                        type="radio"
+                        value="Kartou"
+                        {...register("paymentMethod", { required: "Please select a payment method" })}
+                      />
+                      Kartou
+                    </label>
+                  </div>
+                </div>
+              </Box>
+            )}
           </Box>
-          <Button id="user-detail-submit-button" colorScheme="teal" type="submit">{t('save_changes')}</Button>
+          <Box id="user-consent">
+            <h2>{t('consent')}</h2>
+            <div>
+              <label class="user-detail-label">
+                <input
+                  class="user-detail-checkbox"
+                  type="checkbox"
+                  {...register("consentToDataProcessing", { required: "Consent is required" })}
+                />
+                {t('data_consent')}
+              </label>
+              {errors.consentToDataProcessing && <p>{errors.consentToDataProcessing.message}</p>}
+            </div>
+          </Box>
+          {isOrdering ? (
+            <Button id="user-detail-submit-button" colorScheme="teal" type="submit">Place order</Button>
+          ) : (
+            <Button id="user-detail-submit-button" colorScheme="teal" type="submit">{t('save_changes')}</Button>
+          )}
         </form>
       </Box>
     </Box>

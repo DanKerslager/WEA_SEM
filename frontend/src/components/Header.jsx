@@ -106,6 +106,7 @@ const Header = () => {
                         <MenuDivider />
                         <MenuItem onClick={() => {
                           sessionStorage.clear();
+                          localStorage.clear();
                           logout();
                         }}>
                           {t('logout')}
