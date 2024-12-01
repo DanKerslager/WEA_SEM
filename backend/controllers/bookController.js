@@ -1,7 +1,7 @@
 // controllers/bookController.js
+const e = require('express');
 const BookModel = require('../models/Books'); // Import the Book model
 const logger = require('../logger'); // Import the logger
-const e = require('express');
 const { chunkArray, makeFilterObject, createOperation } = require('./utils');
 const {logAuditEvent, logBookDiff } = require('./AuditLogController'); // Import the audit log controller
 

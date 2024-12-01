@@ -11,7 +11,7 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { postRegister, updatePersonalInfo, updateAddressInfo } from '../api';
+import { postRegister, updatePersonalInfo, updateAddressInfo } from '../../api';
 
 const RegisterForm = ({ setShowRegister }) => {
   const [error, setError] = useState(null);
@@ -34,8 +34,8 @@ const RegisterForm = ({ setShowRegister }) => {
     const age = 0;
     const favoriteGenres = '';
     const referenceSource = '';
-    const personalAddress = { street: '', city: '', state: '', zipCode: '', country: '' };
-    const billingAddress =  { street: '', city: '', state: '', zipCode: '', country: '' };
+    const personalAddress = { street: ' ', city: ' ', state: ' ', zipCode: ' ', country: ' ' };
+    const billingAddress =  { street: ' ', city: ' ', state: ' ', zipCode: ' ', country: ' ' };
     const sameAsPersonalAddress = false;
     const personalInfo = await updatePersonalInfo({ userId: postData.data.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource})
     console.log(personalInfo)

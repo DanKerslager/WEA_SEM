@@ -2,22 +2,21 @@ import { useEffect, useState } from 'react';
 import { useColorModeValue, Box, Button, Center } from '@chakra-ui/react';
 import Filter from './Filter';
 import BookList from './BookList';
-import { fetchBooks } from '../api';
+import { fetchBooks } from '../../api';
 import {
   onTitleOnChange,
   onAuthorsOnChange,
   onCategoriesOnChange,
   onIsbnOnChange,
-} from '../filter';
-import { useAuth } from '../providers/AuthProvider';
-import { useTranslation } from 'react-i18next';
-
-
+} from '../../filter';
+import { useAuth } from '../../providers/AuthProvider';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
-  const onFavorites = localStorage.getItem('onFavorites');
-  const onRated = localStorage.getItem('onRated');
+  const onFavorites = JSON.parse(localStorage.getItem('onFavorites'));
+  const onRated = JSON.parse(localStorage.getItem('onRated'));
   const storedFavoriteBooks = localStorage.getItem('favoriteBooks');
 
   const lastIsbn = localStorage.getItem('lastIsbn');
@@ -33,7 +32,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const [categories, setCategories] = useState(lastCategories || '');
   const [title, setTitle] = useState(lastTitle || '');
   const [showFavorites, setShowFavorites] = useState(onFavorites || false);
-  const [showRated, setShowRated] = useState(onRated === 'true' || false);
+  const [showRated, setShowRated] = useState(onRated || false);
 
   const [showHidden, setShowHidden] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
@@ -44,7 +43,9 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   //const [favorites, setFavorites] = useState(storedFavoriteBooks || []);
   const limit = 10;
   const colorMode = useColorModeValue('green.300', 'green.800');
-  const { t } = useTranslation();
+
+  // Sync user favorites with local storage
+  
   const favorites = showFavorites ? user?.favoriteBooks : [];
 
   // Function to fetch books data from the backend.
@@ -118,21 +119,21 @@ const BookPage = ({ setBookId, setBookDetail }) => {
       <div id="books">
         {isAuthenticated && (
           <div id="filter-buttons">
-            <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return } setShowFavorites(true); setShowHidden(true); setPage(1); }}>
-              {showFavorites ? t('show_all_books') : t('show_favorites_only')}
+            <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return; }; setShowFavorites(true); setShowHidden(true); setPage(1); }}>
+              {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
             </Button>
             <Button mr={6} colorScheme='teal' onClick={() => { setShowRated(!showRated); setPage(1); }}>
-              {showRated ? t('show_all_books') : t('show_rated_books_only')}
+              {showRated ? 'Show All Books' : 'Show Rated Books Only'}
             </Button>
             {isTesting && (
               <Button colorScheme='teal' onClick={() => { setShowHidden(!showHidden); setPage(1); }} disabled={showFavorites === true}>
-                {showHidden ? t('show_availible') : t('show_hidden')}
+                {showHidden ? 'Show Available' : 'Show Hidden'}
               </Button>
             )}
           </div>
         )}
-        {showFavorites && favorites.length === 0 ? (
-          <Center>{t('no_favorite_book')}</Center>
+        {showFavorites && favorites?.length === 0 ? (
+          <Center>No book has been favorited yet.</Center>
         ) : (
           <BookList
             setBookId={setBookId}
@@ -146,8 +147,8 @@ const BookPage = ({ setBookId, setBookDetail }) => {
           />
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };
-
 export default BookPage;

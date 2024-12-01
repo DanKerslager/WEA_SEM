@@ -12,8 +12,8 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { getLogin } from '../api';
-import { useAuth } from '../providers/AuthProvider';
+import { getLogin } from '../../api';
+import { useAuth } from '../../providers/AuthProvider';
 
 const LoginForm = ({ setShowLogin }) => {
   const { login } = useAuth();

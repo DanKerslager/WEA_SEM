@@ -1,7 +1,7 @@
 // controllers/userController.js
 const bcrypt = require('bcrypt');
-const User = require('../models/Users'); // Assuming your User model is in the models folder
 const mongoose = require("mongoose");
+const User = require('../models/Users'); // Assuming your User model is in the models folder
 const logAuditEvent = require('./AuditLogController'); // Import the audit log controller
 
 // Function to register a new user
@@ -105,6 +105,8 @@ const setFavBook = async (userId, bookId, isFavorite) => {
 const updateAddress = async (userId, personalAddress, billingAddress, sameAsPersonalAddress) => {
   const update = {};
 
+  update.sameAsPersonalAddress = sameAsPersonalAddress;
+  
   // Add personal address to update object
   if (personalAddress) {
     update.personalAddress = personalAddress;
