@@ -97,26 +97,19 @@ const UserDetails = ({ userId }) => {
         },
       });
     }
-  }, [user, reset, isOrdering]);
+  }, [user, reset]);
   // Copy personalAddress to billingAddress if `sameAsPersonalAddress` is checked
   useEffect(() => {
     if (sameAsPersonalAddress) {
       const personalAddress = watch("personalAddress");
       setValue("billingAddress", personalAddress);
     }
-  }, [userId, sameAsPersonalAddress, watch, setValue]);
+    setIsOrdering(location.pathname === "/createOrder");
+  }, [userId, sameAsPersonalAddress, watch, setValue, location.pathname]);
 
   const onSubmit = async (data) => {
     const { personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing } = data;
-    console.log(data);
-    const changePersonalInfo = await updatePersonalInfo({ userId, ...personalInfo });
-    console.log(changePersonalInfo)
-    const changeAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress })
-    console.log(changeAddress)
-    setUser({ ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing });
-    localStorage.setItem('user', JSON.stringify({ ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing }));
     if (isOrdering) {
-      console.log(data);
       const user = {
         _id: userId,
         firstName: personalInfo.firstName,
@@ -131,7 +124,22 @@ const UserDetails = ({ userId }) => {
       }
       const order = await submitOrder({ user, books: shoppingCart, paymentMethod });
       console.log(order);
-      toast.success(order.message, {
+      if (order.status === 201) {
+        toast.success(order.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        navigate('/');
+        return;
+      }
+      toast.error(order.message, {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -141,14 +149,33 @@ const UserDetails = ({ userId }) => {
         progress: undefined,
         theme: "colored",
         transition: Bounce,
-        });
-      navigate('/');
+      });
       return;
     }
-  };
+    console.log(data);
+    const changePersonalInfo = await updatePersonalInfo({ userId, ...personalInfo });
+    console.log(changePersonalInfo)
+    const changeAddress = await updateAddressInfo({ userId, personalAddress, billingAddress, sameAsPersonalAddress })
+    console.log(changeAddress)
+    setUser({ ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing });
+    localStorage.setItem('user', JSON.stringify({ ...user, personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing }));
+    toast.success("User data updated successfully", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce,
+    });
 
+
+  };
   return (
     <Box id="user-detail-wrapper" bg={colorMode}>
+      <ToastContainer />
       <Box id="user-detail-button-box">
         <Button id="user-detail-x-button" ml={5} colorScheme="red" variant="outline" as={Link} to="/">
           X
@@ -280,7 +307,7 @@ const UserDetails = ({ userId }) => {
                   <input
                     type="email"
                     id="email"
-                    defaultValue={user?.email}                    
+                    defaultValue={user?.email}
                     {...register("email", { required: "Email is required" })}
                   />
                   {errors.email && <p className="error">{errors.email.message}</p>}

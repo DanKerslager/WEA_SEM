@@ -176,7 +176,7 @@ export const submitOrder = async(userParams) => {
       paymentMethod
     });
     // Vrátíme response data
-    return response.data;
+    return response;
   } catch (error) {
     // Vrátíme chybu, pokud k ní dojde
     console.error("Error during submitting order:", error);
