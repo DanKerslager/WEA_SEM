@@ -28,6 +28,8 @@ import LoginForm from './Forms/LoginForm';
 import RegisterForm from './Forms/RegisterForm';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // React component that renders the header of the app.
 
 const Header = () => {
@@ -40,6 +42,7 @@ const Header = () => {
 
   return (
     <>
+      <ToastContainer />
       {showLogin && (
         <LoginForm setShowLogin={setShowLogin} />
       )}
