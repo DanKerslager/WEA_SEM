@@ -190,27 +190,27 @@ const UserDetails = ({ userId }) => {
               <div>
                 <label class="user-detail-label">{t('street')}</label>
                 <input class="user-detail-input" {...register("personalAddress.street", { required: "Street is required" })} />
-                {errors.personalAddress?.street && <p>{errors.personalAddress.street.message}</p>}
+                {errors.personalAddress?.street && <p style={{ color: '#FC8181' }}>{errors.personalAddress.street.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('city')}</label>
                 <input class="user-detail-input" {...register("personalAddress.city", { required: "City is required" })} />
-                {errors.personalAddress?.city && <p>{errors.personalAddress.city.message}</p>}
+                {errors.personalAddress?.city && <p style={{ color: '#FC8181' }}>{errors.personalAddress.city.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('state')}</label>
                 <input class="user-detail-input" {...register("personalAddress.state", { required: "State is required" })} />
-                {errors.personalAddress?.state && <p>{errors.personalAddress.state.message}</p>}
+                {errors.personalAddress?.state && <p style={{ color: '#FC8181' }}>{errors.personalAddress.state.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('zip_code')}</label>
                 <input class="user-detail-input" {...register("personalAddress.zipCode", { required: "ZIP Code is required" })} />
-                {errors.personalAddress?.zipCode && <p>{errors.personalAddress.zipCode.message}</p>}
+                {errors.personalAddress?.zipCode && <p style={{ color: '#FC8181' }}>{errors.personalAddress.zipCode.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('country')}</label>
                 <input class="user-detail-input" {...register("personalAddress.country", { required: "Country is required" })} />
-                {errors.personalAddress?.country && <p>{errors.personalAddress.country.message}</p>}
+                {errors.personalAddress?.country && <p style={{ color: '#FC8181' }}>{errors.personalAddress.country.message}</p>}
               </div>
             </Box>
 
@@ -256,12 +256,12 @@ const UserDetails = ({ userId }) => {
               <div>
                 <label class="user-detail-label">{t('first_name')}</label>
                 <input class="user-detail-input" {...register("personalInfo.firstName", { required: "First Name is required" })} />
-                {errors.personalInfo?.firstName && <p>{errors.personalInfo.firstName.message}</p>}
+                {errors.personalInfo?.firstName && <p style={{ color: '#FC8181' }}>{errors.personalInfo.firstName.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('last_name')}</label>
                 <input class="user-detail-input" {...register("personalInfo.lastName", { required: "Last Name is required" })} />
-                {errors.personalInfo?.lastName && <p>{errors.personalInfo.lastName.message}</p>}
+                {errors.personalInfo?.lastName && <p style={{ color: '#FC8181' }}>{errors.personalInfo.lastName.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('gender')}</label>
@@ -272,7 +272,7 @@ const UserDetails = ({ userId }) => {
                   <option value="Other">{t('other')}</option>
                   <option value="Prefer not to say">{t('prefer_not_to_say')}</option>
                 </select>
-                {errors.personalInfo?.gender && <p>{errors.personalInfo.gender.message}</p>}
+                {errors.personalInfo?.gender && <p style={{ color: '#FC8181' }}>{errors.personalInfo.gender.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('age')}</label>
@@ -310,7 +310,7 @@ const UserDetails = ({ userId }) => {
                     defaultValue={user?.email}
                     {...register("email", { required: "Email is required" })}
                   />
-                  {errors.email && <p className="error">{errors.email.message}</p>}
+                  {errors.email && <p style={{ color: '#FC8181' }}>{errors.email.message}</p>}
                 </div>
 
                 {/* Payment Method */}
@@ -343,11 +343,12 @@ const UserDetails = ({ userId }) => {
                     </label>
                   </div>
                 </div>
+                  {errors.paymentMethod && (<p style={{ color: '#FC8181' }}>{errors.paymentMethod.message}</p>) }
               </Box>
             )}
           </Box>
           <Box id="user-consent">
-            <h2>{t('consent')}</h2>
+            <h2 style={{textAlign: "start"}}>{t('consent')}</h2>
             <div>
               <label class="user-detail-label">
                 <input
@@ -357,7 +358,7 @@ const UserDetails = ({ userId }) => {
                 />
                 {t('data_consent')}
               </label>
-              {errors.consentToDataProcessing && <p>{errors.consentToDataProcessing.message}</p>}
+              {errors.consentToDataProcessing && <p style={{ color: '#FC8181' }}>{errors.consentToDataProcessing.message}</p>}
             </div>
           </Box>
           {isOrdering ? (
