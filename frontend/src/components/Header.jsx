@@ -37,7 +37,6 @@ const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
   const cMode = useColorModeValue('gray.100', 'gray.900');
-  const cMode2 = useColorModeValue('gray.200', 'gray.700');
 
   return (
     <>
@@ -106,6 +105,9 @@ const Header = () => {
                         <MenuDivider />
                         <MenuItem onClick={() => {
                           sessionStorage.clear();
+                          localStorage.setItem("onFavorites", false);
+                          localStorage.setItem("onRated", false);
+                          window.location.reload();
                           logout();
                         }}>
                           {t('logout')}

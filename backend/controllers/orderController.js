@@ -1,5 +1,6 @@
 const BookModel = require('../models/Books'); // Replace with your actual book model path
 const OrderModel = require('../models/Order'); // Replace with your actual order model path
+const logger = require('../logger'); // Import logger
 
 exports.createOrder = async (req, res) => {
   const { user, books, paymentMethod } = req.body;
@@ -10,17 +11,17 @@ exports.createOrder = async (req, res) => {
     let total = 0;
 
     for (const item of books) {
-      const { bookId, quantity } = item;
-
+      const { _id, quantity } = item;
+     
       // Validate quantity
       if (!quantity || quantity < 1) {
-        return res.status(400).json({ message: `Invalid quantity for book ID ${bookId}.` });
+        return res.status(400).json({ message: `Invalid quantity for book ID ${_id}.` });
       }
 
       // Fetch book details
-      const book = await BookModel.findById(bookId);
+      const book = await BookModel.findById(_id);
       if (!book) {
-        return res.status(404).json({ message: `Book with ID ${bookId} not found.` });
+        return res.status(404).json({ message: `Book with ID ${_id} not found.` });
       }
 
       // Add book to order items

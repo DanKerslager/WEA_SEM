@@ -166,3 +166,20 @@ export const updateAddressInfo = async(userParams) => {
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
 };
+export const submitOrder = async(userParams) => {
+  const { user, books, paymentMethod } = userParams;
+  let link = `${BASE_URL}/createOrder`;
+  try {
+    const response = await axios.post(link, {
+      user,
+      books,
+      paymentMethod
+    });
+    // Vrátíme response data
+    return response.data;
+  } catch (error) {
+    // Vrátíme chybu, pokud k ní dojde
+    console.error("Error during submitting order:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
+};

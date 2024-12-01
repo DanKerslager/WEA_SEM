@@ -10,6 +10,8 @@ import {
   onIsbnOnChange,
 } from '../../filter';
 import { useAuth } from '../../providers/AuthProvider';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BookPage = ({ setBookId, setBookDetail }) => {
   const lastPage = localStorage.getItem('lastPage');
@@ -145,6 +147,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
           />
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -30,7 +30,8 @@
     "bcrypt": "^5.1.0",
     "react-epic-spinners":"0.5.0",
     "react-simple-star-rating":"5.1.7",
-    "react-router-dom": "^6.2.1"
+    "react-router-dom": "^6.2.1",
+    "react-toastify": "8.0.3"
 
   },
   "scripts": {

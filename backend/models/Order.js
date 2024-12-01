@@ -62,3 +62,6 @@ const OrderSchema = new mongoose.Schema({
     set: (v) => Math.round(v * 100) / 100,
   },
 });
+// Create the Book model
+const OrderModel = mongoose.model("orders", OrderSchema);
+module.exports = OrderModel;

@@ -87,7 +87,6 @@ router.post('/', (req, res) => {
   if (!validPaymentMethods.includes(paymentMethod)) {
     return res.status(400).json({ message: 'Invalid payment method.' });
   }
-
   // Delegate to the controller
   orderController.createOrder(req, res);
 });
