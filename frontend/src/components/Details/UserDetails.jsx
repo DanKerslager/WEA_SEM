@@ -139,7 +139,7 @@ const UserDetails = ({ userId }) => {
         });
         return;
       }
-      toast.error(order.message, {
+      toast.error("Server Error", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
