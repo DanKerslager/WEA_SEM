@@ -125,7 +125,8 @@ const UserDetails = ({ userId }) => {
       const order = await submitOrder({ user, books: shoppingCart, paymentMethod });
       console.log(order);
       if (order.status === 201) {
-        toast.success(order.data.message, {
+        navigate('/');
+        toast.success("Order created successfully", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -136,7 +137,6 @@ const UserDetails = ({ userId }) => {
           theme: "colored",
           transition: Bounce,
         });
-        navigate('/');
         return;
       }
       toast.error(order.message, {
@@ -175,7 +175,6 @@ const UserDetails = ({ userId }) => {
   };
   return (
     <Box id="user-detail-wrapper" bg={colorMode}>
-      <ToastContainer />
       <Box id="user-detail-button-box">
         <Button id="user-detail-x-button" ml={5} colorScheme="red" variant="outline" as={Link} to="/">
           X
