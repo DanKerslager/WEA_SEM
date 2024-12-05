@@ -36,11 +36,7 @@ const OrdersPage = ({ userId }) => {
         {orders.map((order) => (
             <Box key={order._id}>
                 <h2>#{order._id}</h2>
-                {order.shipped === true ? (
-                    <p>DOKONČENÁ</p>
-                ) : (
-                    <p>VYŘIZOVANÁ</p>
-                )}
+                <p>Status: {order.status}</p>
                 <p>Payment method : {order.payment}</p>
                 <p>Total: {order.price}</p>
                 <p>Total with "tax": {order.total}</p>
