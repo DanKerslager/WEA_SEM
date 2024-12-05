@@ -45,9 +45,11 @@ const OrderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  shipped: {
-    type: Boolean,
-    default: false,
+  status: {
+    type: String,
+    enum: ["VYŘIZOVANÁ", "DORUČOVANÁ", "ZRUŠENÁ", "DOKONČENÁ"],
+    default: "VYŘIZOVANÁ",
+    required: true,
   },
   payment: { type: String, required: true },
   price: {
