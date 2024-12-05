@@ -321,3 +321,7 @@ h2 {
   gap: 10px;
   margin-top: 20px;
 }
+.payment-options-text{
+  list-style-type: circle;
+  list-style-position: inside;
+}

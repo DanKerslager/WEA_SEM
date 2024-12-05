@@ -323,6 +323,9 @@ const UserDetails = ({ userId }) => {
                       />
                       Dobírka
                     </label>
+                    <ul>
+                      <li className="payment-options-text">Přirázka fixně 50%.</li>
+                    </ul>
                     <label className={`option ${paymentMethod === "Bankovní převod" ? "active" : ""}`}>
                       <input
                         type="radio"
@@ -331,6 +334,9 @@ const UserDetails = ({ userId }) => {
                       />
                       Bankovní převod
                     </label>
+                    <ul>
+                      <li className="payment-options-text">Žádná přirázka.</li>
+                    </ul>
                     <label className={`option ${paymentMethod === "Kartou online" ? "active" : ""}`}>
                       <input
                         type="radio"
@@ -339,14 +345,18 @@ const UserDetails = ({ userId }) => {
                       />
                       Kartou
                     </label>
+                    <ul>
+                      <li className="payment-options-text">Přirážka 1% ceny knihy.</li>
+                    </ul>
+
                   </div>
                 </div>
-                  {errors.paymentMethod && (<p style={{ color: '#FC8181' }}>{errors.paymentMethod.message}</p>) }
+                {errors.paymentMethod && (<p style={{ color: '#FC8181' }}>{errors.paymentMethod.message}</p>)}
               </Box>
             )}
           </Box>
           <Box id="user-consent">
-            <h2 style={{textAlign: "start"}}>{t('consent')}</h2>
+            <h2 style={{ textAlign: "start" }}>{t('consent')}</h2>
             <div>
               <label class="user-detail-label">
                 <input
