@@ -325,3 +325,6 @@ h2 {
   list-style-type: circle;
   list-style-position: inside;
 }
+ul{
+  margin-left: 10px;
+}
