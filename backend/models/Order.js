@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { AddressSchema } = require("./Schemes");
 
 const UserData = new mongoose.Schema({
+  userID: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   firstName: {
     type: String,
     required: true,

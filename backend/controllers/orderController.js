@@ -78,3 +78,16 @@ exports.createOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Fetch orders by user ID
+exports.getOrdersByUserId = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const orders = await OrderModel.find({ 'user._id': userId });
+    res.status(200).json(orders);
+  } catch (error) {
+    logger.error('Error in getOrdersByUserId controller:', error.message);
+    res.status(500).json({ message: 'Failed to fetch orders' });
+  }
+};
