@@ -6,14 +6,13 @@ import { useAuth } from '../../providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
-
 import {
   Box,
   Button,
   useColorModeValue,
 } from '@chakra-ui/react';
 const UserDetails = ({ userId }) => {
-
+  console.log(userId);
   const { t } = useTranslation();
   const { user, isAuthenticated, logout, setUser, setShowUserDetail } = useAuth();
   const location = useLocation();
@@ -111,11 +110,10 @@ const UserDetails = ({ userId }) => {
     const { personalAddress, billingAddress, sameAsPersonalAddress, personalInfo, consentToDataProcessing } = data;
     if (isOrdering) {
       const user = {
-        _id: userId,
+        userID: userId,
         firstName: personalInfo.firstName,
         lastName: personalInfo.lastName,
         email: data.email,
-        //shippingAddress: billingAddress,
         billingAddress,
         shippingAddress: billingAddress,
         personalAddress,
@@ -125,7 +123,6 @@ const UserDetails = ({ userId }) => {
       const order = await submitOrder({ user, books: shoppingCart, paymentMethod });
       console.log(order);
       if (order.status === 201) {
-        navigate('/');
         toast.success("Order created successfully", {
           position: "bottom-right",
           autoClose: 5000,
@@ -137,6 +134,8 @@ const UserDetails = ({ userId }) => {
           theme: "colored",
           transition: Bounce,
         });
+        sessionStorage.removeItem('shoppingCart');
+        navigate('/');
         return;
       }
       toast.error("Server Error", {

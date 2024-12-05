@@ -82,9 +82,8 @@ exports.createOrder = async (req, res) => {
 // Fetch orders by user ID
 exports.getOrdersByUserId = async (req, res) => {
   const userId = req.params.userId;
-
   try {
-    const orders = await OrderModel.find({ 'user._id': userId });
+    const orders = await OrderModel.find({ 'user.userID': userId });
     res.status(200).json(orders);
   } catch (error) {
     logger.error('Error in getOrdersByUserId controller:', error.message);

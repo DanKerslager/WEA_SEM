@@ -35,7 +35,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const { user, isAuthenticated, logout, setUser, setShowUserDetail, setShowShoppingCart} = useAuth();
+  const { user, isAuthenticated, logout} = useAuth();
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
   const cMode = useColorModeValue('gray.100', 'gray.900');
@@ -64,7 +64,11 @@ const Header = () => {
               <Button ml={5} colorScheme="green" as={Link} to='/shoppingCart'>
                 <img src={ShoppingCardIcon} alt="Shopping Card" />
               </Button>
+              <Button ml={5} colorScheme="green" as={Link} to='/showOrders'>
+                Orders
+              </Button>
               </>
+
             )}
           </Flex>
             <Flex alignItems={'center'}>

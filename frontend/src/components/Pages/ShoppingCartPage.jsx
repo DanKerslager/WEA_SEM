@@ -61,6 +61,7 @@ const ShoppingCartPage = () => {
                   <Button colorScheme="teal" className="quantity-btn" onClick={() => removeQuantity(book._id, shoppingCart, setShoppingCart)}>-</Button>
                 </div>
                 <div className="item-price">{book.price} CZK</div>
+                <div className="item-price">{book.price*book.quantity !== book.price ?(<>{(book.price*book.quantity).toFixed(2)} CZK</>) : <>-</> }</div>
                 <div className="item-actions">
                   <Button colorScheme="red" variant="outline" className="action-btn" onClick={() => removeFromCart(book._id, setShoppingCart)}>
                     Remove
