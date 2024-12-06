@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { AddressSchema } = require("./Schemes");
 
 const UserData = new mongoose.Schema({
+  userID: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   firstName: {
     type: String,
     required: true,
@@ -44,9 +45,11 @@ const OrderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  shipped: {
-    type: Boolean,
-    default: false,
+  status: {
+    type: String,
+    enum: ["VYŘIZOVANÁ", "DORUČOVANÁ", "ZRUŠENÁ", "DOKONČENÁ"],
+    default: "VYŘIZOVANÁ",
+    required: true,
   },
   payment: { type: String, required: true },
   price: {

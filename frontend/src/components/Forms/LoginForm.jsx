@@ -12,6 +12,7 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { toast, Bounce } from 'react-toastify';
 import { getLogin } from '../../api';
 import { useAuth } from '../../providers/AuthProvider';
 
@@ -35,6 +36,17 @@ const LoginForm = ({ setShowLogin }) => {
       login(user);
       let shoppingCart = [];
       sessionStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+      toast.success(loginData.data.message, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
       setShowLogin(false);
     } else {
       setError(loginData.message);

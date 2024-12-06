@@ -220,7 +220,7 @@ footer {
   gap: 10px;
   justify-items: center;
 }
-#personal-address > div, #billing-address > div, #personal-information > div, #order-checkout > div, #user-consent > div{
+#personal-address > div, #billing-address > div, #personal-information > div, #order-checkout > div, #user-consent > div, #order-accept > div{
   display: flex;
   flex-direction: column;
 }
@@ -340,8 +340,9 @@ h2 {
   font-size: 16px;
 }
 /*Order*/
-.option.active {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
 }

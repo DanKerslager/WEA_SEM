@@ -11,6 +11,7 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { toast, Bounce } from 'react-toastify';
 import { postRegister, updatePersonalInfo, updateAddressInfo } from '../../api';
 
 const RegisterForm = ({ setShowRegister }) => {
@@ -35,22 +36,27 @@ const RegisterForm = ({ setShowRegister }) => {
     const favoriteGenres = '';
     const referenceSource = '';
     const personalAddress = { street: ' ', city: ' ', state: ' ', zipCode: ' ', country: ' ' };
-    const billingAddress =  { street: ' ', city: ' ', state: ' ', zipCode: ' ', country: ' ' };
+    const billingAddress = { street: ' ', city: ' ', state: ' ', zipCode: ' ', country: ' ' };
     const sameAsPersonalAddress = false;
-    const personalInfo = await updatePersonalInfo({ userId: postData.data.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource})
+    const personalInfo = await updatePersonalInfo({ userId: postData.data.userId, firstName, lastName, gender, age, favoriteGenres, referenceSource })
     console.log(personalInfo)
-    const addressInfo = await updateAddressInfo({ userId: postData.data.userId, personalAddress, billingAddress, sameAsPersonalAddress})
+    const addressInfo = await updateAddressInfo({ userId: postData.data.userId, personalAddress, billingAddress, sameAsPersonalAddress })
     console.log(addressInfo)
     if (postData?.status === 201) {
       setError(null);
-      setSuccess(postData.data.message);
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          setShowRegister(false);
-          setSuccess(null);
-          resolve();
-        }, 3000);
+      toast.success(postData.data.message, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
       });
+      setShowRegister(false);
+      setSuccess(null);
     } else {
       setError(postData.message);
     }
