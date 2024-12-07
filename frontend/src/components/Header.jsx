@@ -58,14 +58,14 @@ const Header = () => {
             </Box>
             {isAuthenticated && (
               <>
-              <Button ml={5} colorScheme="green" onClick={() => setShowUserDetail(true)}>
+              <Button ml={5} colorScheme="green" as={Link} to='/userDetail'>
                 {t('user_detail')}
               </Button>
               <Button ml={5} colorScheme="green" as={Link} to='/shoppingCart'>
                 <img src={ShoppingCardIcon} alt="Shopping Card" />
               </Button>
               <Button ml={5} colorScheme="green" as={Link} to='/showOrders'>
-                Orders
+                {t('orders')}
               </Button>
               </>
 

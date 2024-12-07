@@ -187,27 +187,27 @@ const UserDetails = ({ userId }) => {
               <h2 class="user-detail-h2">{t('personalAddress')}</h2>
               <div>
                 <label class="user-detail-label">{t('street')}</label>
-                <input class="user-detail-input" {...register("personalAddress.street", { required: "Street is required" })} />
+                <input class="user-detail-input" {...register("personalAddress.street", { required: t('street_required') })} />
                 {errors.personalAddress?.street && <p style={{ color: '#FC8181' }}>{errors.personalAddress.street.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('city')}</label>
-                <input class="user-detail-input" {...register("personalAddress.city", { required: "City is required" })} />
+                <input class="user-detail-input" {...register("personalAddress.city", { required: t('city_required') })} />
                 {errors.personalAddress?.city && <p style={{ color: '#FC8181' }}>{errors.personalAddress.city.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('state')}</label>
-                <input class="user-detail-input" {...register("personalAddress.state", { required: "State is required" })} />
+                <input class="user-detail-input" {...register("personalAddress.state", { required: t('state_required') })} />
                 {errors.personalAddress?.state && <p style={{ color: '#FC8181' }}>{errors.personalAddress.state.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('zip_code')}</label>
-                <input class="user-detail-input" {...register("personalAddress.zipCode", { required: "ZIP Code is required" })} />
+                <input class="user-detail-input" {...register("personalAddress.zipCode", { required: t('ZIP_required') })} />
                 {errors.personalAddress?.zipCode && <p style={{ color: '#FC8181' }}>{errors.personalAddress.zipCode.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('country')}</label>
-                <input class="user-detail-input" {...register("personalAddress.country", { required: "Country is required" })} />
+                <input class="user-detail-input" {...register("personalAddress.country", { required: t('country_required') })} />
                 {errors.personalAddress?.country && <p style={{ color: '#FC8181' }}>{errors.personalAddress.country.message}</p>}
               </div>
             </Box>
@@ -253,17 +253,17 @@ const UserDetails = ({ userId }) => {
               <h2 class="user-detail-h2">{t('personal_information')}</h2>
               <div>
                 <label class="user-detail-label">{t('first_name')}</label>
-                <input class="user-detail-input" {...register("personalInfo.firstName", { required: "First Name is required" })} />
+                <input class="user-detail-input" {...register("personalInfo.firstName", { required: t('first_name_required') })} />
                 {errors.personalInfo?.firstName && <p style={{ color: '#FC8181' }}>{errors.personalInfo.firstName.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('last_name')}</label>
-                <input class="user-detail-input" {...register("personalInfo.lastName", { required: "Last Name is required" })} />
+                <input class="user-detail-input" {...register("personalInfo.lastName", { required: t('last_name_required') })} />
                 {errors.personalInfo?.lastName && <p style={{ color: '#FC8181' }}>{errors.personalInfo.lastName.message}</p>}
               </div>
               <div>
                 <label class="user-detail-label">{t('gender')}</label>
-                <select class="user-detail-input" {...register("personalInfo.gender", { required: "Gender is required" })}>
+                <select class="user-detail-input" {...register("personalInfo.gender", { required: t('gender_required') })}>
                   <option value="">{t('select')}</option>
                   <option value="Male">{t('male')}</option>
                   <option value="Female">{t('female')}</option>
@@ -298,55 +298,55 @@ const UserDetails = ({ userId }) => {
             </Box>
             {isOrdering && (
               <Box id="order-accept">
-                <h2 class="user-detail-h2">Your Order</h2>
+                <h2 class="user-detail-h2">{t('your_order')}</h2>
                 {/* Email Field */}
                 <div className="form-group">
-                  <label htmlFor="email">Email Address</label>
+                  <label htmlFor="email">{t('email_address')}</label>
                   <input
                     type="email"
                     id="email"
                     defaultValue={user?.email}
-                    {...register("email", { required: "Email is required" })}
+                    {...register("email", { required: t('email_required') })}
                   />
                   {errors.email && <p style={{ color: '#FC8181' }}>{errors.email.message}</p>}
                 </div>
 
                 {/* Payment Method */}
                 <div className="form-group">
-                  <label>Payment Method</label>
+                  <label>{t('payment_method')}</label>
                   <div className="payment-options">
                     <label className={`option ${paymentMethod === "Dobírka" ? "active" : ""}`}>
                       <input
                         type="radio"
                         value="Dobírka"
-                        {...register("paymentMethod", { required: "Please select a payment method" })}
+                        {...register("paymentMethod", { required: t('payment_method_required')})}
                       />
-                      Dobírka
+                      {t('cash_on_delivery')}
                     </label>
                     <ul>
-                      <li className="payment-options-text">Přirázka fixně 50%.</li>
+                      <li className="payment-options-text">{t('cash_on_delivery_extra')}50 Kč.</li>
                     </ul>
                     <label className={`option ${paymentMethod === "Bankovní převod" ? "active" : ""}`}>
                       <input
                         type="radio"
                         value="Bankovní převod"
-                        {...register("paymentMethod", { required: "Please select a payment method" })}
+                        {...register("paymentMethod", { required: t('payment_method_required') })}
                       />
-                      Bankovní převod
+                      {t('bank_transfer')}
                     </label>
                     <ul>
-                      <li className="payment-options-text">Žádná přirázka.</li>
+                      <li className="payment-options-text">{t('bank_transfer_extra')}</li>
                     </ul>
                     <label className={`option ${paymentMethod === "Kartou online" ? "active" : ""}`}>
                       <input
                         type="radio"
                         value="Kartou online"
-                        {...register("paymentMethod", { required: "Please select a payment method" })}
+                        {...register("paymentMethod", { required: t('payment_method_required') })}
                       />
-                      Kartou
+                      {t('card')}
                     </label>
                     <ul>
-                      <li className="payment-options-text">Přirážka 1% ceny knihy.</li>
+                      <li className="payment-options-text">{t('card_extra')}</li>
                     </ul>
 
                   </div>
@@ -362,7 +362,7 @@ const UserDetails = ({ userId }) => {
                 <input
                   class="user-detail-checkbox"
                   type="checkbox"
-                  {...register("consentToDataProcessing", { required: "Consent is required" })}
+                  {...register("consentToDataProcessing", { required: t('consent_required') })}
                 />
                 {t('data_consent')}
               </label>
@@ -370,7 +370,7 @@ const UserDetails = ({ userId }) => {
             </div>
           </Box>
           {isOrdering ? (
-            <Button id="user-detail-submit-button" colorScheme="teal" type="submit">Place order</Button>
+            <Button id="user-detail-submit-button" colorScheme="teal" type="submit">{t('place_order')}</Button>
           ) : (
             <Button id="user-detail-submit-button" colorScheme="teal" type="submit">{t('save_changes')}</Button>
           )}

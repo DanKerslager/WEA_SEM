@@ -32,22 +32,22 @@ const OrdersPage = ({ userId }) => {
     }, [user, userId]);
   return (
     <Box>
-        <h1>Orders</h1>
+        <h1>{t('orders')}</h1>
         {orders.map((order) => (
             <Box key={order._id}>
                 <h2>#{order._id}</h2>
-                <p>Status: {order.status}</p>
-                <p>Payment method : {order.payment}</p>
-                <p>Total: {order.price}</p>
-                <p>Total with "tax": {order.total}</p>
+                <p>{t('status')}: {order.status}</p>
+                <p>{t('payment_method')}: {order.payment}</p>
+                <p>{t('total')}: {order.price}</p>
+                <p>{t('total_tax')}: {order.total}</p>
                 <p>{changeDateFormat(order.orderDate)}</p>
                 {order.items.map((item) => (
                     <Box key={item._id}>
                         <h3>{item.book.title}</h3>
-                        <p>Quantity: {item.quantity}</p>
-                        <p>Price: {item.book.price} CZK</p>
+                        <p>{t('quantity')}: {item.quantity}</p>
+                        <p>{t('price')}: {item.book.price} CZK</p>
                         {item.book.price*item.quantity !==  item.book.price ? (
-                            <p>Total Price: {(item.book.price*item.quantity).toFixed(2)} CZK</p>
+                            <p>{t('total_price')}: {(item.book.price*item.quantity).toFixed(2)} CZK</p>
                         ): (
                             <p>-</p>
                         )}

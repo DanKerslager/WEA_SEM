@@ -233,19 +233,16 @@ footer {
 
 #personal-address {
   margin-left: 10px;
-  max-width: 33%;
   columns: 1;
 }
 
 #billing-address {
   margin-left: 10px;
-  max-width: 33%;
   columns: 1;
 }
 
 #personal-information {
   margin-left: 10px;
-  max-width: 33%;
   columns: 1;
 }
 

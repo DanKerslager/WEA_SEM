@@ -111,9 +111,9 @@ const BookDetail = ({ bookId, setBookDetail }) => {
               {isAuthenticated && (
                 <>
                 {shoppingCart.find((cartBook) => cartBook._id === book._id) ? (
-                      <Button id='view' p={5} colorScheme="red" size="sm" onClick={async() => await removeFromCart(book._id, setShoppingCart)}>Remove from cart</Button>
+                      <Button id='view' p={5} colorScheme="red" size="sm" onClick={async() => await removeFromCart(book._id, setShoppingCart)}>{t('cart_remove')}</Button>
                     ) : (
-                      <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async() => await addToCart(book, setShoppingCart)}>Add to cart</Button>
+                      <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async() => await addToCart(book, setShoppingCart)}>{t('cart_add')}</Button>
                     )}
                 </>
               )}

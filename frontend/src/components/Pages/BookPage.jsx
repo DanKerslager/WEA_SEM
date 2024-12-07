@@ -10,6 +10,8 @@ import {
   onIsbnOnChange,
 } from '../../filter';
 import { useAuth } from '../../providers/AuthProvider';
+import { useTranslation } from 'react-i18next';
+
 
 
 const BookPage = ({ setBookId, setBookDetail }) => {
@@ -17,6 +19,7 @@ const BookPage = ({ setBookId, setBookDetail }) => {
   const onFavorites = JSON.parse(localStorage.getItem('onFavorites'));
   const onRated = JSON.parse(localStorage.getItem('onRated'));
   const storedFavoriteBooks = localStorage.getItem('favoriteBooks');
+  const { t } = useTranslation();
 
   const lastIsbn = localStorage.getItem('lastIsbn');
   const lastAuthors = localStorage.getItem('lastAuthors');
@@ -119,20 +122,20 @@ const BookPage = ({ setBookId, setBookDetail }) => {
         {isAuthenticated && (
           <div id="filter-buttons">
             <Button mr={6} colorScheme='red' onClick={() => { if (showFavorites) { setShowFavorites(false); setShowHidden(false); return; }; setShowFavorites(true); setShowHidden(true); setPage(1); }}>
-              {showFavorites ? 'Show All Books' : 'Show Favorites Only'}
+              {showFavorites ? t('show_all_books') : t('show_favorites_only')}
             </Button>
             <Button mr={6} colorScheme='teal' onClick={() => { setShowRated(!showRated); setPage(1); }}>
-              {showRated ? 'Show All Books' : 'Show Rated Books Only'}
+              {showRated ? t('show_all_books') : t('show_rated_books_only')}
             </Button>
             {isTesting && (
               <Button colorScheme='teal' onClick={() => { setShowHidden(!showHidden); setPage(1); }} disabled={showFavorites === true}>
-                {showHidden ? 'Show Available' : 'Show Hidden'}
+                {showHidden ? t('show_availible') : t('show_hidden')}
               </Button>
             )}
           </div>
         )}
         {showFavorites && favorites?.length === 0 ? (
-          <Center>No book has been favorited yet.</Center>
+          <Center>N{t('no_favorite_book')}</Center>
         ) : (
           <BookList
             setBookId={setBookId}
