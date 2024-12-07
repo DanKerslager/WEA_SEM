@@ -8,6 +8,7 @@ import NotFound from './General/NotFound';
 import { useAuth } from '../providers/AuthProvider';
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
+import OrdersPage from './Pages/OrdersPage';
 
 // Main react component of the app.
 
@@ -50,6 +51,7 @@ const Main = () => {
         <Route path='/userDetail' element={<PrivateRoute><UserDetails userId={user?._id}/></PrivateRoute>}/>
         <Route path='/shoppingCart' element={<PrivateRoute><ShoppingCart/></PrivateRoute>} />
         <Route path='/createOrder' element={<PrivateRoute><UserDetails userId={user?._id}/></PrivateRoute>} />
+        <Route path='/showOrders' element={<PrivateRoute><OrdersPage userId={user?._id}/></PrivateRoute>} />
         <Route path='*' element={<NotFound/>} />
       </Routes>
     </div>

@@ -183,3 +183,15 @@ export const submitOrder = async(userParams) => {
     return error.response ? error.response.data : { message: 'Unknown error' };
   }
 };
+export const fetchOrders = async(userParams) => {
+  const { userId } = userParams;
+  let link = `${BASE_URL}/getOrders/${userId}/orders`;
+  try {
+    const response = await axios.get(link);
+    return response.data;
+  } catch (error) {
+    //throw new Error("Failed to load orders data.", error);
+    console.error("Error during submitting order:", error);
+    return error.response ? error.response.data : { message: 'Unknown error' };
+  }
+};
