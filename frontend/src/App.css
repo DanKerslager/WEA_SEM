@@ -360,3 +360,8 @@ h2 {
 ul{
   margin-left: 10px;
 }
+#order-item{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
