@@ -201,7 +201,7 @@ const resources = {
       quantity: "Množství",
       total_price: "Cena celkem",
       no_items_yet: "Zatím nebyly přidány žádné položky",
-      sub_total: "Sub-Total",
+      sub_total: "Celkem",
       items: "Položky",
       checkout: "K platbě",
       something_went_wrong: "Jejda, něco se nepovedlo :(",

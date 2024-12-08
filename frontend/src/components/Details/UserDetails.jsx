@@ -324,7 +324,7 @@ const UserDetails = ({ userId }) => {
                       {t('cash_on_delivery')}
                     </label>
                     <ul>
-                      <li className="payment-options-text">{t('cash_on_delivery_extra')}50 Kč.</li>
+                      <li className="payment-options-text">{t('cash_on_delivery_extra')} 50 Kč.</li>
                     </ul>
                     <label className={`option ${paymentMethod === "Bankovní převod" ? "active" : ""}`}>
                       <input

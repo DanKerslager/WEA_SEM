@@ -8,7 +8,12 @@ import {
     Box,
     Button,
     useColorModeValue,
-  } from '@chakra-ui/react';
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
+} from '@chakra-ui/react';
 const OrdersPage = ({ userId }) => {
     const { user } = useAuth();
     const [orders, setOrders] = useState([]);
@@ -30,32 +35,41 @@ const OrdersPage = ({ userId }) => {
     useEffect(() => {
         loadOrdersData();
     }, [user, userId]);
-  return (
-    <Box>
-        <h1>{t('orders')}</h1>
-        {orders.map((order) => (
-            <Box key={order._id}>
-                <h2>#{order._id}</h2>
-                <p>{t('status')}: {order.status}</p>
-                <p>{t('payment_method')}: {order.payment}</p>
-                <p>{t('total')}: {order.price}</p>
-                <p>{t('total_tax')}: {order.total}</p>
-                <p>{changeDateFormat(order.orderDate)}</p>
-                {order.items.map((item) => (
-                    <Box key={item._id}>
-                        <h3>{item.book.title}</h3>
-                        <p>{t('quantity')}: {item.quantity}</p>
-                        <p>{t('price')}: {item.book.price} CZK</p>
-                        {item.book.price*item.quantity !==  item.book.price ? (
-                            <p>{t('total_price')}: {(item.book.price*item.quantity).toFixed(2)} CZK</p>
-                        ): (
-                            <p>-</p>
-                        )}
-                    </Box>
-                ))}
-            </Box>
-        ))}
-    </Box>
-  )
+    return (
+        <Box>
+            <h1>{t('orders')}</h1>
+            <Accordion defaultIndex={[0]} allowMultiple>
+                {orders.map((order) => (
+                    <AccordionItem>
+                        <Box key={order._id}>
+                            <AccordionButton>
+                                <h2>#{order._id}</h2>
+                                <AccordionIcon />
+                            </AccordionButton>
+                            <AccordionPanel>
+                                <p>{t('status')}: {order.status}</p>
+                                <p>{t('payment_method')}: {order.payment}</p>
+                                <p>{t('total')}: {order.price}</p>
+                                <p>{t('total_tax')}: {order.total}</p>
+                                <p>{changeDateFormat(order.orderDate)}</p>
+                                {order.items.map((item) => (
+                                    <Box key={item._id}>
+                                        <h3>{item.book.title}</h3>
+                                        <p>{t('quantity')}: {item.quantity}</p>
+                                        <p>{t('price')}: {item.book.price} CZK</p>
+                                        {item.book.price * item.quantity !== item.book.price ? (
+                                            <p>{t('total_price')}: {(item.book.price * item.quantity).toFixed(2)} CZK</p>
+                                        ) : (
+                                            <p>-</p>
+                                        )}
+                                    </Box>
+                                ))}
+                            </AccordionPanel>
+                        </Box>
+                        </AccordionItem>
+                    ))}
+            </Accordion>
+        </Box>
+    )
 }
 export default OrdersPage
