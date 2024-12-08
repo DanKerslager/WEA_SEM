@@ -19,6 +19,7 @@ const OrdersPage = ({ userId }) => {
     const [orders, setOrders] = useState([]);
     const { t } = useTranslation();
     const colorMode = useColorModeValue('gray.300', 'gray.700');
+    const colorModeHover = useColorModeValue('green.300', 'green.800');
     const changeDateFormat = (dateString) => {
         const date = new Date(dateString);
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
@@ -41,45 +42,31 @@ const OrdersPage = ({ userId }) => {
             <Accordion defaultIndex={[0]} allowMultiple>
                 {orders.map((order) => (
                     <AccordionItem >
-                        <Box key={order._id}>
+                        <Box id="accordion-order-item" key={order._id} _hover={{ bg: colorModeHover }}>
                             <AccordionButton id="order-item">
-                                <h2>#{order._id}</h2>
-                                <div>
-                                    <p>{t('status')}:</p>
+                                <Box id="order-list-parameters">
+                                    <h2>#{order._id}</h2>
                                     <p>{order.status}</p>
-                                </div>
-                                <div>
-                                    <p>{t('payment_method')}:</p>
                                     <p>{order.payment}</p>
-
-                                </div>
-                                <div>
-                                    <p>{t('total')}:</p>
-                                    <p>{order.price}</p>
-                                </div>
-                                <div>
-                                    <p>{t('total_tax')}:</p>
-                                    <p> {order.total}</p>
-                                </div>
-                                <div>
-                                    <div>
-                                        <p>{changeDateFormat(order.orderDate)}</p>
-                                    </div>
-                                </div>
-                                <AccordionIcon />
+                                    <p>{order.total} CZK</p>
+                                    <p>{changeDateFormat(order.orderDate)}</p>
+                                    <AccordionIcon />
+                                </Box>
                             </AccordionButton>
                             <AccordionPanel>
-
+                                <Box id="order-list-captions">
+                                    <p class="order-list-book-data">{t('title')}</p>
+                                    <p class="order-list-book-data">{t('quantity')}</p>
+                                    <p class="order-list-book-data">{t('price')}</p>
+                                    <p class="order-list-book-data">{t('total_price')}</p>
+                                </Box>
                                 {order.items.map((item) => (
-                                    <Box key={item._id}>
-                                        <h3>{item.book.title}</h3>
-                                        <p>{t('quantity')}: {item.quantity}</p>
-                                        <p>{t('price')}: {item.book.price} CZK</p>
-                                        {item.book.price * item.quantity !== item.book.price ? (
-                                            <p>{t('total_price')}: {(item.book.price * item.quantity).toFixed(2)} CZK</p>
-                                        ) : (
-                                            <p>-</p>
-                                        )}
+                                    <Box key={item._id} id="order-list-book">
+                                        <h3 class="order-list-book-data">{item.book.title}</h3>
+                                        <p class="order-list-book-data">{item.quantity}</p>
+                                        <p class="order-list-book-data">{item.book.price} CZK</p>
+                                        <p class="order-list-book-data">{(item.book.price * item.quantity).toFixed(2)} CZK</p>
+                                        <hr></hr>
                                     </Box>
                                 ))}
                             </AccordionPanel>

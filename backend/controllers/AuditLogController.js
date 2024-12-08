@@ -10,7 +10,6 @@ const logAuditEvent = async (eventType, username, details = {}) => {
       details: details
     });
     await auditEvent.save();
-    logger.log('Audit log saved successfully');
   } catch (error) {
     logger.error('Error saving audit log:', error);
   }

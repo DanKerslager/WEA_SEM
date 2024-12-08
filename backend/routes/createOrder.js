@@ -25,9 +25,7 @@
  *                     type: string
  *                     description: Email address of the user.
  *                   shippingAddress:
- *                     $ref: '#/components/schemas/Address'
  *                   billingAddress:
- *                     $ref: '#/components/schemas/Address'
  *               books:
  *                 type: array
  *                 items:
