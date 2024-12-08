@@ -67,7 +67,6 @@ const resources = {
       available: 'Available',
       unavailable: 'Unavailable',
       price: 'Price',
-
       orders: "Orders",
       cart_add: "Add to cart",
       cart_remove: "Remove from cart",
@@ -104,7 +103,8 @@ const resources = {
       checkout: "Checkout",
       something_went_wrong: "Oops, something went wrong :(",
       cart_contents: "Cart Contents",
-      
+      previous: "Previous",
+      next: "Next",
     }
   },
   cs: {
@@ -169,7 +169,6 @@ const resources = {
       available: 'dostupná',
       unavailable: 'nedostupná',
       price: 'Cena',
-
       orders: "Objednávky",
       cart_add: "Přidat do košíku",
       cart_remove: "Odebrat z košíku",
@@ -206,7 +205,8 @@ const resources = {
       checkout: "K platbě",
       something_went_wrong: "Jejda, něco se nepovedlo :(",
       cart_contents: "Obsah košíku",
-
+      previous: "Předchozí",
+      next: "Další",
     }
   }
 };

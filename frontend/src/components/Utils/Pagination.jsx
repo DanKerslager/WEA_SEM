@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   const maxVisiblePages = 6;
   const startPage = Math.max(2, currentPage - Math.floor(maxVisiblePages / 2));
   const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages - 1);
   const visiblePages = [];
+  const { t } = useTranslation();
 
   if (totalPages <= 1) {
     return (
@@ -29,7 +31,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
-      Previous
+      {t('previous')}
       </Button>
       <Button
         mr={1}
@@ -71,7 +73,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        Next
+        {t('next')}
       </Button>
     </div>
   );
