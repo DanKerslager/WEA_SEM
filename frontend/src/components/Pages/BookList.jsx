@@ -5,6 +5,7 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { SemipolarSpinner } from 'react-epic-spinners';
@@ -19,6 +20,7 @@ import { addToCart, removeFromCart } from '../../utils'
 // React module, which shows the list of books on the main page of the app.
 const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages, page, setPage }) => {
   const { t } = useTranslation();
+  const colorModeHover = useColorModeValue('green.300', 'green.800');
   const { user, setUser, isAuthenticated } = useAuth();
   const [rating, setRating] = useState(0)
   const [shoppingCart, setShoppingCart] = useState(() => {
@@ -96,6 +98,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                     key={book._id}
                     as={Link}
                     to={`/getBooks/${book._id}`}
+                    _hover={{ bg: colorModeHover, borderRadius: "8px" }}
                   >
                     <Image
                       objectFit="cover"

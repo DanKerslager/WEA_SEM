@@ -45,14 +45,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #80808000;
   transition: 0.3s;
-  
 }
-#book-card:hover{
-  cursor: pointer;
-  background-color: #53ca9c;
-}
+
 #filters{
   /*min-height: calc(100% - 268px);*/
   padding: 20px;
@@ -60,6 +55,7 @@
   flex-basis: 1;
 }
 #books{
+  margin-left: 10px;
   flex-basis: 1;
   width: 80%;
 }
