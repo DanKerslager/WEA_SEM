@@ -251,6 +251,11 @@ footer {
   margin-bottom: 0px;
 }
 
+#view {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .user-detail-input {
   margin: 0px 15px 15px 15px;
 }
