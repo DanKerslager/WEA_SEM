@@ -246,6 +246,11 @@ footer {
   columns: 1;
 }
 
+#consent-label {
+  margin-left: 20px;
+  margin-bottom: 0px;
+}
+
 .user-detail-input {
   margin: 0px 15px 15px 15px;
 }

@@ -356,7 +356,7 @@ const UserDetails = ({ userId }) => {
             )}
           </Box>
           <Box id="user-consent">
-            <h2 style={{ textAlign: "start" }}>{t('consent')}</h2>
+            <h2 style={{ textAlign: "start" }} id="consent-label">{t('consent')}</h2>
             <div>
               <label class="user-detail-label">
                 <input
