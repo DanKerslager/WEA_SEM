@@ -230,6 +230,32 @@ footer {
 #user-detail-submit-button {
   margin: 0px 0px 15px 15px;
 }
+
+#personal-address {
+  margin-left: 10px;
+  columns: 1;
+}
+
+#billing-address {
+  margin-left: 10px;
+  columns: 1;
+}
+
+#personal-information {
+  margin-left: 10px;
+  columns: 1;
+}
+
+#consent-label {
+  margin-left: 20px;
+  margin-bottom: 0px;
+}
+
+#view {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .user-detail-input {
   margin: 0px 15px 15px 15px;
 }
@@ -238,6 +264,12 @@ footer {
 }
 .user-detail-checkbox {
   margin-right: 10px;
+}
+
+.label-and-input {
+  display: flex;
+  flex-direction: column;
+  columns: 1;
 }
 
 
@@ -320,4 +352,16 @@ h2 {
   flex-direction: column;
   gap: 10px;
   margin-top: 20px;
+}
+.payment-options-text{
+  list-style-type: circle;
+  list-style-position: inside;
+}
+ul{
+  margin-left: 10px;
+}
+#order-item{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }

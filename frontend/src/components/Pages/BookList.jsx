@@ -112,7 +112,7 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                       <Text>{t('price')}: {book.price} CZK</Text>
                     </div>
                   </Box>
-                  <Text style={{ textAlign: 'center' }}>Book is {book.available ? 'Availlable' : 'Unvaillable'}</Text>
+                  <Text style={{ textAlign: 'center' }}>{t('book_is')}{book.available ? t('available') : t('unvailable')}</Text>
 
                   <div id='favorite-rating'>
                     {isAuthenticated && book.available && (
@@ -144,16 +144,16 @@ const BookList = ({ setBookId, setBookDetail, books, loading, error, totalPages,
                         {user?.favoriteBooks?.includes(book._id) ? (
                           <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => {
                             await setFavorites(book._id, false);
-                          }}>Remove</Button>
+                          }}>{t('remove')}</Button>
                         ) : (
                           <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => {
                             await setFavorites(book._id, true);
-                          }}>Add to favourite</Button>
+                          }}>{t('add_to_favorites')}</Button>
                         )}
                         {shoppingCart.find((cartBook) => cartBook._id === book._id) ? (
-                          <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => await removeFromCart(book._id, setShoppingCart)}>Remove from cart</Button>
+                          <Button id='view' p={5} colorScheme="red" size="sm" onClick={async () => await removeFromCart(book._id, setShoppingCart)}>{t('cart_remove')}</Button>
                         ) : (
-                          <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => await addToCart(book, setShoppingCart)}>Add to cart</Button>
+                          <Button id='view' p={5} colorScheme="teal" size="sm" onClick={async () => await addToCart(book, setShoppingCart)}>{t('cart_add')}</Button>
                         )}
                       </>
                     )}

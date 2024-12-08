@@ -1,10 +1,14 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
+
 
 const NotFound = () => {
+  const { t } = useTranslation();
+
   return (
     <div>
         <h1>404</h1>
-        <p>There went something wrong…</p>
+        <p>{t('something_went_wrong')}</p>
     </div>
   )
 }
